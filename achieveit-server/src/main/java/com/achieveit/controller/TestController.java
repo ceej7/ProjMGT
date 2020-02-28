@@ -1,15 +1,19 @@
 package com.achieveit.controller;
 
 import com.achieveit.config.MyServerConfig;
+import com.achieveit.entity.Test;
 import com.achieveit.exception.FileException;
 import com.achieveit.service.FileService;
 import com.achieveit.service.MailService;
+import com.achieveit.service.TestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 @RestController
@@ -18,12 +22,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class TestController {
     private final MailService mailService;
     private final FileService fileService;
+    private final TestService testService;
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    public TestController(FileService fileService, MailService mailService) {
+    public TestController(FileService fileService, MailService mailService, TestService testService) {
         this.fileService = fileService;
         this.mailService = mailService;
+        this.testService = testService;
     }
 
     @ResponseBody
@@ -33,10 +39,10 @@ public class TestController {
         return "hello";
     }
 
-    @GetMapping("/sendMail")
-    @ApiOperation("向服务器请求发送一个邮件")
-    public void send(){
-        mailService.sendmail("1749597640@qq.com", "Father");
+    @GetMapping("/sendMail/address")
+    @ApiOperation("向address发送一个邮件")
+    public void send(@RequestParam("address") String address){
+        mailService.sendmail(address, "Father");
     }
 
     @ResponseBody
@@ -56,5 +62,50 @@ public class TestController {
         return fileUrl;
     }
 
+    @ResponseBody
+    @GetMapping("/{tid}")
+    @ApiOperation("通过tid来获取Test")
+    public Test getTestById(@PathVariable("tid") int tid){
+        Test test=null;
+        try{
+            test = testService.getTestById(tid);
+        }catch (Exception e){
+            logger.error(e.getMessage(), e);
+        }
+        return test;
+    }
 
+    @ResponseBody
+    @GetMapping("/getAll")
+    @ApiOperation("获取所有Test")
+    public List<Test> getAllTests(){
+        List<Test> tests=null;
+        try{
+            tests = testService.getAllTests();
+        }catch (Exception e){
+            logger.error(e.getMessage(), e);
+        }
+        return tests;
+    }
+
+    @ResponseBody
+    @PostMapping("/add")
+    @ApiOperation("新增一个Test")
+    public int addTest(@RequestBody Test test){
+        return testService.addTest(test);
+    }
+
+    @ResponseBody
+    @DeleteMapping("/{tid}")
+    @ApiOperation("通过tid来删除Test")
+    public int deleteTestById(@PathVariable("tid") int tid){
+        return testService.deleteTest(tid);
+    }
+
+    @ResponseBody
+    @PutMapping("update")
+    @ApiOperation("修改一个test")
+    public int updateTest(@RequestBody Test test){
+        return testService.updateTest(test);
+    }
 }
