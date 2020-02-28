@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
-@ApiModel("尝试数据Model")
+@ApiModel("Test Entity")
 public class Test {
     public int getTid() {
         return tid;
@@ -32,8 +32,8 @@ public class Test {
         this.description = description;
     }
 
-    @ApiModelProperty("尝试数据tid，唯一且非null")
+    @ApiModelProperty("测试数据tid，唯一且非null")
     private int tid;
-    @ApiModelProperty("尝试数据的描述")
+    @ApiModelProperty("测试数据的描述")
     private String description;
 }

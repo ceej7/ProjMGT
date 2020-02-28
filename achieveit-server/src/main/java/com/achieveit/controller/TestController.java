@@ -17,7 +17,6 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/test")
 @Api(tags = "测试接口", value = "测试相关Rest API")
 public class TestController {
     private final MailService mailService;
@@ -33,20 +32,20 @@ public class TestController {
     }
 
     @ResponseBody
-    @GetMapping("/hello")
+    @GetMapping("/test/hello")
     @ApiOperation("向服务器请求一个hello")
     public String hello(){
         return "hello";
     }
 
-    @GetMapping("/sendMail/address")
+    @GetMapping("/test/sendMail")
     @ApiOperation("向address发送一个邮件")
     public void send(@RequestParam("address") String address){
         mailService.sendmail(address, "Father");
     }
 
     @ResponseBody
-    @PostMapping("/uploadImage")
+    @PostMapping("/test/uploadImage")
     @ApiOperation("向服务器上传一张图片")
     public String updateProfilePic(@RequestParam("image") MultipartFile file) {
         String fileStoragePath = null;
@@ -63,7 +62,7 @@ public class TestController {
     }
 
     @ResponseBody
-    @GetMapping("/{tid}")
+    @GetMapping("/test/{tid}")
     @ApiOperation("通过tid来获取Test")
     public Test getTestById(@PathVariable("tid") int tid){
         Test test=null;
@@ -76,7 +75,7 @@ public class TestController {
     }
 
     @ResponseBody
-    @GetMapping("/getAll")
+    @GetMapping("/test/getAll")
     @ApiOperation("获取所有Test")
     public List<Test> getAllTests(){
         List<Test> tests=null;
@@ -89,21 +88,21 @@ public class TestController {
     }
 
     @ResponseBody
-    @PostMapping("/add")
+    @PostMapping("/test")
     @ApiOperation("新增一个Test")
     public int addTest(@RequestBody Test test){
         return testService.addTest(test);
     }
 
     @ResponseBody
-    @DeleteMapping("/{tid}")
+    @DeleteMapping("/test/{tid}")
     @ApiOperation("通过tid来删除Test")
     public int deleteTestById(@PathVariable("tid") int tid){
         return testService.deleteTest(tid);
     }
 
     @ResponseBody
-    @PutMapping("update")
+    @PutMapping("/test")
     @ApiOperation("修改一个test")
     public int updateTest(@RequestBody Test test){
         return testService.updateTest(test);
