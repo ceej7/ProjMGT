@@ -2,16 +2,16 @@ export default {
   navTheme: 'dark',
   // 拂晓蓝
   primaryColor: '#1890ff',
-  layout: 'sidemenu',
+  layout: 'topmenu',
   contentWidth: 'Fluid',
-  fixedHeader: false,
+  fixedHeader: true,
   autoHideHeader: false,
-  fixSiderbar: false,
+  fixSiderbar: true,
   colorWeak: false,
   menu: {
     locale: true,
   },
-  title: 'Ant Design Pro',
+  title: 'AchieveIt',
   pwa: false,
   iconfontUrl: '',
 };
