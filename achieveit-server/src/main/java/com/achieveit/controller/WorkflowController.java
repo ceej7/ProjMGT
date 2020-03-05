@@ -11,15 +11,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Api(tags = "工作流接口", value = "")
+@Api(tags = "工作流接口", value = "工作流的关键API")
 public class WorkflowController {
     Logger logger = LoggerFactory.getLogger(getClass());
+
 
     public WorkflowController(MailService mailService, FileService fileService, WorkflowService workflowService, EmployeeService employeeService) {
         this.mailService = mailService;
@@ -49,7 +47,7 @@ public class WorkflowController {
                 if(w.getConfigurer_eid()!=null) responseMsg.getResponseMap().put("configurer",employeeService.getById(w.getConfigurer_eid()));
                 if(w.getEpgleader_eid()!=null) responseMsg.getResponseMap().put("epgleader",employeeService.getById(w.getEpgleader_eid()));
                 if(w.getQamanager_eid()!=null) responseMsg.getResponseMap().put("qamanager",employeeService.getById(w.getQamanager_eid()));
-                responseMsg.setStatusAndMessage(200,"查询成功");
+                responseMsg.setStatusAndMessage(200,"查询成功，附带组织级成员的具体信息");
             }
             else{
                 responseMsg.setStatusAndMessage(202,"查询不着");
