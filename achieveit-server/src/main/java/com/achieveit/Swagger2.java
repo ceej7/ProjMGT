@@ -2,14 +2,19 @@ package com.achieveit;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 @Configuration
 @EnableSwagger2
@@ -17,18 +22,48 @@ public class Swagger2 {
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.achieveit.controller"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .apiInfo(apiInfo())
+                //自定义响应信息
+                .useDefaultResponseMessages(false)
+                .globalResponseMessage(RequestMethod.GET, newArrayList(
+                                new ResponseMessageBuilder()
+                                    .code(200)
+                                    .message("ok response")
+                                    .build()
+                                )
+                )
+                .globalResponseMessage(RequestMethod.POST, newArrayList(
+                        new ResponseMessageBuilder()
+                                .code(200)
+                                .message("ok response")
+                                .build()
+                        )
+                )
+                .globalResponseMessage(RequestMethod.DELETE, newArrayList(
+                        new ResponseMessageBuilder()
+                                .code(200)
+                                .message("ok response")
+                                .build()
+                        )
+                )
+                .globalResponseMessage(RequestMethod.PUT, newArrayList(
+                        new ResponseMessageBuilder()
+                                .code(200)
+                                .message("ok response")
+                                .build()
+                        )
+                );
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("AchieveIt")
                 .description("AchieveIt API-Doc")
-                .contact(new Contact("AchieveIt team","https://github.com/ceej7/ProjMGT",""))// contact(str) is deprecated
+                .contact(new Contact("AchieveIt Repo","https://github.com/ceej7/ProjMGT",""))// contact(str) is deprecated
                 .version("0.1")
                 .build();
     }

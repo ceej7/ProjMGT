@@ -2,17 +2,14 @@ package com.achieveit.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Map;
-
-@ApiModel("Test Entity")
+@ApiModel("Test Entity: 仅用于测试框架")
 public class Test {
-    public int getTid() {
+    public Integer getTid() {
         return tid;
     }
 
-    public void setTid(int tid) {
+    public void setTid(Integer tid) {
         this.tid = tid;
     }
 
@@ -27,13 +24,13 @@ public class Test {
     public Test() {
     }
 
-    public Test(int tid, String description) {
+    public Test(Integer tid, String description) {
         this.tid = tid;
         this.description = description;
     }
 
     @ApiModelProperty("测试数据tid，唯一且非null")
-    private int tid;
+    private Integer tid;
     @ApiModelProperty("测试数据的描述")
     private String description;
 }

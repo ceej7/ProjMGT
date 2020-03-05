@@ -1,6 +1,7 @@
 package com.achieveit.controller;
 
 import com.achieveit.config.MyServerConfig;
+import com.achieveit.entity.ResponseMsg;
 import com.achieveit.entity.Test;
 import com.achieveit.exception.FileException;
 import com.achieveit.service.FileService;
@@ -47,7 +48,9 @@ public class TestController {
     @ResponseBody
     @PostMapping("/test/uploadImage")
     @ApiOperation("向服务器上传一张图片")
-    public String updateProfilePic(@RequestParam("image") MultipartFile file) {
+    public ResponseMsg updateProfilePic(@RequestParam("image") MultipartFile file) {
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "");
         String fileStoragePath = null;
         String fileUrl = null;
         try {
@@ -55,10 +58,13 @@ public class TestController {
             String[] fileStoragePathSplit = fileStoragePath.split("/");
             fileUrl = MyServerConfig.server + ":" + MyServerConfig.port + "/images/";
             fileUrl = fileUrl + fileStoragePathSplit[fileStoragePathSplit.length - 1];
+            msg.setStatusAndMessage(200, "上传图片成功");
+            msg.getResponseMap().put("result", fileUrl);
         } catch (FileException e) {
+            msg.setStatusAndMessage(404, "上传图片不成功");
             logger.error(e.getMessage(), e);
         }
-        return fileUrl;
+        return msg;
     }
 
     @ResponseBody
