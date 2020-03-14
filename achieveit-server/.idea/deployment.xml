@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="119.29.87.183">
+  <component name="PublishConfigData" serverName="47.100.57.110">
     <serverData>
-      <paths name="119.29.87.183">
+      <paths name="47.100.57.110">
         <serverdata>
           <mappings>
             <mapping deploy="/" local="$PROJECT_DIR$/target" web="/" />

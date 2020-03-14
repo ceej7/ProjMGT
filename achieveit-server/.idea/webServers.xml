@@ -2,12 +2,12 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="2392d1ce-c19c-4f73-8fe2-e44b24c13df0" name="119.29.87.183" url="http://119.29.87.183">
-        <fileTransfer host="119.29.87.183" port="15678" rootFolder="/home/software_prac/achieveit" accessType="SFTP">
+      <webServer id="2392d1ce-c19c-4f73-8fe2-e44b24c13df0" name="47.100.57.110" url="http://47.100.57.110/">
+        <fileTransfer host="47.100.57.110" port="22" rootFolder="/root/achieveit" accessType="SFTP">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
-          <option name="port" value="15678" />
+          <option name="port" value="22" />
         </fileTransfer>
       </webServer>
     </option>
