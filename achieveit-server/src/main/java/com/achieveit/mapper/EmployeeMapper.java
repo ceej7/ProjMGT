@@ -13,4 +13,7 @@ public interface EmployeeMapper {
 
     @Select("select * from employee where title=#{title}")
     public List<Employee> getByTitle(String title);
+
+    @Select("select * from employee where name=#{name}")
+    public List<Employee> getByName(String name);
 }
