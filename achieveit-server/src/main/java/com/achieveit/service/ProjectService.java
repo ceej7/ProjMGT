@@ -28,24 +28,14 @@ public class ProjectService {
 
     private final ProjectMapper projectMapper;
 
-    public ResponseMsg getProjectToCheck(String authHeader){
+    public ResponseMsg getProjectToCheck(int eid){
 
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求异常");
         try{
-            Claims claims = jwtToken.getClaimByToken(authHeader);
-            if (claims == null ) {
-                msg.setStatusAndMessage(204, "Token无效");
-            }
-            else if (JwtToken.isTokenExpired(claims.getExpiration())){
-                msg.setStatusAndMessage(206, "Token过期");
-            }
-            else{
-                int userId = Integer.valueOf(claims.getSubject());
-                List<ProjectWorkflow> pws = projectMapper.getBySupEid(userId);
-                msg.getResponseMap().put("ProjectWorkflows",pws);
-                msg.setStatusAndMessage(200, "查询正常,ProjectWorkflows数组一一对应");
-            }
+            List<ProjectWorkflow> pws = projectMapper.getBySupEid(eid);
+            msg.setStatusAndMessage(200, "请求正常");
+            msg.getResponseMap().put("ProjectWorkflows",pws);
         }catch(Exception e){
             logger.error(e.getMessage(), e);
         }

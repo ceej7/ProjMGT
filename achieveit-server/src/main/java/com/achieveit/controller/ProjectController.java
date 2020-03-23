@@ -1,12 +1,15 @@
 package com.achieveit.controller;
 
+import com.achieveit.config.JwtToken;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.service.ProjectService;
 import com.achieveit.service.WorkflowService;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +18,8 @@ import java.util.List;
 @Api(tags = "项目接口", value="以项目为主体的请求")
 public class ProjectController {
     Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    JwtToken jwtToken;
 
     public ProjectController(ProjectService projectService, WorkflowService workflowService) {
         this.projectService = projectService;
@@ -30,11 +35,21 @@ public class ProjectController {
     public ResponseMsg getToCheckOfSup(@RequestHeader("Authorization") String authHeader){
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求异常");
-        if(authHeader.split("Bearer").length!=2||!authHeader.split(" ")[0].equals("Bearer")){
+        if(authHeader.split("Bearer").length!=2||!authHeader.split("Bearer")[0].equals("")){
             msg.setStatusAndMessage(202, "非法的token");
         }
         else{
-            msg=projectService.getProjectToCheck(authHeader);
+            Claims claims = jwtToken.getClaimByToken(authHeader);
+            if (claims == null ) {
+                msg.setStatusAndMessage(204, "Token无效");
+            }
+            else if (JwtToken.isTokenExpired(claims.getExpiration())){
+                msg.setStatusAndMessage(206, "Token过期");
+            }
+            else{
+                int userId = Integer.valueOf(claims.getSubject());
+                msg=projectService.getProjectToCheck(userId);
+            }
         }
         return msg;
     }

@@ -71,21 +71,16 @@ public class EmployeeService {
         return msg;
     }
 
-    public ResponseMsg getByToken(String token){
+    public ResponseMsg getByIdConfidential(int eid){
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
         try{
-            Claims claims = jwtToken.getClaimByToken(token);
-            if (claims == null ) {
-                msg.setStatusAndMessage(204, "Token无效");
-            }
-            else if (JwtToken.isTokenExpired(claims.getExpiration())){
-                msg.setStatusAndMessage(206, "Token过期");
-            }
+            Employee e = employeeMapper.getById(eid);
+            if(e==null)
+                msg.setStatusAndMessage(208, "不存在用户"+eid);
             else{
-                int userId = Integer.valueOf(claims.getSubject());
-                msg.setStatusAndMessage(200, "获得用户"+userId);
-                msg.getResponseMap().put("employee", employeeMapper.getById(userId));
+                msg.setStatusAndMessage(200, "获得用户"+eid);
+                msg.getResponseMap().put("employee", e);
             }
         }catch (Exception e){
             logger.error(e.getMessage(), e);

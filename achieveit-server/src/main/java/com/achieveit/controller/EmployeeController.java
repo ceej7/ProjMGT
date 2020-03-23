@@ -1,11 +1,14 @@
 package com.achieveit.controller;
 
+import com.achieveit.config.JwtToken;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.service.EmployeeService;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +23,8 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
     Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private JwtToken jwtToken;
 
     @ResponseBody
     @ApiOperation(value = "用户登陆，提供name,password, 返回Employee和token", notes="{\"name\":\"Alias\",\"password\":\"123456\"}")
@@ -62,11 +67,22 @@ public class EmployeeController {
     ResponseMsg getByToken(@RequestHeader("Authorization") String authHeader){
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        if(authHeader.split("Bearer").length!=2||!authHeader.split(" ")[0].equals("Bearer")){
+        String s[]=authHeader.split("Bearer");
+        if(authHeader.split("Bearer").length!=2||!authHeader.split("Bearer")[0].equals("")){
             msg.setStatusAndMessage(202, "非法的token");
         }
         else{
-            msg=employeeService.getByToken(authHeader);
+            Claims claims = jwtToken.getClaimByToken(authHeader);
+            if (claims == null ) {
+                msg.setStatusAndMessage(204, "Token无效");
+            }
+            else if (JwtToken.isTokenExpired(claims.getExpiration())){
+                msg.setStatusAndMessage(206, "Token过期");
+            }
+            else{
+                int userId = Integer.valueOf(claims.getSubject());
+                msg=employeeService.getByIdConfidential(userId);
+            }
         }
         return msg;
     }
