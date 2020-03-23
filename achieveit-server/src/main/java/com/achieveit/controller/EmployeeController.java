@@ -1,6 +1,5 @@
 package com.achieveit.controller;
 
-import com.achieveit.entity.Employee;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.service.EmployeeService;
 import io.swagger.annotations.Api;
@@ -23,7 +22,7 @@ public class EmployeeController {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @ResponseBody
-    @ApiOperation("用户登陆，提供name,password, 返回Employee和token")
+    @ApiOperation(value = "用户登陆，提供name,password, 返回Employee和token", notes="{\"name\":\"Alias\",\"password\":\"123456\"}")
     @PostMapping("/employee/login")
     ResponseMsg login(@RequestBody Map params){
         ResponseMsg msg = new ResponseMsg();

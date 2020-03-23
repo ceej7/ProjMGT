@@ -25,10 +25,6 @@ public class EmployeeService {
         this.employeeMapper = employeeMapper;
     }
 
-    public Employee getById(int eid){
-        return employeeMapper.getById(eid);
-    }
-
     public ResponseMsg getByTitle(String title){
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
@@ -88,7 +84,7 @@ public class EmployeeService {
             }
             else{
                 int userId = Integer.valueOf(claims.getSubject());
-                msg.setStatusAndMessage(202, "获得用户"+userId);
+                msg.setStatusAndMessage(200, "获得用户"+userId);
                 msg.getResponseMap().put("employee", employeeMapper.getById(userId));
             }
         }catch (Exception e){
@@ -106,7 +102,7 @@ public class EmployeeService {
                 msg.setStatusAndMessage(204, "未获得用户"+eid);
             else{
                 e.setPassword("");
-                msg.setStatusAndMessage(20, "获得用户"+eid);
+                msg.setStatusAndMessage(200, "获得用户"+eid);
                 msg.getResponseMap().put("employee", e);
             }
         }catch (Exception e){
