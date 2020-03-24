@@ -95,4 +95,7 @@ public class Manhour {
     Integer employee_project_id;
     @ApiModelProperty("外键：工时活动id")
     Integer activity_id;
+
+    EmployeeProject employeeProject;
+    Activity activity;
 }

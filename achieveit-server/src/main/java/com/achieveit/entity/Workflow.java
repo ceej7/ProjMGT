@@ -304,4 +304,50 @@ public class Workflow {
         this.archive15 = archive15;
         this.archive16 = archive16;
     }
+
+    Employee pm;
+    Employee sup;
+    Employee configurer;
+    Employee epgleader;
+    Employee qamanager;
+
+    public Employee getPm() {
+        return pm;
+    }
+
+    public void setPm(Employee pm) {
+        this.pm = pm;
+    }
+
+    public Employee getSup() {
+        return sup;
+    }
+
+    public void setSup(Employee sup) {
+        this.sup = sup;
+    }
+
+    public Employee getConfigurer() {
+        return configurer;
+    }
+
+    public void setConfigurer(Employee configurer) {
+        this.configurer = configurer;
+    }
+
+    public Employee getEpgleader() {
+        return epgleader;
+    }
+
+    public void setEpgleader(Employee epgleader) {
+        this.epgleader = epgleader;
+    }
+
+    public Employee getQamanager() {
+        return qamanager;
+    }
+
+    public void setQamanager(Employee qamanager) {
+        this.qamanager = qamanager;
+    }
 }

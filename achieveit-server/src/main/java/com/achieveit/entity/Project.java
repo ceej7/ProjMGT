@@ -103,4 +103,22 @@ public class Project {
     @ApiModelProperty("外键：工作流的id；一一对应关系")
     Integer workflow_id;
 
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Workflow getWorkflow() {
+        return workflow;
+    }
+
+    public void setWorkflow(Workflow workflow) {
+        this.workflow = workflow;
+    }
+
+    Client client;
+    Workflow workflow;
 }

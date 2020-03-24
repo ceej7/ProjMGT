@@ -8,7 +8,17 @@ import org.springframework.stereotype.Repository;
 public interface WorkflowMapper {
 
     @Select("select * from workflow where wid=#{wid}")
-    Workflow getById(int wid);
+    Workflow getByWid(int wid);
+
+    @Select("select * from workflow where wid=#{wid}")
+    @Results({
+            @Result(property = "pm",column = "pm_eid", one=@One(select = "com.achieveit.mapper.EmployeeMapper.getByEidCascade")),
+            @Result(property = "sup",column = "sup_eid", one=@One(select = "com.achieveit.mapper.EmployeeMapper.getByEidCascade")),
+            @Result(property = "configurer",column = "configurer_eid", one=@One(select = "com.achieveit.mapper.EmployeeMapper.getByEidCascade")),
+            @Result(property = "epgleader",column = "epgleader_eid", one=@One(select = "com.achieveit.mapper.EmployeeMapper.getByEidCascade")),
+            @Result(property = "qamanager",column = "qamanager_eid", one=@One(select = "com.achieveit.mapper.EmployeeMapper.getByEidCascade")),
+    })
+    Workflow getByWidCascade(int wid);
 
 //    @Options(useGeneratedKeys = true,keyProperty = "wid")
 //    @Insert("insert into " +

@@ -14,7 +14,9 @@ import java.util.Date;
 @Configuration
 public class JwtToken {
     private static Logger logger = LoggerFactory.getLogger(JwtToken.class);
-
+    public static int Illegal = 202;
+    public static int Invalid = 204;
+    public static int Expired = 206;
     /** 秘钥 */
     @Value("${jwt.secret}")
     private String secret;

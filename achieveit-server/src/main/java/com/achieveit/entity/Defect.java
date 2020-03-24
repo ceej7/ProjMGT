@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 @ApiModel("Defect Entity: 缺陷数据")
 public class Defect {
-    public Defect(Integer did, byte authority, String desc, String git_repo, String commit, String status, String project_id, Integer employee_project_id) {
+    public Defect(Integer did, byte[] authority, String desc, String git_repo, String commit, String status, String project_id, Integer employee_project_id) {
         this.did = did;
         this.authority = authority;
         this.desc = desc;
@@ -23,11 +23,11 @@ public class Defect {
         this.did = did;
     }
 
-    public byte getAuthority() {
+    public byte[] getAuthority() {
         return authority;
     }
 
-    public void setAuthority(byte authority) {
+    public void setAuthority(byte[] authority) {
         this.authority = authority;
     }
 
@@ -84,7 +84,7 @@ public class Defect {
             "01-开发Leader权限\n" +
             "10-测试Leader权限\n" +
             "11-项目经理权限")
-    byte authority;
+    byte[] authority;
     String desc;
     String git_repo;
     String commit;
@@ -95,4 +95,22 @@ public class Defect {
     @ApiModelProperty("外键: employee_project_id")
     Integer employee_project_id;
 
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public EmployeeProject getEmployeeProject() {
+        return employeeProject;
+    }
+
+    public void setEmployeeProject(EmployeeProject employeeProject) {
+        this.employeeProject = employeeProject;
+    }
+
+    Project project;
+    EmployeeProject employeeProject;
 }

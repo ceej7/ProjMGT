@@ -76,13 +76,6 @@ public class ShowDaoPurposeController {
     }
 
     @ResponseBody
-    @GetMapping("/showDao/getProjectWorkflow")
-    @ApiOperation("为了显示ProjectWorkflow")
-    public ProjectWorkflow getProjectWorkflow(){
-        return null;
-    }
-
-    @ResponseBody
     @GetMapping("/showDao/getProperty")
     @ApiOperation("为了显示Property")
     public Property getProperty(){

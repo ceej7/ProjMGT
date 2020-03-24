@@ -26,14 +26,9 @@ public class WorkflowService {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
         try{
-            Workflow w =workflowMapper.getById(wid);
+            Workflow w =workflowMapper.getByWidCascade(wid);
             if(w!=null){
                 responseMsg.getResponseMap().put("workflow",w);
-                if(w.getPm_eid()!=null) responseMsg.getResponseMap().put("pm",employeeMapper.getById(w.getPm_eid()));
-                if(w.getSup_eid()!=null) responseMsg.getResponseMap().put("sup",employeeMapper.getById(w.getSup_eid()));
-                if(w.getConfigurer_eid()!=null) responseMsg.getResponseMap().put("configurer",employeeMapper.getById(w.getConfigurer_eid()));
-                if(w.getEpgleader_eid()!=null) responseMsg.getResponseMap().put("epgleader",employeeMapper.getById(w.getEpgleader_eid()));
-                if(w.getQamanager_eid()!=null) responseMsg.getResponseMap().put("qamanager",employeeMapper.getById(w.getQamanager_eid()));
                 responseMsg.setStatusAndMessage(200,"查询成功，附带组织级成员的具体信息");
             }
             else{

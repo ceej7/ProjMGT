@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -69,15 +68,15 @@ public class EmployeeController {
         msg.setStatusAndMessage(404, "请求出现异常");
         String s[]=authHeader.split("Bearer");
         if(authHeader.split("Bearer").length!=2||!authHeader.split("Bearer")[0].equals("")){
-            msg.setStatusAndMessage(202, "非法的token");
+            msg.setStatusAndMessage(JwtToken.Illegal, "非法的token");
         }
         else{
             Claims claims = jwtToken.getClaimByToken(authHeader);
             if (claims == null ) {
-                msg.setStatusAndMessage(204, "Token无效");
+                msg.setStatusAndMessage(JwtToken.Invalid, "Token无效");
             }
             else if (JwtToken.isTokenExpired(claims.getExpiration())){
-                msg.setStatusAndMessage(206, "Token过期");
+                msg.setStatusAndMessage(JwtToken.Expired, "Token过期");
             }
             else{
                 int userId = Integer.valueOf(claims.getSubject());
@@ -98,6 +97,32 @@ public class EmployeeController {
         }
         else{
             msg=employeeService.getByIdNonConfidential(eid);
+        }
+        return msg;
+    }
+
+    @ResponseBody
+    @ApiOperation("获得用户通用DashBoard信息（我的Project、Defect、Manhour、PropertyOccupy、Risk）\n根据访问头中的 [Authorization , Bearer [token]] 键值对验证用户的token")
+    @GetMapping("/employee/myDashBoard")
+    ResponseMsg getDashBoardByToken(@RequestHeader("Authorization") String authHeader){
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        String s[]=authHeader.split("Bearer");
+        if(authHeader.split("Bearer").length!=2||!authHeader.split("Bearer")[0].equals("")){
+            msg.setStatusAndMessage(JwtToken.Illegal, "非法的token");
+        }
+        else{
+            Claims claims = jwtToken.getClaimByToken(authHeader);
+            if (claims == null ) {
+                msg.setStatusAndMessage(JwtToken.Invalid, "Token无效");
+            }
+            else if (JwtToken.isTokenExpired(claims.getExpiration())){
+                msg.setStatusAndMessage(JwtToken.Expired, "Token过期");
+            }
+            else{
+                int userId = Integer.valueOf(claims.getSubject());
+                msg=employeeService.getDashBoardByIdConfidential(userId);
+            }
         }
         return msg;
     }

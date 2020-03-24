@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel("EmployeeProject Entity: 项目成员数据")
 public class EmployeeProject {
-    public EmployeeProject(Integer epid, byte defect_authority, Integer superior_epid, String project_id, Integer employee_id) {
+    public EmployeeProject(Integer epid, byte[] defect_authority, Integer superior_epid, String project_id, Integer employee_id) {
         this.epid = epid;
         this.defect_authority = defect_authority;
         this.superior_epid = superior_epid;
@@ -21,11 +21,11 @@ public class EmployeeProject {
         this.epid = epid;
     }
 
-    public byte getDefect_authority() {
+    public byte[] getDefect_authority() {
         return defect_authority;
     }
 
-    public void setDefect_authority(byte defect_authority) {
+    public void setDefect_authority(byte[] defect_authority) {
         this.defect_authority = defect_authority;
     }
 
@@ -58,11 +58,39 @@ public class EmployeeProject {
             "01-开发Leader权限\n" +
             "10-测试Leader权限\n" +
             "11-项目经理权限")
-    byte defect_authority;
+    byte[] defect_authority;
     @ApiModelProperty("外键：项目成员中的上级")
     Integer superior_epid;
     @ApiModelProperty("外键：项目id")
     String project_id;
     @ApiModelProperty("外键：人事信息中id")
     Integer employee_id;
+
+    public EmployeeProject getSup() {
+        return sup;
+    }
+
+    public void setSup(EmployeeProject sup) {
+        this.sup = sup;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    EmployeeProject sup;
+    Project project;
+    Employee employee;
 }

@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.sql.Timestamp;
 @ApiModel("PropertyOccupy Entity: 资产租借")
 public class PropertyOccupy {
-
     public PropertyOccupy(Integer poid, Timestamp expire_time, boolean is_intact, Integer property_id, String project_id, Integer employee_id) {
         this.poid = poid;
         this.expire_time = expire_time;
@@ -73,4 +72,33 @@ public class PropertyOccupy {
     String project_id;
     @ApiModelProperty("外键：员工的id")
     Integer employee_id;
+
+    public Property getProperty() {
+        return property;
+    }
+
+    public void setProperty(Property property) {
+        this.property = property;
+    }
+
+    Property property;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    Employee employee;
+    Project project;
 }

@@ -110,4 +110,13 @@ public class Employee {
     @ApiModelProperty("外键: 上级的id")
     Integer sup_eid;
 
+    public Employee getSup() {
+        return sup;
+    }
+
+    public void setSup(Employee sup) {
+        this.sup = sup;
+    }
+
+    Employee sup;
 }

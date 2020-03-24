@@ -1,6 +1,7 @@
 package com.achieveit.controller;
 
 import com.achieveit.config.JwtToken;
+import com.achieveit.entity.Project;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.service.ProjectService;
 import com.achieveit.service.WorkflowService;
@@ -21,13 +22,11 @@ public class ProjectController {
     @Autowired
     JwtToken jwtToken;
 
-    public ProjectController(ProjectService projectService, WorkflowService workflowService) {
+    public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
-        this.workflowService = workflowService;
     }
 
     private final ProjectService projectService;
-    private final WorkflowService workflowService;
 
     @ResponseBody
     @GetMapping("/project/toCheck")
@@ -36,15 +35,15 @@ public class ProjectController {
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求异常");
         if(authHeader.split("Bearer").length!=2||!authHeader.split("Bearer")[0].equals("")){
-            msg.setStatusAndMessage(202, "非法的token");
+            msg.setStatusAndMessage(JwtToken.Illegal, "非法的token");
         }
         else{
             Claims claims = jwtToken.getClaimByToken(authHeader);
             if (claims == null ) {
-                msg.setStatusAndMessage(204, "Token无效");
+                msg.setStatusAndMessage(JwtToken.Invalid, "Token无效");
             }
             else if (JwtToken.isTokenExpired(claims.getExpiration())){
-                msg.setStatusAndMessage(206, "Token过期");
+                msg.setStatusAndMessage(JwtToken.Expired, "Token过期");
             }
             else{
                 int userId = Integer.valueOf(claims.getSubject());
