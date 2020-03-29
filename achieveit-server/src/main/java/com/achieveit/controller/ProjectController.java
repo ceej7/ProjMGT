@@ -2,6 +2,8 @@ package com.achieveit.controller;
 
 import com.achieveit.config.JwtToken;
 import com.achieveit.entity.ResponseMsg;
+import com.achieveit.service.FileService;
+import com.achieveit.service.MailService;
 import com.achieveit.service.ProjectService;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -17,12 +19,16 @@ public class ProjectController {
     Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     JwtToken jwtToken;
-
-    public ProjectController(ProjectService projectService) {
-        this.projectService = projectService;
-    }
-
     private final ProjectService projectService;
+    private final MailService mailService;
+    private final FileService fileService;
+
+    public ProjectController(MailService mailService, FileService fileService,ProjectService projectService, JwtToken jwtToken) {
+        this.mailService = mailService;
+        this.fileService = fileService;
+        this.projectService = projectService;
+        this.jwtToken=jwtToken;
+    }
 
     @ResponseBody
     @GetMapping("/project/toCheck")
@@ -54,6 +60,7 @@ public class ProjectController {
     @ApiOperation("获取和自己相关的Project的具体列表，需要提供[Authorization, Bearer [token]] 键值对验证用户的token\n" +
             "需要提供[page:数字]和[length:数字]来表示分页位置和每页长度(Page从0开始计数)\n" +
             "可选提供[name:string]来filter项目名字\n" +
+            "可选提供[status:string]来filter项目的状态，选项为[done,applying,doing]，不带此参数则代表不做status的filter\n" +
             "返回附带page_length来表示最大页数")
     public ResponseMsg getMyProject(@RequestHeader("Authorization") String authHeader,
                                      @RequestParam("page") int page,

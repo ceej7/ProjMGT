@@ -1,5 +1,6 @@
 package com.achieveit.controller;
 
+import com.achieveit.config.JwtToken;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.entity.Workflow;
 import com.achieveit.service.FileService;
@@ -20,14 +21,16 @@ class WorkflowControllerTest {
     MailService mailService;
     FileService fileService;
     WorkflowService workflowService;
+    JwtToken jwtToken;
     MockMvc mockMvc;
 
     @BeforeEach
     void setUp(){
+        jwtToken = new JwtToken();
         mailService = mock(MailService.class);
         fileService = mock(FileService.class);
         workflowService = mock(WorkflowService.class);
-        mockMvc = MockMvcBuilders.standaloneSetup(new WorkflowController(mailService,fileService, workflowService)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new WorkflowController(mailService,fileService, workflowService,jwtToken)).build();
     }
 
     @Test

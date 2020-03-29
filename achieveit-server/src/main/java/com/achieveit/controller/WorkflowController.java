@@ -1,5 +1,6 @@
 package com.achieveit.controller;
 
+import com.achieveit.config.JwtToken;
 import com.achieveit.entity.Employee;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.entity.Workflow;
@@ -11,24 +12,25 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(tags = "工作流接口", value = "工作流的关键API")
 public class WorkflowController {
     Logger logger = LoggerFactory.getLogger(getClass());
-
-
-    public WorkflowController(MailService mailService, FileService fileService, WorkflowService workflowService) {
-        this.mailService = mailService;
-        this.fileService = fileService;
-        this.workflowService = workflowService;
-    }
-
+    @Autowired
+    JwtToken jwtToken;
     private final MailService mailService;
     private final FileService fileService;
     private final WorkflowService workflowService;
 
+    public WorkflowController(MailService mailService, FileService fileService, WorkflowService workflowService, JwtToken jwtToken) {
+        this.mailService = mailService;
+        this.fileService = fileService;
+        this.workflowService = workflowService;
+        this.jwtToken=jwtToken;
+    }
 
     @ResponseBody
     @GetMapping("/workflow/{wid}")

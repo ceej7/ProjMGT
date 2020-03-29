@@ -3,6 +3,8 @@ package com.achieveit.controller;
 import com.achieveit.config.JwtToken;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.service.EmployeeService;
+import com.achieveit.service.FileService;
+import com.achieveit.service.MailService;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,14 +18,19 @@ import java.util.Map;
 @RestController
 @Api(tags = "员工接口", value="员工相关API")
 public class EmployeeController {
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
-    private final EmployeeService employeeService;
     Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private JwtToken jwtToken;
+    private final EmployeeService employeeService;
+    private final MailService mailService;
+    private final FileService fileService;
+
+    public EmployeeController(MailService mailService, FileService fileService,EmployeeService employeeService, JwtToken jwtToken) {
+        this.mailService = mailService;
+        this.fileService = fileService;
+        this.employeeService = employeeService;
+        this.jwtToken=jwtToken;
+    }
 
     @ResponseBody
     @ApiOperation(value = "用户登陆，提供name,password, 返回Employee和token", notes="{\"name\":\"Alias\",\"password\":\"123456\"}")

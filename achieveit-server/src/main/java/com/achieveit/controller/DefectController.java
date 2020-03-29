@@ -3,6 +3,8 @@ package com.achieveit.controller;
 import com.achieveit.config.JwtToken;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.service.DefectService;
+import com.achieveit.service.FileService;
+import com.achieveit.service.MailService;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,12 +19,18 @@ public class DefectController {
     Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     JwtToken jwtToken;
+    private final DefectService defectService;
+    private final MailService mailService;
+    private final FileService fileService;
 
-    public DefectController(DefectService defectService) {
+    public DefectController(MailService mailService, FileService fileService, DefectService defectService, JwtToken jwtToken) {
+        this.mailService = mailService;
+        this.fileService = fileService;
         this.defectService = defectService;
+        this.jwtToken=jwtToken;
     }
 
-    private final DefectService defectService;
+
 
     @ResponseBody
     @GetMapping("/defect/myDefect")

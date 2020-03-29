@@ -2,6 +2,8 @@ package com.achieveit.controller;
 
 import com.achieveit.config.JwtToken;
 import com.achieveit.entity.ResponseMsg;
+import com.achieveit.service.FileService;
+import com.achieveit.service.MailService;
 import com.achieveit.service.ManhourService;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -19,12 +21,16 @@ public class ManhourController {
     Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     JwtToken jwtToken;
-
-    public ManhourController(ManhourService manhourService) {
-        this.manhourService = manhourService;
-    }
-
     private final ManhourService manhourService;
+    private final MailService mailService;
+    private final FileService fileService;
+
+    public ManhourController(MailService mailService, FileService fileService,ManhourService manhourService, JwtToken jwtToken) {
+        this.mailService = mailService;
+        this.fileService = fileService;
+        this.manhourService = manhourService;
+        this.jwtToken=jwtToken;
+    }
 
     @ResponseBody
     @GetMapping("/manhour/myManhour")
