@@ -25,7 +25,7 @@ public interface EmployeeProjectMapper {
     @Select("select epid,superior_epid,defect_authority,project_id,employee_id from employee_project where employee_id=#{eid}")
     @Results({
             @Result(property = "sup", column = "superior_epid", one = @One(select = "com.achieveit.mapper.EmployeeProjectMapper.getByEpid")),
-            @Result(property = "project", column = "project_id", one = @One(select = "com.achieveit.mapper.ProjectMapper.getByPid")),
+            @Result(property = "project", column = "project_id", one = @One(select = "com.achieveit.mapper.ProjectMapper.getByPidCascade")),
             @Result(property = "employee", column = "employee_id", one = @One(select = "com.achieveit.mapper.EmployeeMapper.getByEid"))
     })
     List<EmployeeProject> getByEidCascade(int eid);

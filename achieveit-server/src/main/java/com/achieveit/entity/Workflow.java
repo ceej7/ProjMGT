@@ -3,8 +3,33 @@ package com.achieveit.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("Project Entity: 项目信息")
+import java.util.BitSet;
+
+@ApiModel("Workflow Entity: 工作流信息")
 public class Workflow {
+    void flowBits2Status(){
+        BitSet bitSets=new BitSet(32);
+        bitSets.clear();
+        for (int i = 0; i < 32; i++) {
+            bitSets.set(i,  ((this.flowbits>>i)%2)==1);
+        }
+        if(bitSets.get(28)){
+            status = "achieved";
+        }else if(bitSets.get(10)){
+            status = "submitted";
+        }else if(bitSets.get(9)){
+            status = "delivering";
+        }else if(bitSets.get(8)){
+            status = "started";
+        }else if(bitSets.get(1)){
+            status = "approved";
+        }else if(bitSets.get(0)){
+            status = "applying";
+        }else{
+            status = "rejected";
+        }
+    }
+
 
     public Integer getWid() {
         return wid;
@@ -20,6 +45,16 @@ public class Workflow {
 
     public void setFlowbits(Integer flowbits) {
         this.flowbits = flowbits;
+//        @ApiModelProperty("项目的状态，分别由\n" +
+//                "rejected(立项拒绝)\n" +
+//                "applying(申请中)\n" +
+//                "approved(立项已批准，Config、EPG、QA、PM未进行项目配置)\n" +
+//                "started(项目启动)\n" +
+//                "delivering(项目正在交付)\n" +
+//                "submitted(项目已交付)\n" +
+//                "achieved(项目已归档)\n" +
+//                "构成")
+        flowBits2Status();
     }
 
     public Integer getPm_eid() {
@@ -275,6 +310,25 @@ public class Workflow {
     @ApiModelProperty("QA总结")
     String archive16;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @ApiModelProperty("项目的状态，分别由\n" +
+            "rejected(立项拒绝)\n" +
+            "applying(申请中)\n" +
+            "approved(立项已批准，Config、EPG、QA、PM未进行项目配置)\n" +
+            "started(项目启动)\n" +
+            "delivering(项目正在交付)\n" +
+            "submitted(项目已交付)\n" +
+            "achieved(项目已归档)\n" +
+            "构成")
+    String status;
+
     public Workflow(Integer wid, Integer flowbits, Integer pm_eid, Integer sup_eid, Integer configurer_eid, Integer epgleader_eid, Integer qamanager_eid, String git_repo, String server_root, String mail_list, String archive00, String archive01, String archive02, String archive03, String archive04, String archive05, String archive06, String archive07, String archive08, String archive09, String archive10, String archive11, String archive12, String archive13, String archive14, String archive15, String archive16) {
         this.wid = wid;
         this.flowbits = flowbits;
@@ -303,6 +357,7 @@ public class Workflow {
         this.archive14 = archive14;
         this.archive15 = archive15;
         this.archive16 = archive16;
+        flowBits2Status();
     }
 
     Employee pm;
