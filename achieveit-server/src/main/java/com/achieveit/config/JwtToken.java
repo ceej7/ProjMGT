@@ -13,6 +13,10 @@ import java.util.Date;
 
 @Configuration
 public class JwtToken {
+    public JwtToken(){
+        secret = "JO6HN3NGIU25G2FIG8V7VD6CK9B6T2Z5";
+        expire = 6000000;
+    }
     private static Logger logger = LoggerFactory.getLogger(JwtToken.class);
     public static int Illegal = 202;
     public static int Invalid = 204;

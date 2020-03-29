@@ -57,12 +57,39 @@ public class ProjectService {
         }
         return msg;
     }
-    public ResponseMsg getFilteredPagedProjectByEid(int eid, int page, int length,String name){
+    public ResponseMsg getFilteredPagedProjectByEid(int eid, int page, int length,String name,String status){
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求异常");
         try{
-            List<Project> pws = projectMapper.getNamedByEidCascade(eid,name);
+            int bit_l;
+            int bit_u;
+            List<Project> pws=new ArrayList<Project>();
             List<Project> pws_paged = new ArrayList<Project>();
+            if(name==null){
+                name="";
+            }
+            if(status==null||!status.equals("done")){
+                if(status==null){
+                    bit_l=0;
+                    bit_u=0x3fffffff;
+                }else if(status.equals("doing")){
+                    bit_l=256;
+                    bit_u=2047;
+                }
+                else{ //if(status.equals("applying"))
+                    bit_l=1;
+                    bit_u=3;
+                }
+                pws = projectMapper.getNamedStatusByEidCascade(eid,name,bit_l,bit_u);
+            }
+            else{//if(status.equals("done"))
+                bit_l=0;
+                bit_u=0x1fffffff;
+                List<Project> pws1 = projectMapper.getNamedStatusByEidCascade(eid,name,bit_l,bit_l);
+                List<Project> pws2 = projectMapper.getNamedStatusByEidCascade(eid,name,bit_u,bit_u);
+                pws.addAll(pws1);
+                pws.addAll(pws2);
+            }
             for(int i=page*length;i<page*length+length;i++){
                 if(i<pws.size()){
                     pws_paged.add(pws.get(i));
