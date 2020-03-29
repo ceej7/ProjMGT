@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 
 @Repository
@@ -28,5 +29,12 @@ public interface ManhourMapper {
             @Result(property = "employeeProject", column = "employee_project_id", one = @One(select = "com.achieveit.mapper.EmployeeProjectMapper.getByEpidCascade")),
             @Result(property = "activity", column = "activity_id", one = @One(select = "com.achieveit.mapper.ActivityMapper.getByAid")),
     })
-    List<Manhour> getByEid(int eid);
+    List<Manhour> getByEidCascade(int eid);
+
+    @Select("SELECT mid,fid,date,starttime,endtime,status,employee_project_id,activity_id FROM employee e INNER JOIN employee_project ep on e.eid = ep.employee_id INNER JOIN manhour m on ep.epid=m.employee_project_id where eid =#{eid} and date=#{date}")
+    @Results({
+            @Result(property = "employeeProject", column = "employee_project_id", one = @One(select = "com.achieveit.mapper.EmployeeProjectMapper.getByEpidCascade")),
+            @Result(property = "activity", column = "activity_id", one = @One(select = "com.achieveit.mapper.ActivityMapper.getByAid")),
+    })
+    List<Manhour> getDatedByEidCascade(int eid, Date date);
 }

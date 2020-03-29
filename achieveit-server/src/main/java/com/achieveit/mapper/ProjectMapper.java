@@ -24,14 +24,22 @@ public interface ProjectMapper {
     @Select("SELECT pid, p.name,starttime,endtime,technique,domain,function,client_id,workflow_id FROM employee e INNER JOIN employee_project ep on e.eid = ep.employee_id INNER JOIN project p on ep.project_id=p.pid where eid =#{eid}")
     @Results({
             @Result(property = "client",column = "client_id", one=@One(select = "com.achieveit.mapper.ClientMapper.getByCid")),
-            @Result(property = "workflow",column = "workflow_id", one=@One(select = "com.achieveit.mapper.WorkflowMapper.getByWid"))
+            @Result(property = "workflow",column = "workflow_id", one=@One(select = "com.achieveit.mapper.WorkflowMapper.getByWidCascade"))
     })
     List<Project> getByEidCascade(int eid);
+
+    @Select("SELECT pid, p.name,starttime,endtime,technique,domain,function,client_id,workflow_id FROM employee e INNER JOIN employee_project ep on e.eid = ep.employee_id INNER JOIN project p on ep.project_id=p.pid where eid =#{eid} and p.name like CONCAT('%',#{name},'%')")
+    @Results({
+            @Result(property = "client",column = "client_id", one=@One(select = "com.achieveit.mapper.ClientMapper.getByCid")),
+            @Result(property = "workflow",column = "workflow_id", one=@One(select = "com.achieveit.mapper.WorkflowMapper.getByWidCascade"))
+    })
+    List<Project> getNamedByEidCascade(int eid,String name);
 
     @Select("SELECT pid,name,starttime,endtime,technique,domain,function,client_id,workflow_id FROM project p INNER JOIN workflow w ON p.workflow_id =w.wid WHERE sup_eid=#{eid}")
     @Results({
             @Result(property = "client",column = "client_id", one=@One(select = "com.achieveit.mapper.ClientMapper.getByCid")),
-            @Result(property = "workflow",column = "workflow_id", one=@One(select = "com.achieveit.mapper.WorkflowMapper.getByWid"))
+            @Result(property = "workflow",column = "workflow_id", one=@One(select = "com.achieveit.mapper.WorkflowMapper.getByWidCascade"))
     })
     List<Project> getBySupEidCascade(int eid);
+
 }

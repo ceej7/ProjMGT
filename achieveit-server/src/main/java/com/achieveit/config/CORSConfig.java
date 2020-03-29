@@ -22,7 +22,7 @@ public class CORSConfig {
                         .allowedMethods("*")
                         .allowedOrigins("http://localhost:9528",
                                 "http://119.29.87.183:8081",
-                                "http://localhost:8080"
+                                "http://localhost:8079"
                         )
                         .allowCredentials(true);
             }

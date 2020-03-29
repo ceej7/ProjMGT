@@ -27,4 +27,11 @@ public interface DefectMapper {
             @Result(property = "employeeProject", column = "employee_project_id", one = @One(select = "com.achieveit.mapper.EmployeeProjectMapper.getByEpid"))
     })
     List<Defect> getByEidCascade(int eid);
+
+    @Select("SELECT d.did,d.authority,d.desc,d.git_repo,d.commit,d.status,d.project_id,d.employee_project_id FROM employee e INNER JOIN employee_project ep on e.eid = ep.employee_id INNER JOIN defect d on ep.epid=d.employee_project_id WHERE eid =#{eid} and d.desc like CONCAT('%',#{desc},'%')")
+    @Results({
+            @Result(property = "project", column = "project_id", one = @One(select = "com.achieveit.mapper.ProjectMapper.getByPid")),
+            @Result(property = "employeeProject", column = "employee_project_id", one = @One(select = "com.achieveit.mapper.EmployeeProjectMapper.getByEpid"))
+    })
+    List<Defect> getDescedByEidCascade(int eid, String desc);
 }

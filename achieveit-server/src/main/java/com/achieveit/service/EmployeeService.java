@@ -135,7 +135,7 @@ public class EmployeeService {
                 msg.getResponseMap().put("employee", e);
                 msg.getResponseMap().put("properties", propertyMapper.getByEid(eid));
                 msg.getResponseMap().put("projects", employeeProjectMapper.getByEidCascade(eid));
-                msg.getResponseMap().put("manhours", manhourMapper.getByEid(eid));
+                msg.getResponseMap().put("manhours", manhourMapper.getByEidCascade(eid));
                 msg.getResponseMap().put("defects", defectMapper.getByEidCascade(eid));
                 msg.getResponseMap().put("risks", riskMapper.getByEidCascade(eid));
             }

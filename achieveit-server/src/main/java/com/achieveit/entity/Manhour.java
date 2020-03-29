@@ -96,6 +96,22 @@ public class Manhour {
     @ApiModelProperty("外键：工时活动id")
     Integer activity_id;
 
+    public EmployeeProject getEmployeeProject() {
+        return employeeProject;
+    }
+
+    public void setEmployeeProject(EmployeeProject employeeProject) {
+        this.employeeProject = employeeProject;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
     EmployeeProject employeeProject;
     Activity activity;
 }

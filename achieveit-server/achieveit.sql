@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 119.29.87.183
+ Source Server         : 47.100.57.110
  Source Server Type    : MySQL
- Source Server Version : 50560
- Source Host           : 119.29.87.183:3306
+ Source Server Version : 50729
+ Source Host           : 47.100.57.110:3306
  Source Schema         : achieveit
 
  Target Server Type    : MySQL
- Target Server Version : 50560
+ Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 14/03/2020 16:00:25
+ Date: 29/03/2020 20:04:01
 */
 
 SET NAMES utf8mb4;
@@ -91,16 +91,49 @@ CREATE TABLE `defect`  (
   PRIMARY KEY (`did`) USING BTREE,
   INDEX `project_id`(`project_id`) USING BTREE,
   INDEX `employee_project_id`(`employee_project_id`) USING BTREE,
-  CONSTRAINT `defect_ibfk_2` FOREIGN KEY (`employee_project_id`) REFERENCES `employee_project` (`epid`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `defect_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`pid`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+  CONSTRAINT `defect_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`pid`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `defect_ibfk_2` FOREIGN KEY (`employee_project_id`) REFERENCES `employee_project` (`epid`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of defect
 -- ----------------------------
 INSERT INTO `defect` VALUES (1, b'01', '全tm是bug', 'https://github.com/ceej7/SiteOrdering', '*', 'bug', '1', 1);
-INSERT INTO `defect` VALUES (2, b'10', '功能很混乱', 'https://github.com/ceej7/SiteOrdering', '889b172144c534c376bfb55dd851daeb9bc5371d', 'feature', '1', 2);
-INSERT INTO `defect` VALUES (3, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '2', 2);
+INSERT INTO `defect` VALUES (2, b'10', '功能很混乱', 'https://github.com/ceej7/SiteOrdering', '889b172144c534c376bfb55dd851daeb9bc5371d', 'feature', '2', 2);
+INSERT INTO `defect` VALUES (3, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '3', 3);
+INSERT INTO `defect` VALUES (4, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '4', 4);
+INSERT INTO `defect` VALUES (5, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '5', 5);
+INSERT INTO `defect` VALUES (6, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '6', 6);
+INSERT INTO `defect` VALUES (7, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '7', 7);
+INSERT INTO `defect` VALUES (8, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '8', 8);
+INSERT INTO `defect` VALUES (9, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '4', 9);
+INSERT INTO `defect` VALUES (10, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '4', 10);
+INSERT INTO `defect` VALUES (11, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '4', 11);
+INSERT INTO `defect` VALUES (12, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '5', 12);
+INSERT INTO `defect` VALUES (13, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '5', 13);
+INSERT INTO `defect` VALUES (14, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '5', 14);
+INSERT INTO `defect` VALUES (15, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '6', 15);
+INSERT INTO `defect` VALUES (16, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '6', 16);
+INSERT INTO `defect` VALUES (17, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '6', 17);
+INSERT INTO `defect` VALUES (18, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '7', 18);
+INSERT INTO `defect` VALUES (19, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '7', 19);
+INSERT INTO `defect` VALUES (20, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '7', 20);
+INSERT INTO `defect` VALUES (21, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '8', 21);
+INSERT INTO `defect` VALUES (22, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '8', 22);
+INSERT INTO `defect` VALUES (23, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '8', 23);
+INSERT INTO `defect` VALUES (24, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '4', 24);
+INSERT INTO `defect` VALUES (25, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '5', 25);
+INSERT INTO `defect` VALUES (26, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '6', 26);
+INSERT INTO `defect` VALUES (27, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '7', 27);
+INSERT INTO `defect` VALUES (28, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '8', 28);
+INSERT INTO `defect` VALUES (29, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '5', 29);
+INSERT INTO `defect` VALUES (30, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '5', 30);
+INSERT INTO `defect` VALUES (31, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '6', 31);
+INSERT INTO `defect` VALUES (32, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '6', 32);
+INSERT INTO `defect` VALUES (33, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '7', 33);
+INSERT INTO `defect` VALUES (34, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '7', 34);
+INSERT INTO `defect` VALUES (35, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '8', 35);
+INSERT INTO `defect` VALUES (36, b'11', '怎么跟我提的需求不一样', 'https://github.com/ceej7/SiteOrdering', '*', 'feature', '8', 36);
 
 -- ----------------------------
 -- Table structure for employee
@@ -120,22 +153,37 @@ CREATE TABLE `employee`  (
   PRIMARY KEY (`eid`) USING BTREE,
   INDEX `superior`(`sup_eid`) USING BTREE,
   INDEX `name`(`name`) USING BTREE,
+  INDEX `eid`(`eid`) USING BTREE,
   CONSTRAINT `superior` FOREIGN KEY (`sup_eid`) REFERENCES `employee` (`eid`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of employee
 -- ----------------------------
-INSERT INTO `employee` VALUES (1, 'Alias', '1749597640@qq.com', '中山北路5123号理科楼888', '总部', '86-12345678901', '123456', '', 'pm_manager', NULL);
-INSERT INTO `employee` VALUES (2, 'Ben', '1749597640@qq.com', '中山北路5123号理科楼889', '总部', '86-12345678902', '123456', '', 'pm', 1);
-INSERT INTO `employee` VALUES (3, 'Ceej', '1749597640@qq.com', '中山北路5123号理科楼881', '总部', '86-12345678903', '123456', '', 'pm', 1);
-INSERT INTO `employee` VALUES (4, 'Ella', '1749597640@qq.com', '中山北路5123号理科楼882', '总部', '86-12345678904', '123456', '', 'qa_manager', 1);
-INSERT INTO `employee` VALUES (5, 'Father', '1749597640@qq.com', '中山北路5123号理科楼884', '总部', '86-12345678908', '123456', '', 'configurer', 2);
-INSERT INTO `employee` VALUES (6, 'Gay', '1749597640@qq.com', '中山北路5123号理科楼884', '总部', '86-12345678908', '123456', '', 'epg_leader', 2);
-INSERT INTO `employee` VALUES (7, 'Helen', '1749597640@qq.com', '中山北路5123号理科楼884', '总部', '86-12345678908', '123456', '', 'configurer', 2);
-INSERT INTO `employee` VALUES (8, 'Irwin', '1749597640@qq.com', '中山北路5123号理科楼884', '总部', '86-12345678908', '123456', '', 'member', 2);
-INSERT INTO `employee` VALUES (10, 'Kiki', '1749597640@qq.com', '中山北路5123号理科楼884', '总部', '86-12345678908', '123456', '', 'member', 2);
-INSERT INTO `employee` VALUES (11, 'Lily', '1749597640@qq.com', '中山北路5123号理科楼884', '总部', '86-12345678908', '123456', '', 'member', 4);
+INSERT INTO `employee` VALUES (1, 'Alias', '1749597640@qq.com', '中山北路5123号理科楼888', '总部', '86-12345678901', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'pm_manager', NULL);
+INSERT INTO `employee` VALUES (2, 'Ben', '1@qq.com', '中山北路5123号理科楼889', '总部', '86-12345678902', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'pm', 1);
+INSERT INTO `employee` VALUES (3, 'Ceej', '2@qq.com', '中山北路5123号理科楼881', '总部', '86-12345678903', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'pm', 1);
+INSERT INTO `employee` VALUES (4, 'Ella', '3@qq.com', '中山北路5123号理科楼882', '总部', '86-12345678904', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'qa_manager', NULL);
+INSERT INTO `employee` VALUES (5, 'Father', '4@qq.com', '中山北路5123号理科楼1', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'epg_leader', NULL);
+INSERT INTO `employee` VALUES (6, 'Gay', '5@qq.com', '中山北路5123号理科楼2', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'epg_leader', NULL);
+INSERT INTO `employee` VALUES (7, 'Helen', '6@qq.com', '中山北路5123号理科楼3', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'configurer', NULL);
+INSERT INTO `employee` VALUES (8, 'Irwin', '7@qq.com', '中山北路5123号理科楼4', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'configurer', NULL);
+INSERT INTO `employee` VALUES (10, 'Kiki', '8@qq.com', '中山北路5123号理科楼5', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 4);
+INSERT INTO `employee` VALUES (11, 'Lily', '9@qq.com', '中山北路5123号理科楼6', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 4);
+INSERT INTO `employee` VALUES (12, 'Maya', '10@qq.com', '中山北路5123号理科楼7', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 4);
+INSERT INTO `employee` VALUES (13, 'N', '11@qq.com', '中山北路5123号理科楼8', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 5);
+INSERT INTO `employee` VALUES (14, 'O', '12@qq.com', '中山北路5123号理科楼9', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 5);
+INSERT INTO `employee` VALUES (15, 'P', '13@qq.com', '中山北路5123号理科10', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 5);
+INSERT INTO `employee` VALUES (16, 'Q', '140@qq.com', '中山北路5123号理科楼12', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 6);
+INSERT INTO `employee` VALUES (17, 'R', '15@qq.com', '中山北路5123号理科楼11', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 6);
+INSERT INTO `employee` VALUES (18, 'S', '16@qq.com', '中山北路5123号理科楼13', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 6);
+INSERT INTO `employee` VALUES (19, 'T', '19@qq.com', '中山北路5123号理科楼14', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 7);
+INSERT INTO `employee` VALUES (20, 'U', '20@qq.com', '中山北路5123号理科楼15', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 7);
+INSERT INTO `employee` VALUES (21, 'V', '21@qq.com', '中山北路5123号理科楼16', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 7);
+INSERT INTO `employee` VALUES (22, 'W', '22@qq.com', '中山北路5123号理科楼17', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 7);
+INSERT INTO `employee` VALUES (23, 'X', '23@qq.com', '中山北路5123号理科楼28', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 8);
+INSERT INTO `employee` VALUES (24, 'Y', '24@qq.com', '中山北路5123号理科楼19', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 8);
+INSERT INTO `employee` VALUES (25, 'Z', '25@qq.com', '中山北路5123号理科楼20', '总部', '86-12345678908', '123456', 'http://47.100.57.110:8080/images/default.jpg', 'member', 8);
 
 -- ----------------------------
 -- Table structure for employee_project
@@ -150,36 +198,107 @@ CREATE TABLE `employee_project`  (
   PRIMARY KEY (`epid`) USING BTREE,
   INDEX `employee_project_ibfk_1`(`project_id`) USING BTREE,
   INDEX `employee_project_ibfk_2`(`employee_id`) USING BTREE,
+  INDEX `superior_epid`(`superior_epid`) USING BTREE,
   CONSTRAINT `employee_project_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`pid`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `employee_project_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`eid`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+  CONSTRAINT `employee_project_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`eid`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `employee_project_ibfk_3` FOREIGN KEY (`superior_epid`) REFERENCES `employee_project` (`epid`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of employee_project
 -- ----------------------------
-INSERT INTO `employee_project` VALUES (1, NULL, b'11', '1', 1);
-INSERT INTO `employee_project` VALUES (2, 1, b'01', '1', 2);
+INSERT INTO `employee_project` VALUES (1, NULL, b'11', '1', 2);
+INSERT INTO `employee_project` VALUES (2, NULL, b'11', '2', 3);
+INSERT INTO `employee_project` VALUES (3, NULL, b'11', '3', 2);
+INSERT INTO `employee_project` VALUES (4, NULL, b'11', '4', 3);
+INSERT INTO `employee_project` VALUES (5, NULL, b'11', '5', 3);
+INSERT INTO `employee_project` VALUES (6, NULL, b'11', '6', 2);
+INSERT INTO `employee_project` VALUES (7, NULL, b'11', '7', 2);
+INSERT INTO `employee_project` VALUES (8, NULL, b'11', '8', 3);
+INSERT INTO `employee_project` VALUES (9, 4, b'10', '4', 4);
+INSERT INTO `employee_project` VALUES (10, 9, b'00', '4', 10);
+INSERT INTO `employee_project` VALUES (11, 9, b'00', '4', 13);
+INSERT INTO `employee_project` VALUES (12, 5, b'10', '5', 4);
+INSERT INTO `employee_project` VALUES (13, 12, b'00', '5', 11);
+INSERT INTO `employee_project` VALUES (14, 12, b'00', '5', 14);
+INSERT INTO `employee_project` VALUES (15, 6, b'10', '6', 4);
+INSERT INTO `employee_project` VALUES (16, 15, b'00', '6', 10);
+INSERT INTO `employee_project` VALUES (17, 15, b'00', '6', 14);
+INSERT INTO `employee_project` VALUES (18, 7, b'10', '7', 4);
+INSERT INTO `employee_project` VALUES (19, 18, b'00', '7', 11);
+INSERT INTO `employee_project` VALUES (20, 18, b'00', '7', 13);
+INSERT INTO `employee_project` VALUES (21, 8, b'10', '8', 4);
+INSERT INTO `employee_project` VALUES (22, 21, b'00', '8', 13);
+INSERT INTO `employee_project` VALUES (23, 21, b'00', '8', 14);
+INSERT INTO `employee_project` VALUES (24, 4, b'00', '4', 5);
+INSERT INTO `employee_project` VALUES (25, 5, b'00', '5', 6);
+INSERT INTO `employee_project` VALUES (26, 6, b'00', '6', 5);
+INSERT INTO `employee_project` VALUES (27, 7, b'00', '7', 5);
+INSERT INTO `employee_project` VALUES (28, 8, b'00', '8', 6);
+INSERT INTO `employee_project` VALUES (29, 5, b'01', '5', 10);
+INSERT INTO `employee_project` VALUES (30, 29, b'00', '5', 13);
+INSERT INTO `employee_project` VALUES (31, 6, b'01', '6', 11);
+INSERT INTO `employee_project` VALUES (32, 31, b'00', '6', 13);
+INSERT INTO `employee_project` VALUES (33, 7, b'01', '7', 14);
+INSERT INTO `employee_project` VALUES (34, 33, b'00', '7', 12);
+INSERT INTO `employee_project` VALUES (35, 8, b'01', '8', 10);
+INSERT INTO `employee_project` VALUES (36, 35, b'00', '8', 12);
 
 -- ----------------------------
 -- Table structure for employee_role_project
 -- ----------------------------
 DROP TABLE IF EXISTS `employee_role_project`;
 CREATE TABLE `employee_role_project`  (
-  `erpid` int(11) NOT NULL AUTO_INCREMENT,
   `employee_project_id` int(11) NOT NULL COMMENT 'epid删除时连级删除此字段',
-  `role` enum('pm','rd_leader','test_leader','rd','test','configurer','qa','epg') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '\'pm\',\'rd_leader\',\'test_leader\',\'rd\',\'test\',\'configurer\',\'qa\',\'epg\'',
-  PRIMARY KEY (`erpid`) USING BTREE,
+  `role` enum('pm','rd_leader','qa_leader','rd','qa','epg') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '\'pm\',\'rd_leader\',\'qa_leader\',\'rd\',\'qa\',\'epg\'',
+  PRIMARY KEY (`employee_project_id`, `role`) USING BTREE,
   INDEX `employee_role_project_ibfk_1`(`employee_project_id`) USING BTREE,
   CONSTRAINT `employee_role_project_ibfk_1` FOREIGN KEY (`employee_project_id`) REFERENCES `employee_project` (`epid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of employee_role_project
 -- ----------------------------
-INSERT INTO `employee_role_project` VALUES (1, 1, 'pm');
-INSERT INTO `employee_role_project` VALUES (2, 2, 'rd_leader');
-INSERT INTO `employee_role_project` VALUES (3, 2, 'test');
-INSERT INTO `employee_role_project` VALUES (7, 1, 'test_leader');
+INSERT INTO `employee_role_project` VALUES (1, 'pm');
+INSERT INTO `employee_role_project` VALUES (2, 'pm');
+INSERT INTO `employee_role_project` VALUES (3, 'pm');
+INSERT INTO `employee_role_project` VALUES (4, 'pm');
+INSERT INTO `employee_role_project` VALUES (5, 'pm');
+INSERT INTO `employee_role_project` VALUES (6, 'pm');
+INSERT INTO `employee_role_project` VALUES (7, 'pm');
+INSERT INTO `employee_role_project` VALUES (8, 'pm');
+INSERT INTO `employee_role_project` VALUES (9, 'qa_leader');
+INSERT INTO `employee_role_project` VALUES (10, 'qa');
+INSERT INTO `employee_role_project` VALUES (11, 'qa');
+INSERT INTO `employee_role_project` VALUES (12, 'qa_leader');
+INSERT INTO `employee_role_project` VALUES (13, 'rd');
+INSERT INTO `employee_role_project` VALUES (13, 'qa');
+INSERT INTO `employee_role_project` VALUES (14, 'qa');
+INSERT INTO `employee_role_project` VALUES (15, 'qa_leader');
+INSERT INTO `employee_role_project` VALUES (16, 'qa');
+INSERT INTO `employee_role_project` VALUES (17, 'rd');
+INSERT INTO `employee_role_project` VALUES (17, 'qa');
+INSERT INTO `employee_role_project` VALUES (18, 'qa_leader');
+INSERT INTO `employee_role_project` VALUES (19, 'qa');
+INSERT INTO `employee_role_project` VALUES (20, 'rd');
+INSERT INTO `employee_role_project` VALUES (20, 'qa');
+INSERT INTO `employee_role_project` VALUES (21, 'qa_leader');
+INSERT INTO `employee_role_project` VALUES (22, 'rd');
+INSERT INTO `employee_role_project` VALUES (22, 'qa');
+INSERT INTO `employee_role_project` VALUES (23, 'qa');
+INSERT INTO `employee_role_project` VALUES (24, 'epg');
+INSERT INTO `employee_role_project` VALUES (25, 'epg');
+INSERT INTO `employee_role_project` VALUES (26, 'epg');
+INSERT INTO `employee_role_project` VALUES (27, 'epg');
+INSERT INTO `employee_role_project` VALUES (28, 'epg');
+INSERT INTO `employee_role_project` VALUES (29, 'rd_leader');
+INSERT INTO `employee_role_project` VALUES (30, 'rd');
+INSERT INTO `employee_role_project` VALUES (31, 'rd_leader');
+INSERT INTO `employee_role_project` VALUES (32, 'rd');
+INSERT INTO `employee_role_project` VALUES (33, 'rd_leader');
+INSERT INTO `employee_role_project` VALUES (34, 'rd');
+INSERT INTO `employee_role_project` VALUES (35, 'rd_leader');
+INSERT INTO `employee_role_project` VALUES (36, 'rd');
 
 -- ----------------------------
 -- Table structure for manhour
@@ -189,8 +308,8 @@ CREATE TABLE `manhour`  (
   `mid` int(11) NOT NULL AUTO_INCREMENT,
   `fid` int(11) NULL DEFAULT NULL COMMENT '依靠后端从project的function的json中解析',
   `date` date NOT NULL,
-  `starttime` datetime NULL DEFAULT NULL,
-  `endtime` datetime NULL DEFAULT NULL,
+  `starttime` datetime(0) NULL DEFAULT NULL,
+  `endtime` datetime(0) NULL DEFAULT NULL,
   `status` enum('unfilled','unchecked','checked','expired') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '\'unfilled\',\'unchecked\',\'checked\',\'expired\'',
   `employee_project_id` int(11) NOT NULL,
   `activity_id` int(11) NULL DEFAULT NULL,
@@ -199,7 +318,47 @@ CREATE TABLE `manhour`  (
   INDEX `activity_id`(`activity_id`) USING BTREE,
   CONSTRAINT `manhour_ibfk_1` FOREIGN KEY (`employee_project_id`) REFERENCES `employee_project` (`epid`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `manhour_ibfk_2` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`aid`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of manhour
+-- ----------------------------
+INSERT INTO `manhour` VALUES (1, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 1, 5);
+INSERT INTO `manhour` VALUES (2, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 2, 1);
+INSERT INTO `manhour` VALUES (3, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 3, 5);
+INSERT INTO `manhour` VALUES (4, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 4, 2);
+INSERT INTO `manhour` VALUES (5, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 5, 7);
+INSERT INTO `manhour` VALUES (6, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 6, 8);
+INSERT INTO `manhour` VALUES (7, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 7, 1);
+INSERT INTO `manhour` VALUES (8, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 8, 3);
+INSERT INTO `manhour` VALUES (9, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 9, 2);
+INSERT INTO `manhour` VALUES (10, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 10, 5);
+INSERT INTO `manhour` VALUES (11, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 11, 2);
+INSERT INTO `manhour` VALUES (12, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 12, 6);
+INSERT INTO `manhour` VALUES (13, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 13, 7);
+INSERT INTO `manhour` VALUES (14, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 14, 8);
+INSERT INTO `manhour` VALUES (15, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 15, 2);
+INSERT INTO `manhour` VALUES (16, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 16, 9);
+INSERT INTO `manhour` VALUES (17, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 17, 1);
+INSERT INTO `manhour` VALUES (18, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 18, 11);
+INSERT INTO `manhour` VALUES (19, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 19, 13);
+INSERT INTO `manhour` VALUES (20, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 20, 14);
+INSERT INTO `manhour` VALUES (21, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 21, 1);
+INSERT INTO `manhour` VALUES (22, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 22, 3);
+INSERT INTO `manhour` VALUES (23, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 23, 2);
+INSERT INTO `manhour` VALUES (24, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 24, 4);
+INSERT INTO `manhour` VALUES (25, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 25, 2);
+INSERT INTO `manhour` VALUES (26, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 26, 4);
+INSERT INTO `manhour` VALUES (27, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 27, 6);
+INSERT INTO `manhour` VALUES (28, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 28, 7);
+INSERT INTO `manhour` VALUES (29, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 29, 8);
+INSERT INTO `manhour` VALUES (30, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 30, 3);
+INSERT INTO `manhour` VALUES (31, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 31, 2);
+INSERT INTO `manhour` VALUES (32, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 32, 1);
+INSERT INTO `manhour` VALUES (33, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 33, 2);
+INSERT INTO `manhour` VALUES (34, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 34, 4);
+INSERT INTO `manhour` VALUES (35, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 35, 6);
+INSERT INTO `manhour` VALUES (36, 0, '2020-03-24', '2020-03-24 14:14:20', '2020-03-25 14:14:29', 'unchecked', 36, 8);
 
 -- ----------------------------
 -- Table structure for milestone
@@ -207,19 +366,33 @@ CREATE TABLE `manhour`  (
 DROP TABLE IF EXISTS `milestone`;
 CREATE TABLE `milestone`  (
   `mid` int(11) NOT NULL AUTO_INCREMENT,
-  `time` datetime NULL DEFAULT NULL,
+  `time` datetime(0) NULL DEFAULT NULL,
   `desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `project_id` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`mid`) USING BTREE,
   INDEX `project_id`(`project_id`) USING BTREE,
   CONSTRAINT `milestone_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`pid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of milestone
 -- ----------------------------
-INSERT INTO `milestone` VALUES (1, '2020-03-10 16:41:20', '完成输出', '1');
-INSERT INTO `milestone` VALUES (2, '2020-03-28 16:41:35', '完成输入', '1');
+INSERT INTO `milestone` VALUES (1, '2020-03-10 16:41:20', '完成输出1', '1');
+INSERT INTO `milestone` VALUES (2, '2020-03-28 16:41:35', '完成输入2', '2');
+INSERT INTO `milestone` VALUES (3, '2020-03-28 16:41:35', '完成输入3', '3');
+INSERT INTO `milestone` VALUES (4, '2020-03-28 16:41:35', '完成输入4', '4');
+INSERT INTO `milestone` VALUES (5, '2020-03-28 16:41:35', '完成输入5', '5');
+INSERT INTO `milestone` VALUES (6, '2020-03-28 16:41:12', '完成输入6', '6');
+INSERT INTO `milestone` VALUES (7, '2020-03-28 16:41:35', '完成输入7', '7');
+INSERT INTO `milestone` VALUES (8, '2020-03-28 16:41:35', '完成输入8', '8');
+INSERT INTO `milestone` VALUES (9, '2020-03-28 16:41:35', '完成输入15', '1');
+INSERT INTO `milestone` VALUES (10, '2020-03-18 16:41:35', '完成输入9', '2');
+INSERT INTO `milestone` VALUES (11, '2020-03-28 16:41:35', '完成输入10', '3');
+INSERT INTO `milestone` VALUES (12, '2020-03-28 16:41:35', '完成输入11', '4');
+INSERT INTO `milestone` VALUES (13, '2020-03-28 16:41:35', '完成输入12', '5');
+INSERT INTO `milestone` VALUES (14, '2020-03-07 16:41:35', '完成输入13', '6');
+INSERT INTO `milestone` VALUES (15, '2020-03-05 16:41:35', '完成输入14', '7');
+INSERT INTO `milestone` VALUES (16, '2020-03-21 19:30:52', '输入15', '8');
 
 -- ----------------------------
 -- Table structure for project
@@ -228,8 +401,8 @@ DROP TABLE IF EXISTS `project`;
 CREATE TABLE `project`  (
   `pid` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `starttime` datetime NULL DEFAULT NULL,
-  `endtime` datetime NULL DEFAULT NULL,
+  `starttime` datetime(0) NULL DEFAULT NULL,
+  `endtime` datetime(0) NULL DEFAULT NULL,
   `technique` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `domain` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `function` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '使用json存储，使用两个int解析',
@@ -238,16 +411,21 @@ CREATE TABLE `project`  (
   PRIMARY KEY (`pid`) USING BTREE,
   INDEX `client_id`(`client_id`) USING BTREE,
   INDEX `workflow_id`(`workflow_id`) USING BTREE,
-  CONSTRAINT `project_ibfk_2` FOREIGN KEY (`workflow_id`) REFERENCES `workflow` (`wid`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `project_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `client` (`cid`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `project_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `client` (`cid`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `project_ibfk_2` FOREIGN KEY (`workflow_id`) REFERENCES `workflow` (`wid`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of project
 -- ----------------------------
-INSERT INTO `project` VALUES ('1', '千亿大项目', '2020-03-04 15:19:34', '2020-03-28 15:19:37', '没有技术含量的', '01语言', '{0:\"能用就行\"}', 1, 1);
-INSERT INTO `project` VALUES ('2', '一夜暴富', '2020-03-03 23:50:27', '2020-04-24 23:50:33', '没有技术含量的', '01语言', '{0:\"做梦去吧\"}', 2, 2);
-INSERT INTO `project` VALUES ('3', '拯救秃头', '2020-03-05 00:41:57', '2020-03-22 00:42:01', '有极高技术含量', '人类拯救计划', '{0:\"不可能的\"}', 4, 3);
+INSERT INTO `project` VALUES ('1', '立项拒绝了的项目', '2020-03-04 15:19:34', '2020-03-28 15:19:37', '没有技术含量的', '01语言', '{0:\"能用就行\"}', 1, 1);
+INSERT INTO `project` VALUES ('2', '申请立项的项目', '2020-03-03 23:50:27', '2020-04-24 23:50:33', '没有技术含量的', '01语言', '{0:\"做梦去吧\"}', 2, 2);
+INSERT INTO `project` VALUES ('3', '被批准了准备配置的项目', '2020-03-05 00:41:57', '2020-03-22 00:42:01', '有极高技术含量', '01语言', '{0:\"不可能的\"}', 4, 3);
+INSERT INTO `project` VALUES ('4', '三位老板配置完成了的项目', '2020-03-05 00:41:57', '2020-03-22 00:42:01', '有极高技术含量', '01语言', '{0:\"不可能的\"}', 3, 4);
+INSERT INTO `project` VALUES ('5', 'PM也配置完成了，启动的项目', '2020-03-05 00:41:57', '2020-03-22 00:42:01', '有极高技术含量', '01语言', '{0:\"不可能的\"}', 2, 5);
+INSERT INTO `project` VALUES ('6', 'PM开始交付的项目', '2020-03-05 00:41:57', '2020-03-22 00:42:01', '有极高技术含量', '01语言', '{0:\"不可能的\"}', 1, 6);
+INSERT INTO `project` VALUES ('7', '结束了准备归档的项目', '2020-03-05 00:41:57', '2020-03-22 00:42:01', '有极高技术含量', '01语言', '{0:\"不可能的\"}', 2, 7);
+INSERT INTO `project` VALUES ('8', '完成归档的项目', '2020-03-05 00:41:57', '2020-03-22 00:42:01', '有极高技术含量', '01语言', '{0:\"不可能的\"}', 3, 8);
 
 -- ----------------------------
 -- Table structure for property
@@ -257,7 +435,7 @@ CREATE TABLE `property`  (
   `pid` int(11) NOT NULL AUTO_INCREMENT,
   `desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`pid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of property
@@ -265,6 +443,39 @@ CREATE TABLE `property`  (
 INSERT INTO `property` VALUES (1, '护颈仪');
 INSERT INTO `property` VALUES (2, '蒸汽眼罩');
 INSERT INTO `property` VALUES (3, 'k380键盘');
+INSERT INTO `property` VALUES (4, '资产');
+INSERT INTO `property` VALUES (5, '很贵的资产1');
+INSERT INTO `property` VALUES (6, '很贵的资产2');
+INSERT INTO `property` VALUES (7, '很贵的资产3');
+INSERT INTO `property` VALUES (8, '很贵的资产4');
+INSERT INTO `property` VALUES (9, '很贵的资产5');
+INSERT INTO `property` VALUES (10, '很贵的资产6');
+INSERT INTO `property` VALUES (11, '很贵的资产7');
+INSERT INTO `property` VALUES (12, '很贵的资产8');
+INSERT INTO `property` VALUES (13, '很贵的资产9');
+INSERT INTO `property` VALUES (14, '很贵的资产10');
+INSERT INTO `property` VALUES (15, '很贵的资产11');
+INSERT INTO `property` VALUES (16, '很贵的资产12');
+INSERT INTO `property` VALUES (17, '很贵的资产13');
+INSERT INTO `property` VALUES (18, '很贵的资产23');
+INSERT INTO `property` VALUES (19, '很贵的资产33');
+INSERT INTO `property` VALUES (20, '很贵的资产43');
+INSERT INTO `property` VALUES (21, '很贵的资产53');
+INSERT INTO `property` VALUES (22, '很贵的资产63');
+INSERT INTO `property` VALUES (23, '很贵的资产73');
+INSERT INTO `property` VALUES (24, '很贵的资产14');
+INSERT INTO `property` VALUES (25, '很贵的资产153');
+INSERT INTO `property` VALUES (26, '很贵的资产16');
+INSERT INTO `property` VALUES (27, '很贵的资产17');
+INSERT INTO `property` VALUES (28, '很贵的资产18');
+INSERT INTO `property` VALUES (29, '很贵的资产19');
+INSERT INTO `property` VALUES (30, '很贵的资产22');
+INSERT INTO `property` VALUES (31, '很贵的资产24');
+INSERT INTO `property` VALUES (32, '很贵的资产25');
+INSERT INTO `property` VALUES (33, '很贵的资产26');
+INSERT INTO `property` VALUES (34, '很贵的资产27');
+INSERT INTO `property` VALUES (35, '很贵的资产28');
+INSERT INTO `property` VALUES (36, '很贵的资产29');
 
 -- ----------------------------
 -- Table structure for property_occupy
@@ -272,7 +483,7 @@ INSERT INTO `property` VALUES (3, 'k380键盘');
 DROP TABLE IF EXISTS `property_occupy`;
 CREATE TABLE `property_occupy`  (
   `poid` int(11) NOT NULL AUTO_INCREMENT,
-  `expire_time` datetime NULL,
+  `expire_time` datetime(0) NULL DEFAULT NULL,
   `is_intact` bit(1) NOT NULL,
   `property_id` int(11) NOT NULL,
   `project_id` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -284,14 +495,47 @@ CREATE TABLE `property_occupy`  (
   CONSTRAINT `property_occupy_ibfk_1` FOREIGN KEY (`property_id`) REFERENCES `property` (`pid`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `property_occupy_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `project` (`pid`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `property_occupy_ibfk_3` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`eid`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of property_occupy
 -- ----------------------------
-INSERT INTO `property_occupy` VALUES (1, '2020-03-13 01:37:03', b'1', 1, '3', 3);
-INSERT INTO `property_occupy` VALUES (2, '2020-03-11 01:38:42', b'1', 2, '3', 3);
-INSERT INTO `property_occupy` VALUES (3, '2020-03-03 01:39:41', b'0', 3, '3', 3);
+INSERT INTO `property_occupy` VALUES (1, '2020-03-13 01:37:03', b'1', 1, '1', 2);
+INSERT INTO `property_occupy` VALUES (2, '2020-03-11 01:38:42', b'1', 2, '2', 3);
+INSERT INTO `property_occupy` VALUES (3, '2020-03-03 01:39:41', b'0', 3, '3', 2);
+INSERT INTO `property_occupy` VALUES (4, '2020-03-03 01:39:41', b'1', 4, '4', 3);
+INSERT INTO `property_occupy` VALUES (5, '2020-03-03 01:39:41', b'1', 5, '5', 3);
+INSERT INTO `property_occupy` VALUES (6, '2020-03-03 01:39:41', b'1', 6, '6', 2);
+INSERT INTO `property_occupy` VALUES (7, '2020-03-03 01:39:41', b'1', 7, '7', 2);
+INSERT INTO `property_occupy` VALUES (8, '2020-03-03 01:39:41', b'1', 8, '8', 3);
+INSERT INTO `property_occupy` VALUES (9, '2020-03-03 01:39:41', b'1', 9, '4', 4);
+INSERT INTO `property_occupy` VALUES (10, '2020-03-03 01:39:41', b'1', 10, '4', 10);
+INSERT INTO `property_occupy` VALUES (11, '2020-03-03 01:39:41', b'1', 11, '4', 13);
+INSERT INTO `property_occupy` VALUES (12, '2020-03-03 01:39:41', b'1', 12, '5', 4);
+INSERT INTO `property_occupy` VALUES (13, '2020-03-03 01:39:41', b'1', 13, '5', 11);
+INSERT INTO `property_occupy` VALUES (14, '2020-03-03 01:39:41', b'1', 14, '5', 14);
+INSERT INTO `property_occupy` VALUES (15, '2020-03-03 01:39:41', b'1', 15, '6', 4);
+INSERT INTO `property_occupy` VALUES (16, '2020-03-03 01:39:41', b'1', 16, '6', 10);
+INSERT INTO `property_occupy` VALUES (17, '2020-03-03 01:39:41', b'1', 17, '6', 14);
+INSERT INTO `property_occupy` VALUES (18, '2020-03-03 01:39:41', b'1', 18, '7', 4);
+INSERT INTO `property_occupy` VALUES (19, '2020-03-03 01:39:41', b'1', 19, '7', 11);
+INSERT INTO `property_occupy` VALUES (20, '2020-03-03 01:39:41', b'1', 20, '7', 13);
+INSERT INTO `property_occupy` VALUES (21, '2020-03-03 01:39:41', b'1', 21, '8', 4);
+INSERT INTO `property_occupy` VALUES (22, '2020-03-03 01:39:41', b'1', 22, '8', 13);
+INSERT INTO `property_occupy` VALUES (23, '2020-03-03 01:39:41', b'1', 23, '8', 14);
+INSERT INTO `property_occupy` VALUES (24, '2020-03-03 01:39:41', b'1', 24, '4', 5);
+INSERT INTO `property_occupy` VALUES (25, '2020-03-03 01:39:41', b'1', 25, '5', 6);
+INSERT INTO `property_occupy` VALUES (26, '2020-03-03 01:39:41', b'1', 26, '6', 5);
+INSERT INTO `property_occupy` VALUES (27, '2020-03-03 01:39:41', b'1', 27, '7', 5);
+INSERT INTO `property_occupy` VALUES (28, '2020-03-03 01:39:41', b'1', 28, '8', 6);
+INSERT INTO `property_occupy` VALUES (29, '2020-03-03 01:39:41', b'1', 29, '5', 10);
+INSERT INTO `property_occupy` VALUES (30, '2020-03-03 01:39:41', b'1', 30, '5', 13);
+INSERT INTO `property_occupy` VALUES (31, '2020-03-03 01:39:41', b'1', 31, '6', 11);
+INSERT INTO `property_occupy` VALUES (32, '2020-03-03 01:39:41', b'1', 32, '6', 13);
+INSERT INTO `property_occupy` VALUES (33, '2020-03-03 01:39:41', b'1', 33, '7', 14);
+INSERT INTO `property_occupy` VALUES (34, '2020-03-03 01:39:41', b'1', 34, '7', 12);
+INSERT INTO `property_occupy` VALUES (35, '2020-03-03 01:39:41', b'1', 35, '8', 10);
+INSERT INTO `property_occupy` VALUES (36, '2020-03-03 01:39:41', b'1', 36, '8', 12);
 
 -- ----------------------------
 -- Table structure for risk
@@ -313,13 +557,47 @@ CREATE TABLE `risk`  (
   INDEX `project_id`(`project_id`) USING BTREE,
   CONSTRAINT `risk_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`eid`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `risk_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `project` (`pid`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of risk
 -- ----------------------------
-INSERT INTO `risk` VALUES (1, '员工离职', '我也不知道', 'p1', 'influence1', 'stategy1', 1, b'1', 4, '1');
-INSERT INTO `risk` VALUES (2, '员工违纪被辞退', 'd2', 'p2', 'i2', 's2', 5, b'0', 5, '2');
+INSERT INTO `risk` VALUES (1, '员工离职', '感觉挺不好的把', 'p1', 'i1', 's1', 1, b'1', 2, '1');
+INSERT INTO `risk` VALUES (2, '员工违纪被辞退', '感觉挺不好的把', 'p2', 'i2', 's2', 5, b'1', 3, '2');
+INSERT INTO `risk` VALUES (3, '员工删库跑路', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 2, '3');
+INSERT INTO `risk` VALUES (4, '全过程管理', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 3, '4');
+INSERT INTO `risk` VALUES (5, '全员管理', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 3, '5');
+INSERT INTO `risk` VALUES (6, '要素集成管理', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 2, '6');
+INSERT INTO `risk` VALUES (7, '险管理不能', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 2, '7');
+INSERT INTO `risk` VALUES (8, '项目质量的优劣与', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 3, '8');
+INSERT INTO `risk` VALUES (9, '项目风险管理是对工期', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 4, '4');
+INSERT INTO `risk` VALUES (10, '成功的项目风险', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 10, '4');
+INSERT INTO `risk` VALUES (11, '项目风险管理工作', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 13, '4');
+INSERT INTO `risk` VALUES (12, '向或政府行为', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 4, '5');
+INSERT INTO `risk` VALUES (13, '不利因素威胁', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 11, '5');
+INSERT INTO `risk` VALUES (14, '息源包括过', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 14, '5');
+INSERT INTO `risk` VALUES (15, '进行潜在问题', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 4, '6');
+INSERT INTO `risk` VALUES (16, '中记录的经验和表', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 10, '6');
+INSERT INTO `risk` VALUES (17, '识别项目中的潜在风险及其特征', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 14, '6');
+INSERT INTO `risk` VALUES (18, '识别风险的主要来源', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 4, '7');
+INSERT INTO `risk` VALUES (19, '预测风险可能会引起的后果', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 11, '7');
+INSERT INTO `risk` VALUES (20, '风险识别的方法', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 13, '7');
+INSERT INTO `risk` VALUES (21, '从主观信息源出发的方法', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 4, '8');
+INSERT INTO `risk` VALUES (22, '头脑风暴法', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 13, '8');
+INSERT INTO `risk` VALUES (23, '德尔菲法（Delphi method）又称专家调查法', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 14, '8');
+INSERT INTO `risk` VALUES (24, '情景分析法（Scenarios analysis）', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 5, '4');
+INSERT INTO `risk` VALUES (25, '构造出多重情景', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 6, '5');
+INSERT INTO `risk` VALUES (26, '构造出多重情景', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 5, '6');
+INSERT INTO `risk` VALUES (27, '项目范围、成本、质量、进度', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 5, '7');
+INSERT INTO `risk` VALUES (28, '各分流程图', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 6, '8');
+INSERT INTO `risk` VALUES (29, '核对表法。', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 10, '5');
+INSERT INTO `risk` VALUES (30, '流程图法', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 13, '5');
+INSERT INTO `risk` VALUES (31, '财务报表法', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 11, '6');
+INSERT INTO `risk` VALUES (32, '基线费用估计', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 13, '6');
+INSERT INTO `risk` VALUES (33, '寿命期费用分析', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 14, '7');
+INSERT INTO `risk` VALUES (34, '系统工程文件', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 12, '7');
+INSERT INTO `risk` VALUES (35, '进度分析', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 10, '8');
+INSERT INTO `risk` VALUES (36, '基线费用估计', '感觉挺不好的把', 'p1', 'i2', 's2', 5, b'0', 12, '8');
 
 -- ----------------------------
 -- Table structure for risk_relation
@@ -334,7 +612,47 @@ CREATE TABLE `risk_relation`  (
   INDEX `risk_relation_ibfk_2`(`risk_id`) USING BTREE,
   CONSTRAINT `risk_relation_ibfk_1` FOREIGN KEY (`employee_project_id`) REFERENCES `employee_project` (`epid`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `risk_relation_ibfk_2` FOREIGN KEY (`risk_id`) REFERENCES `risk` (`rid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of risk_relation
+-- ----------------------------
+INSERT INTO `risk_relation` VALUES (1, 1, 1);
+INSERT INTO `risk_relation` VALUES (2, 2, 2);
+INSERT INTO `risk_relation` VALUES (3, 3, 3);
+INSERT INTO `risk_relation` VALUES (4, 4, 4);
+INSERT INTO `risk_relation` VALUES (5, 5, 5);
+INSERT INTO `risk_relation` VALUES (6, 6, 6);
+INSERT INTO `risk_relation` VALUES (7, 7, 7);
+INSERT INTO `risk_relation` VALUES (8, 8, 8);
+INSERT INTO `risk_relation` VALUES (9, 9, 9);
+INSERT INTO `risk_relation` VALUES (10, 10, 10);
+INSERT INTO `risk_relation` VALUES (11, 11, 11);
+INSERT INTO `risk_relation` VALUES (12, 12, 12);
+INSERT INTO `risk_relation` VALUES (13, 13, 13);
+INSERT INTO `risk_relation` VALUES (14, 14, 14);
+INSERT INTO `risk_relation` VALUES (15, 15, 15);
+INSERT INTO `risk_relation` VALUES (16, 16, 16);
+INSERT INTO `risk_relation` VALUES (17, 17, 17);
+INSERT INTO `risk_relation` VALUES (18, 18, 18);
+INSERT INTO `risk_relation` VALUES (19, 19, 19);
+INSERT INTO `risk_relation` VALUES (20, 20, 20);
+INSERT INTO `risk_relation` VALUES (21, 21, 21);
+INSERT INTO `risk_relation` VALUES (22, 22, 22);
+INSERT INTO `risk_relation` VALUES (23, 23, 23);
+INSERT INTO `risk_relation` VALUES (24, 24, 24);
+INSERT INTO `risk_relation` VALUES (25, 25, 25);
+INSERT INTO `risk_relation` VALUES (26, 26, 26);
+INSERT INTO `risk_relation` VALUES (27, 27, 27);
+INSERT INTO `risk_relation` VALUES (28, 28, 28);
+INSERT INTO `risk_relation` VALUES (29, 29, 29);
+INSERT INTO `risk_relation` VALUES (30, 30, 30);
+INSERT INTO `risk_relation` VALUES (31, 31, 31);
+INSERT INTO `risk_relation` VALUES (32, 32, 32);
+INSERT INTO `risk_relation` VALUES (33, 33, 33);
+INSERT INTO `risk_relation` VALUES (34, 34, 34);
+INSERT INTO `risk_relation` VALUES (35, 35, 35);
+INSERT INTO `risk_relation` VALUES (36, 36, 36);
 
 -- ----------------------------
 -- Table structure for workflow
@@ -379,14 +697,18 @@ CREATE TABLE `workflow`  (
   CONSTRAINT `workflow_ibfk_2` FOREIGN KEY (`configurer_eid`) REFERENCES `employee` (`eid`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `workflow_ibfk_3` FOREIGN KEY (`epgleader_eid`) REFERENCES `employee` (`eid`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `workflow_ibfk_4` FOREIGN KEY (`qamanager_eid`) REFERENCES `employee` (`eid`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of workflow
 -- ----------------------------
-INSERT INTO `workflow` VALUES (1, 1, 3, 1, 7, 6, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `workflow` VALUES (2, 1, 2, 1, 5, 8, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `workflow` VALUES (3, 1, 3, 1, 7, 6, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `workflow` VALUES (4, 1, 3, 1, 7, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `workflow` VALUES (1, 0, 2, 1, 8, 5, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `workflow` VALUES (2, 1, 3, 1, 7, 6, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `workflow` VALUES (3, 3, 2, 1, 7, 6, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `workflow` VALUES (4, 31, 3, 1, 8, 5, 4, 'https://github.com/ceej7/ProjMGT', '47.100.57.110', '*', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `workflow` VALUES (5, 511, 3, 1, 8, 6, 4, 'https://github.com/ceej7/ProjMGT', '47.100.57.110', '*', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `workflow` VALUES (6, 1023, 2, 1, 7, 5, 4, 'https://github.com/ceej7/ProjMGT', '47.100.57.110', '*', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `workflow` VALUES (7, 2047, 2, 1, 7, 5, 4, 'https://github.com/ceej7/ProjMGT', '47.100.57.110', '*', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `workflow` VALUES (8, 536870911, 3, 1, 8, 6, 4, 'https://github.com/ceej7/ProjMGT', '47.100.57.110', '*', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg', 'http://47.100.57.110:8080/images/default.jpg');
 
 SET FOREIGN_KEY_CHECKS = 1;
