@@ -31,6 +31,21 @@ public class ProjectController {
     }
 
     @ResponseBody
+    @GetMapping("/project/getByPid/{pid}")
+    @ApiOperation("根据pid获取项目信息，pid:String(四位年份+四位客户代码+1位研发类型(D/M/S/O)+2位顺序号)")
+    public ResponseMsg getByPid(@PathVariable() String pid){
+        ResponseMsg responseMsg = new ResponseMsg();
+        responseMsg.setStatusAndMessage(404,"查询发生异常");
+        if(pid==null||pid.length()!=11){//四位年份+四位客户代码+1位研发类型(D/M/S/O)+2位顺序号
+            responseMsg.setStatusAndMessage(202, "参数无效");
+        }
+        else
+            responseMsg = projectService.getById(pid);
+        return responseMsg;
+    }
+
+
+    @ResponseBody
     @GetMapping("/project/toCheck")
     @ApiOperation("获取上级自己需要审核的项目, [Authorization, Bearer [token]] 键值对验证用户的token")
     public ResponseMsg getToCheckOfSup(@RequestHeader("Authorization") String authHeader){

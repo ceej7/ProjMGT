@@ -23,6 +23,19 @@ public class ProjectService {
 
     private final ProjectMapper projectMapper;
 
+    public ResponseMsg getById(String pid){
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求异常");
+        try{
+            Project pws = projectMapper.getByPidCascade(pid);
+            msg.setStatusAndMessage(200, "请求正常");
+            msg.getResponseMap().put("Project",pws);
+        }catch(Exception e){
+            logger.error(e.getMessage(), e);
+        }
+        return msg;
+    }
+
     public ResponseMsg getProjectToCheck(int eid){
 
         ResponseMsg msg = new ResponseMsg();
