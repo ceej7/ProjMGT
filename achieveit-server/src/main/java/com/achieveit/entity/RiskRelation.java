@@ -7,19 +7,11 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel("RiskRelation Entity: 风险相关人信息")
 public class RiskRelation {
 
-    public RiskRelation(Integer rrid, Integer employee_project_id, Integer risk_id) {
-        this.rrid = rrid;
+    public RiskRelation(Integer employee_project_id, Integer risk_id) {
         this.employee_project_id = employee_project_id;
         this.risk_id = risk_id;
     }
 
-    public Integer getRrid() {
-        return rrid;
-    }
-
-    public void setRrid(Integer rrid) {
-        this.rrid = rrid;
-    }
 
     public Integer getEmployee_project_id() {
         return employee_project_id;
@@ -37,9 +29,18 @@ public class RiskRelation {
         this.risk_id = risk_id;
     }
 
-    Integer rrid;
-    @ApiModelProperty("外键：成员的id")
+    public EmployeeProject getEmployeeProject() {
+        return employeeProject;
+    }
+
+    public void setEmployeeProject(EmployeeProject employeeProject) {
+        this.employeeProject = employeeProject;
+    }
+
+    @ApiModelProperty("主键Ⅰ：外键：成员的id")
     Integer employee_project_id;
-    @ApiModelProperty("外键：风险的id")
+    @ApiModelProperty("主键Ⅱ：外键：风险的id")
     Integer risk_id;
+
+    EmployeeProject employeeProject;
 }

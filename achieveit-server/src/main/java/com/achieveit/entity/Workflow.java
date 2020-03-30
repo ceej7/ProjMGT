@@ -30,7 +30,6 @@ public class Workflow {
         }
     }
 
-
     public Integer getWid() {
         return wid;
     }
@@ -257,59 +256,6 @@ public class Workflow {
         this.archive16 = archive16;
     }
 
-    Integer wid;
-    @ApiModelProperty("表示工作流的比特位")
-    Integer flowbits;
-    @ApiModelProperty("外键：项目经理的id")
-    Integer pm_eid;
-    @ApiModelProperty("外键：上级的id")
-    Integer sup_eid;
-    @ApiModelProperty("外键：配置管理员的id")
-    Integer configurer_eid;
-    @ApiModelProperty("外键：EPG领导的id")
-    Integer epgleader_eid;
-    @ApiModelProperty("外键：QA经理的id")
-    Integer qamanager_eid;
-
-    String git_repo;
-    String server_root;
-    String mail_list;
-
-    @ApiModelProperty("项目基础数据表")
-    String archive00;
-    @ApiModelProperty("项目提案书")
-    String archive01;
-    @ApiModelProperty("项目报价书")
-    String archive02;
-    @ApiModelProperty("项目估算表(功能点)")
-    String archive03;
-    @ApiModelProperty("项目计划书")
-    String archive04;
-    @ApiModelProperty("项目过程裁剪表")
-    String archive05;
-    @ApiModelProperty("项目成本管理表")
-    String archive06;
-    @ApiModelProperty("项目需求变更管理表")
-    String archive07;
-    @ApiModelProperty("项目风险管理表")
-    String archive08;
-    @ApiModelProperty("客户验收问题表")
-    String archive09;
-    @ApiModelProperty("客户验收报告")
-    String archive10;
-    @ApiModelProperty("项目总结")
-    String archive11;
-    @ApiModelProperty("最佳经验和教训")
-    String archive12;
-    @ApiModelProperty("开发工具")
-    String archive13;
-    @ApiModelProperty("开发模板(设计模板/测试模板)")
-    String archive14;
-    @ApiModelProperty("各阶段检查单")
-    String archive15;
-    @ApiModelProperty("QA总结")
-    String archive16;
-
     public String getStatus() {
         return status;
     }
@@ -317,17 +263,6 @@ public class Workflow {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    @ApiModelProperty("项目的状态，分别由\n" +
-            "rejected(立项拒绝)\n" +
-            "applying(申请中)\n" +
-            "approved(立项已批准，Config、EPG、QA、PM未进行项目配置)\n" +
-            "started(项目启动)\n" +
-            "delivering(项目正在交付)\n" +
-            "submitted(项目已交付)\n" +
-            "achieved(项目已归档)\n" +
-            "构成")
-    String status;
 
     public Workflow(Integer wid, Integer flowbits, Integer pm_eid, Integer sup_eid, Integer configurer_eid, Integer epgleader_eid, Integer qamanager_eid, String git_repo, String server_root, String mail_list, String archive00, String archive01, String archive02, String archive03, String archive04, String archive05, String archive06, String archive07, String archive08, String archive09, String archive10, String archive11, String archive12, String archive13, String archive14, String archive15, String archive16) {
         this.wid = wid;
@@ -359,12 +294,6 @@ public class Workflow {
         this.archive16 = archive16;
         flowBits2Status();
     }
-
-    Employee pm;
-    Employee sup;
-    Employee configurer;
-    Employee epgleader;
-    Employee qamanager;
 
     public Employee getPm() {
         return pm;
@@ -405,4 +334,74 @@ public class Workflow {
     public void setQamanager(Employee qamanager) {
         this.qamanager = qamanager;
     }
+
+    Integer wid;
+    @ApiModelProperty("表示工作流的比特位")
+    Integer flowbits;
+    @ApiModelProperty("外键：项目经理的id")
+    Integer pm_eid;
+    @ApiModelProperty("外键：上级的id")
+    Integer sup_eid;
+    @ApiModelProperty("外键：配置管理员的id")
+    Integer configurer_eid;
+    @ApiModelProperty("外键：EPG领导的id")
+    Integer epgleader_eid;
+    @ApiModelProperty("外键：QA经理的id")
+    Integer qamanager_eid;
+
+    String git_repo;
+    String server_root;
+    String mail_list;
+
+    @ApiModelProperty("项目的状态，分别由\n" +
+            "rejected(立项拒绝)\n" +
+            "applying(申请中)\n" +
+            "approved(立项已批准，Config、EPG、QA、PM未进行项目配置)\n" +
+            "started(项目启动)\n" +
+            "delivering(项目正在交付)\n" +
+            "submitted(项目已交付)\n" +
+            "achieved(项目已归档)\n" +
+            "构成")
+    String status;
+
+    @ApiModelProperty("项目基础数据表")
+    String archive00;
+    @ApiModelProperty("项目提案书")
+    String archive01;
+    @ApiModelProperty("项目报价书")
+    String archive02;
+    @ApiModelProperty("项目估算表(功能点)")
+    String archive03;
+    @ApiModelProperty("项目计划书")
+    String archive04;
+    @ApiModelProperty("项目过程裁剪表")
+    String archive05;
+    @ApiModelProperty("项目成本管理表")
+    String archive06;
+    @ApiModelProperty("项目需求变更管理表")
+    String archive07;
+    @ApiModelProperty("项目风险管理表")
+    String archive08;
+    @ApiModelProperty("客户验收问题表")
+    String archive09;
+    @ApiModelProperty("客户验收报告")
+    String archive10;
+    @ApiModelProperty("项目总结")
+    String archive11;
+    @ApiModelProperty("最佳经验和教训")
+    String archive12;
+    @ApiModelProperty("开发工具")
+    String archive13;
+    @ApiModelProperty("开发模板(设计模板/测试模板)")
+    String archive14;
+    @ApiModelProperty("各阶段检查单")
+    String archive15;
+    @ApiModelProperty("QA总结")
+    String archive16;
+
+    Employee pm;
+    Employee sup;
+    Employee configurer;
+    Employee epgleader;
+    Employee qamanager;
 }

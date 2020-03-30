@@ -63,16 +63,6 @@ public class PropertyOccupy {
         this.employee_id = employee_id;
     }
 
-    Integer poid;
-    Timestamp expire_time;
-    boolean is_intact;
-    @ApiModelProperty("外键：资产的id")
-    Integer property_id;
-    @ApiModelProperty("外键：项目的id")
-    String project_id;
-    @ApiModelProperty("外键：员工的id")
-    Integer employee_id;
-
     public Property getProperty() {
         return property;
     }
@@ -80,9 +70,6 @@ public class PropertyOccupy {
     public void setProperty(Property property) {
         this.property = property;
     }
-
-    Property property;
-
     public Employee getEmployee() {
         return employee;
     }
@@ -99,6 +86,17 @@ public class PropertyOccupy {
         this.project = project;
     }
 
+    Integer poid;
+    Timestamp expire_time;
+    boolean is_intact;
+    @ApiModelProperty("外键：资产的id")
+    Integer property_id;
+    @ApiModelProperty("外键：项目的id")
+    String project_id;
+    @ApiModelProperty("外键：员工的id")
+    Integer employee_id;
+
+    Property property;
     Employee employee;
     Project project;
 }

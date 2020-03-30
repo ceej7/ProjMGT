@@ -3,6 +3,8 @@ package com.achieveit.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.List;
+
 @ApiModel("Risk Entity: 风险信息")
 public class Risk {
     public Risk(Integer rid, String type, String desc, String grade, String strategy, String influence, Integer frequency, boolean template, Integer employee_id, String project_id) {
@@ -98,6 +100,29 @@ public class Risk {
         this.project_id = project_id;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+    public List<RiskRelation> getRelations() {
+        return relations;
+    }
+
+    public void setRelations(List<RiskRelation> relations) {
+        this.relations = relations;
+    }
+
     Integer rid;
     String type;
     String desc;
@@ -114,23 +139,8 @@ public class Risk {
     @ApiModelProperty("外键：项目的id")
     String project_id;
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
     Employee employee;
     Project project;
 
+    List<RiskRelation> relations;
 }

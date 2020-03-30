@@ -45,6 +45,13 @@ public class Milestone {
     public void setProject_id(String project_id) {
         this.project_id = project_id;
     }
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
     Integer mid;
     Timestamp time;
@@ -52,4 +59,5 @@ public class Milestone {
     @ApiModelProperty("外键：项目id")
     String project_id;
 
+    Project project;
 }
