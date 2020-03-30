@@ -23,4 +23,6 @@ http://119.29.87.183:8081/#/login?redirect=%2Fdashboard
 - http://47.100.57.110:8079/
 ## Server Doc
 - http://47.100.57.110:8079/swagger-ui.html#/
+## Test
+- [unit test](achieveit-server/src/test/com/achieveit/)
 
