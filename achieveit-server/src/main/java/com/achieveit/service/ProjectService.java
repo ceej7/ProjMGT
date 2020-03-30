@@ -15,8 +15,6 @@ import java.util.List;
 @Service
 public class ProjectService {
     Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
-    JwtToken jwtToken;
     public ProjectService(ProjectMapper projectMapper) {
         this.projectMapper = projectMapper;
     }

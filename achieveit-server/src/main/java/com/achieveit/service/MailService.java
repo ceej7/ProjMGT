@@ -17,9 +17,15 @@ import java.util.Map;
 public class MailService {
     Logger logger = LoggerFactory.getLogger(getClass());
 
+    public MailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
     @Autowired
     private JavaMailSender mailSender;
     private static final String SENDER = "caoweijie@rjcs.onexmail.com";
+
+
 
     /**
      * 发送普通邮件
