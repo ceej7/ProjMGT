@@ -16,7 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -33,19 +32,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class EmployeeControllerTest {
-    EmployeeService employeeService;
-    FileService fileService;
     MailService mailService;
+    FileService fileService;
+    EmployeeService employeeService;
     MockMvc mockMvc;
     JwtToken jwtToken;
 
     @BeforeEach
     void setUp(){
         jwtToken = new JwtToken();
-        employeeService = mock(EmployeeService.class);
-        fileService = mock(FileService.class);
         mailService = mock(MailService.class);
-        mockMvc = MockMvcBuilders.standaloneSetup(new EmployeeController(mailService,fileService,employeeService,jwtToken)).build();
+        fileService = mock(FileService.class);
+        employeeService = mock(EmployeeService.class);
+        mockMvc = MockMvcBuilders.standaloneSetup(new EmployeeController(mailService,fileService, employeeService,jwtToken)).build();
     }
 
     @Test
@@ -129,13 +128,16 @@ class EmployeeControllerTest {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "正常返回");
         responseMsg.getResponseMap().put("employee",1);
+        when(employeeService.getDashBoardByIdConfidential(1)).thenReturn(responseMsg);
 
-        when(employeeService.getByIdNonConfidential(1)).thenReturn(responseMsg);
-        mockMvc.perform(get("/employee/get/1"))
+        String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
+        mockMvc.perform(MockMvcRequestBuilders.get("/employee/myDashBoard")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
                 .andExpect(jsonPath("$.responseMap.employee").isNotEmpty());
-        verify(employeeService).getByIdNonConfidential(1);
+        verify(employeeService).getDashBoardByIdConfidential(1);
 
     }
 }
