@@ -1,19 +1,9 @@
 {
   "compilerOptions": {
-<<<<<<< HEAD
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  }
-=======
     "baseUrl": "./",
     "paths": {
         "@/*": ["src/*"]
     }
   },
   "exclude": ["node_modules", "dist"]
->>>>>>> d6d5ecc1d15ad237f8343fe57e564d44f9091170
 }

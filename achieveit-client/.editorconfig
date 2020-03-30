@@ -2,20 +2,6 @@
 root = true
 
 [*]
-<<<<<<< HEAD
-indent_style = space
-indent_size = 2
-end_of_line = lf
-charset = utf-8
-trim_trailing_whitespace = true
-insert_final_newline = true
-
-[*.md]
-trim_trailing_whitespace = false
-
-[Makefile]
-indent_style = tab
-=======
 charset = utf-8
 indent_style = space
 indent_size = 2
@@ -26,4 +12,3 @@ trim_trailing_whitespace = true
 [*.md]
 insert_final_newline = false
 trim_trailing_whitespace = false
->>>>>>> d6d5ecc1d15ad237f8343fe57e564d44f9091170

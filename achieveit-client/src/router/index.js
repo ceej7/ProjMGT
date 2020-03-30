@@ -68,69 +68,81 @@ export const constantRoutes = [
   },
 
   {
-    path: '/projects',
+    path: '/project',
     component: Layout,
-    redirect: '/projects/list',
+    redirect: '/project/list',
     name: 'project-manage',
-    meta: { title: '我的项目管理', icon: 'example' },
+    meta: { title: '我的项目', icon: 'example' },
     children: [
       {
         path: 'list',
         name: 'project-list',
-        component: () => import('@/views/table/index'),
-        meta: { title: '我的项目列表', icon: 'table' }
+        component: () => import('@/views/project/index'),
+        meta: { title: '我的项目', icon: 'table' }
       },
       {
         path: 'new',
         name: 'project-new',
         component: () => import('@/views/tree/index'),
         meta: { title: '新建项目', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/requirement',
-    component: Layout,
-    redirect: '/requirement/list',
-    name: 'requirement-manage',
-    meta: { title: '我的需求管理', icon: 'example' },
-    children: [
+      },
       {
-        path: 'list',
-        name: 'requirement-list',
-        component: () => import('@/views/form/index'),
-        meta: { title: '我的需求列表', icon: 'form' }
+        path: 'manage',
+        name: 'project-detail',
+        component: () => import('@/views/project/manage/index2'),
+        meta: { title: '项目信息' },
+        hidden: true,
+        children: [
+          {
+            path: 'overview',
+            name: 'project-manage-overview',
+            component: () => import('@/views/project/manage/Overview'),
+            meta: { title: '项目基本信息', icon: 'table' }
+          }
+        ]
+      },
+      {
+        path: 'manager',
+        name: 'project-detail2',
+        component: () => import('@/views/project/manage/index'),
+        meta: { title: '项目信息' },
+        hidden: true
       }
     ]
   },
 
   {
-    path: '/bug',
+    path: '/defect',
     component: Layout,
-    redirect: '/bug/list',
-    name: 'bug-manage',
-    meta: { title: '我的缺陷管理', icon: 'example' },
+    redirect: '/defect/list',
+    name: 'defect-manage',
+    meta: { title: '我的缺陷', icon: 'example' },
     children: [
       {
         path: 'list',
         name: 'bug-list',
-        component: () => import('@/views/form/index'),
+        component: () => import('@/views/defect/index'),
         meta: { title: '我的缺陷列表', icon: 'form' }
       }
     ]
   },
 
   {
-    path: '/work',
+    path: '/manhour',
     component: Layout,
-    redirect: '/work/list',
-    name: 'work-manage',
-    meta: { title: '我的工时管理', icon: 'example' },
+    redirect: '/manhour/list',
+    name: 'manhour-manage',
+    meta: { title: '我的工时', icon: 'example' },
     children: [
       {
+        path: 'new',
+        name: 'manhour-new',
+        component: () => import('@/views/form/index'),
+        meta: { title: '上报工时', icon: 'form'}
+      },
+      {
         path: 'list',
-        name: 'work-list',
+        name: 'manhour-list',
         component: () => import('@/views/form/index'),
         meta: { title: '我的工时列表', icon: 'form' }
       }
@@ -144,70 +156,21 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
-    path: '/nested',
+    path: '/approval',
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
+    redirect: '/approval/list',
+    name: 'approval-manage',
     meta: {
-      title: 'Nested',
-      icon: 'nested'
+      title: '我的审批',
+      icon: 'example',
+      role: ['pm_manager', 'configurer', 'pm', 'epg_leader', 'qa_manager']
     },
     children: [
       {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'list',
+        component: () => import('@/views/approval/index'),
+        name: 'approval-list',
+        meta: { title: '我的审批' }
       }
     ]
   },

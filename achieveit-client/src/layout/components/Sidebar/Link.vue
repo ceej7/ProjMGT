@@ -28,7 +28,7 @@ export default {
       }
       return {
         is: 'router-link',
-        to: url
+        to: '/redirect' + url
       }
     }
   }

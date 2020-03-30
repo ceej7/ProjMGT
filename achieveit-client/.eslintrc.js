@@ -1,13 +1,4 @@
 module.exports = {
-<<<<<<< HEAD
-  extends: [require.resolve('@umijs/fabric/dist/eslint')],
-  globals: {
-    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: true,
-    page: true,
-    REACT_APP_ENV: true,
-  },
-};
-=======
   root: true,
   parserOptions: {
     parser: 'babel-eslint',
@@ -205,4 +196,3 @@ module.exports = {
     'array-bracket-spacing': [2, 'never']
   }
 }
->>>>>>> d6d5ecc1d15ad237f8343fe57e564d44f9091170

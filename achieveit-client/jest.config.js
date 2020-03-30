@@ -1,14 +1,4 @@
 module.exports = {
-<<<<<<< HEAD
-  testURL: 'http://localhost:8000',
-  preset: 'jest-puppeteer',
-  extraSetupFiles: ['./tests/setupTests.js'],
-  globals: {
-    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: false,
-    localStorage: null,
-  },
-};
-=======
   moduleFileExtensions: ['js', 'jsx', 'json', 'vue'],
   transform: {
     '^.+\\.vue$': 'vue-jest',
@@ -32,4 +22,3 @@ module.exports = {
   ],
   testURL: 'http://localhost/'
 }
->>>>>>> d6d5ecc1d15ad237f8343fe57e564d44f9091170

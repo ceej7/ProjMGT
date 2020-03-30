@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       title: 'AchieveIt 项目管理平台',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      logo: 'http://119.29.87.183:8081/favicon.ico'
     }
   }
 }

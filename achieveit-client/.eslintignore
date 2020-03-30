@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-/lambda/
-/scripts
-/config
-.history
-=======
 build/*.js
 src/assets
 public
 dist
->>>>>>> d6d5ecc1d15ad237f8343fe57e564d44f9091170
