@@ -1,4 +1,4 @@
-/lambda/
-/scripts
-/config
-.history
+build/*.js
+src/assets
+public
+dist
