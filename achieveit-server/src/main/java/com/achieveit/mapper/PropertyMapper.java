@@ -17,7 +17,7 @@ public interface PropertyMapper {
 
     @Select("SELECT poid,expire_time,is_intact,property_id,project_id,employee_id FROM property_occupy po INNER JOIN property p on po.property_id = p.pid WHERE po.employee_id = #{eid}")
     @Results({
-            @Result(property = "property",column = "project_id", one=@One(select = "com.achieveit.mapper.PropertyMapper.getByPid")),
+            @Result(property = "property",column = "property_id", one=@One(select = "com.achieveit.mapper.PropertyMapper.getByPid")),
             @Result(property = "project",column = "project_id", one=@One(select = "com.achieveit.mapper.ProjectMapper.getByPid"))
     })
     List<PropertyOccupy> getByEid(int eid);
