@@ -10,21 +10,29 @@ import java.util.List;
 @Repository
 public interface EmployeeProjectMapper {
     @Select("select * from employee_project where epid=#{epid}")
+    @Results({
+            @Result(property = "roles", column = "epid", many = @Many(select = "com.achieveit.mapper.EmployeeProjectMapper.getEmployeeRoleProjectByEpid"))
+    })
     EmployeeProject getByEpid(int epid);
 
     @Select("select * from employee_project where epid=#{epid}")
     @Results({
             @Result(property = "sup", column = "superior_epid", one = @One(select = "com.achieveit.mapper.EmployeeProjectMapper.getByEpid")),
             @Result(property = "project", column = "project_id", one = @One(select = "com.achieveit.mapper.ProjectMapper.getByPid")),
-            @Result(property = "employee", column = "employee_id", one = @One(select = "com.achieveit.mapper.EmployeeMapper.getByEid"))
+            @Result(property = "employee", column = "employee_id", one = @One(select = "com.achieveit.mapper.EmployeeMapper.getByEid")),
+            @Result(property = "roles", column = "epid", many = @Many(select = "com.achieveit.mapper.EmployeeProjectMapper.getEmployeeRoleProjectByEpid"))
     })
     EmployeeProject getByEpidCascade(int epid);
+
+    @Select("select role, employee_project_id from employee_role_project where employee_project_id=#{epid}")
+    List<EmployeeRoleProject> getEmployeeRoleProjectByEpid(int epid);
 
     @Select("select epid,superior_epid,defect_authority,project_id,employee_id from employee_project where employee_id=#{eid}")
     @Results({
             @Result(property = "sup", column = "superior_epid", one = @One(select = "com.achieveit.mapper.EmployeeProjectMapper.getByEpid")),
             @Result(property = "project", column = "project_id", one = @One(select = "com.achieveit.mapper.ProjectMapper.getByPidCascade")),
-            @Result(property = "employee", column = "employee_id", one = @One(select = "com.achieveit.mapper.EmployeeMapper.getByEid"))
+            @Result(property = "employee", column = "employee_id", one = @One(select = "com.achieveit.mapper.EmployeeMapper.getByEid")),
+            @Result(property = "roles", column = "epid", many = @Many(select = "com.achieveit.mapper.EmployeeProjectMapper.getEmployeeRoleProjectByEpid"))
     })
     List<EmployeeProject> getByEidCascade(int eid);
 
@@ -41,8 +49,14 @@ public interface EmployeeProjectMapper {
 
     @Select("select epid,superior_epid,defect_authority,project_id,employee_id from employee_project ep " +
             "INNER JOIN employee_role_project erp ON ep.epid=erp.employee_project_id where erp.role=#{role} and ep.project_id=#{project_id}")
+    @Results({
+            @Result(property = "roles", column = "epid", many = @Many(select = "com.achieveit.mapper.EmployeeProjectMapper.getEmployeeRoleProjectByEpid"))
+    })
     List<EmployeeProject> getEmployeeProjectByRole(String project_id, String role);
 
     @Select("select * from employee_project where project_id=#{project_id} and employee_id=#{employee_id}")
+    @Results({
+            @Result(property = "roles", column = "epid", many = @Many(select = "com.achieveit.mapper.EmployeeProjectMapper.getEmployeeRoleProjectByEpid"))
+    })
     List<EmployeeProject> getEmployeeProject(String project_id, int employee_id);
 }
