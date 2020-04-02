@@ -10,14 +10,14 @@ class WorkflowEngineServiceTest {
 
     @BeforeEach
     void setup(){
-        workflowEngineService=new WorkflowEngineService(32);
-        workflowEngineService.setDependency(1, 0);
-        workflowEngineService.setDependency(2, 1);
-        workflowEngineService.setDependency(3, 1);
-        workflowEngineService.setDependency(4, 2);
-        workflowEngineService.setDependency(4, 3);
-        workflowEngineService.setDependency(5, 4);
-        workflowEngineService.setDependency(6, 5);
+        workflowEngineService.setDependency(1, 0,32);
+        workflowEngineService.setDependency(2, 1,32);
+        workflowEngineService.setDependency(3, 1,32);
+        workflowEngineService.setDependency(4, 2,32);
+        workflowEngineService.setDependency(4, 3,32);
+        workflowEngineService.setDependency(5, 4,32);
+        workflowEngineService.setDependency(6, 5,32);
+        workflowEngineService=new WorkflowEngineService();
     }
 
     @Test

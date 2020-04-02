@@ -4,6 +4,8 @@ import com.achieveit.entity.Employee;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.entity.Workflow;
 import com.achieveit.mapper.EmployeeMapper;
+import com.achieveit.mapper.EmployeeProjectMapper;
+import com.achieveit.mapper.ProjectMapper;
 import com.achieveit.mapper.WorkflowMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,15 +16,19 @@ import static org.mockito.Mockito.*;
 
 class WorkflowServiceTest {
 
+    ProjectMapper projectMapper;
+    EmployeeProjectMapper employeeProjectMapper;
     WorkflowMapper workflowMapper;
     EmployeeMapper employeeMapper;
     WorkflowService workflowService;
 
     @BeforeEach
     void setup(){
+        employeeProjectMapper = mock(EmployeeProjectMapper.class);
+        projectMapper = mock(ProjectMapper.class);
         workflowMapper=mock(WorkflowMapper.class);
         employeeMapper = mock(EmployeeMapper.class);
-        workflowService = new WorkflowService(workflowMapper, employeeMapper);
+        workflowService = new WorkflowService(workflowMapper, employeeMapper,projectMapper,employeeProjectMapper);
     }
 
     @Test

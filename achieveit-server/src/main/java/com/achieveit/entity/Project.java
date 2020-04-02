@@ -90,19 +90,6 @@ public class Project {
         this.workflow_id = workflow_id;
     }
 
-    String pid;
-    String name;
-    Timestamp starttime;
-    Timestamp endtime;
-    String technique;
-    String domain;
-    @ApiModelProperty("使用json存储，使用两个Integer解析")
-    String function;
-    @ApiModelProperty("外键：客户的id")
-    Integer client_id;
-    @ApiModelProperty("外键：工作流的id；一一对应关系")
-    Integer workflow_id;
-
     public Client getClient() {
         return client;
     }
@@ -118,6 +105,19 @@ public class Project {
     public void setWorkflow(Workflow workflow) {
         this.workflow = workflow;
     }
+
+    String pid;
+    String name;
+    Timestamp starttime;
+    Timestamp endtime;
+    String technique;
+    String domain;
+    @ApiModelProperty("使用json存储，使用两个Integer解析")
+    String function;
+    @ApiModelProperty("外键：客户的id")
+    Integer client_id;
+    @ApiModelProperty("外键：工作流的id；一一对应关系")
+    Integer workflow_id;
 
     Client client;
     Workflow workflow;

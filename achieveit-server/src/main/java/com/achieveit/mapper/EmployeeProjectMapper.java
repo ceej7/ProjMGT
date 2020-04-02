@@ -1,10 +1,8 @@
 package com.achieveit.mapper;
 
 import com.achieveit.entity.EmployeeProject;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import com.achieveit.entity.EmployeeRoleProject;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,5 +28,21 @@ public interface EmployeeProjectMapper {
     })
     List<EmployeeProject> getByEidCascade(int eid);
 
+    @Options(useGeneratedKeys = true,keyProperty = "epid")
+    @Insert("insert into " +
+            "employee_project(superior_epid, defect_authority,project_id, employee_id) " +
+            "values(#{superior_epid}, #{defect_authority},#{project_id}, #{employee_id})")
+    int addEmployeeProject(EmployeeProject employeeProject);
 
+    @Insert("insert into " +
+            "employee_role_project(employee_project_id, role) " +
+            "values(#{employee_project_id}, #{role})")
+    int addEmployeeRoleProject(EmployeeRoleProject employeeRoleProject);
+
+    @Select("select epid,superior_epid,defect_authority,project_id,employee_id from employee_project ep " +
+            "INNER JOIN employee_role_project erp ON ep.epid=erp.employee_project_id where erp.role=#{role} and ep.project_id=#{project_id}")
+    List<EmployeeProject> getEmployeeProjectByRole(String project_id, String role);
+
+    @Select("select * from employee_project where project_id=#{project_id} and employee_id=#{employee_id}")
+    List<EmployeeProject> getEmployeeProject(String project_id, int employee_id);
 }

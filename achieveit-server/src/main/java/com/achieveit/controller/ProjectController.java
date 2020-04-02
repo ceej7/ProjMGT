@@ -1,5 +1,6 @@
 package com.achieveit.controller;
 
+import com.achieveit.config.DateUtil;
 import com.achieveit.config.JwtToken;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.service.FileService;
@@ -12,6 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.lang.reflect.Array;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @Api(tags = "项目接口", value="以项目为主体的请求")
@@ -107,6 +114,58 @@ public class ProjectController {
                 msg=projectService.getFilteredPagedProjectByEid(userId,page,length,name,status);
             }
         }
+        return msg;
+    }
+
+    @ResponseBody
+    @PostMapping("/project/new/{pm_eid}")
+    @ApiOperation(value = "项目经理执行新建项目，同时创建工作流。", notes = "{\n" +
+            "    \"name\": \"刚创建的项目\",\n" +
+            "    \"startdate\":\"2020-04-08T16:00:00.000Z\",\n" +
+            "    \"enddate\":\"2020-05-21T16:00:00.000Z\",\n" +
+            "    \"technique\": \"大猪头技术\",\n" +
+            "    \"domain\": \"大猪蹄领域\",\n" +
+            "    \"client\": 1,\n" +
+            "    \"configurer_eid\": 7,\n" +
+            "    \"epgleader_eid\": 5,\n" +
+            "    \"qamanager_eid\": 4\n" +
+            "}\n" +
+            "\n")
+    ResponseMsg newProject(@PathVariable int pm_eid,@RequestBody Map param){
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求异常");
+        if(!param.containsKey("name")
+                ||!param.containsKey("startdate")
+                ||!param.containsKey("enddate")
+                ||!param.containsKey("technique")
+                ||!param.containsKey("domain")
+                ||!param.containsKey("client")
+                ||!param.containsKey("configurer_eid")
+                ||!param.containsKey("epgleader_eid")
+                ||!param.containsKey("qamanager_eid")){
+            msg.setStatusAndMessage(208, "参数不足");
+            return msg;
+        }
+        String name = param.get("name").toString();
+        Timestamp startdate=null;
+        Timestamp enddate = null;
+        try{
+            String[] startString = param.get("startdate").toString().split("T");
+            String[] endString = param.get("enddate").toString().split("T");
+            startdate = DateUtil.String2Timestamp(startString[0]+" "+startString[1].split("\\.")[0], "yyyy-MM-dd HH:mm:ss");
+            enddate = DateUtil.String2Timestamp(endString[0]+" "+endString[1].split("\\.")[0], "yyyy-MM-dd HH:mm:ss");
+        }catch (Exception e){
+            logger.error(e.getMessage(),e);
+            msg.setStatusAndMessage(210, "时间参数解析错误");
+            return msg;
+        }
+        String technique = param.get("technique").toString();
+        String domain = param.get("domain").toString();
+        int client = Integer.valueOf(param.get("client").toString());
+        int configurer_eid = Integer.valueOf(param.get("configurer_eid").toString());
+        int epgleader_eid = Integer.valueOf(param.get("epgleader_eid").toString());
+        int qamanager_eid = Integer.valueOf(param.get("qamanager_eid").toString());
+        msg = projectService.newProject(name,startdate,enddate,technique,domain,client,configurer_eid,epgleader_eid,qamanager_eid, pm_eid);
         return msg;
     }
 }

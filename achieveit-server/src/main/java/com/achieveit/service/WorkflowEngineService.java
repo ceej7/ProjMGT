@@ -7,15 +7,20 @@ import java.util.Queue;
 
 public class WorkflowEngineService {
     BitSet bitSets;
-    boolean edge[][];
-    int v_num;
+    static boolean edge[][];// temporal static 为了少配置几次
+    static int v_num;
+    static boolean is_initiated = false;
 
-    WorkflowEngineService(int v_num){
-        this.v_num=v_num;
-        edge = new boolean[v_num][v_num];
-        bitSets=new BitSet(v_num);
+    WorkflowEngineService(){
+        bitSets=new BitSet(WorkflowEngineService.v_num);
+
     }
-    public void setDependency(int from, int to){
+    public static void setDependency(int from, int to, int v_num){
+        if(!is_initiated){
+            WorkflowEngineService.v_num=v_num;
+            WorkflowEngineService.edge = new boolean[v_num][v_num];
+            WorkflowEngineService.is_initiated = true;
+        }
         if(from<=to) return;
         if(from<0||from>=v_num) return;
         if(to<0||to>=v_num) return;

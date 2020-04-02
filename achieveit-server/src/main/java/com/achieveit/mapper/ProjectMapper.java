@@ -1,10 +1,7 @@
 package com.achieveit.mapper;
 
 import com.achieveit.entity.Project;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -48,4 +45,28 @@ public interface ProjectMapper {
     })
     List<Project> getBySupEidCascade(int eid);
 
+    @Select("SELECT * FROM project")
+    List<Project> getAllProjectIds();
+
+    @Insert("insert into project(pid,name,starttime,endtime,technique,domain,client_id) " +
+            "values(#{pid},#{name},#{starttime},#{endtime},#{technique},#{domain},#{client_id})")
+    int add(Project ground);
+
+    @Update("update project set workflow_id=#{workflow_id} where pid=#{pid}")
+    int updateWorkflow(String pid, int workflow_id);
+
+    @Select("select * from project where workflow_id=#{workflow_id}")
+    List<Project> getByWid(int workflow_id);
+
+    @Update("update project set " +
+            "name = #{name}," +
+            "starttime = #{starttime}," +
+            "endtime = #{endtime}," +
+            "technique = #{technique}," +
+            "domain = #{domain}," +
+            "function = #{function}," +
+            "client_id = #{client_id}," +
+            "workflow_id = #{workflow_id} " +
+            "where pid=#{pid}")
+    int updateProject(Project project);
 }
