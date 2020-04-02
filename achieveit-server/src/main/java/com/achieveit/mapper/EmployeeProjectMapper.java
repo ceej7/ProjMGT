@@ -59,4 +59,18 @@ public interface EmployeeProjectMapper {
             @Result(property = "roles", column = "epid", many = @Many(select = "com.achieveit.mapper.EmployeeProjectMapper.getEmployeeRoleProjectByEpid"))
     })
     List<EmployeeProject> getEmployeeProject(String project_id, int employee_id);
+
+    @Delete("delete from employee_project where epid=#{epid}")
+    int delete(int epid);
+
+    @Delete("delete from employee_role_project where employee_project_id=#{epid}")
+    int deleteEmployeeRoleProject(int epid);
+
+    @Select("select epid,superior_epid,defect_authority,project_id,employee_id from employee_project where project_id=#{pid}")
+    @Results({
+            @Result(property = "sup", column = "superior_epid", one = @One(select = "com.achieveit.mapper.EmployeeProjectMapper.getByEpid")),
+            @Result(property = "employee", column = "employee_id", one = @One(select = "com.achieveit.mapper.EmployeeMapper.getByEid")),
+            @Result(property = "roles", column = "epid", many = @Many(select = "com.achieveit.mapper.EmployeeProjectMapper.getEmployeeRoleProjectByEpid"))
+    })
+    List<EmployeeProject> getByPidCascade(String pid);
 }

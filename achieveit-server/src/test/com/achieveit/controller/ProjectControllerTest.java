@@ -2,7 +2,6 @@ package com.achieveit.controller;
 
 import com.achieveit.config.JwtToken;
 import com.achieveit.entity.ResponseMsg;
-import com.achieveit.entity.Workflow;
 import com.achieveit.service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,7 +48,7 @@ class ProjectControllerTest {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "请求正常");
         responseMsg.getResponseMap().put("Project",1);
-        when(projectService.getProjectToCheck(1)).thenReturn(responseMsg);
+        when(projectService.getProjectToManage(1)).thenReturn(responseMsg);
 
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         mockMvc.perform(MockMvcRequestBuilders.get("/project/toCheck")
@@ -58,7 +57,7 @@ class ProjectControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
                 .andExpect(jsonPath("$.responseMap.Project").isNotEmpty());
-        verify(projectService).getProjectToCheck(1);
+        verify(projectService).getProjectToManage(1);
     }
 
     @Test

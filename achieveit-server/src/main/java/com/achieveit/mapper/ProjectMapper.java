@@ -38,12 +38,45 @@ public interface ProjectMapper {
     })
     List<Project> getNamedStatusByEidCascade(int eid,String name, int l, int u);
 
-    @Select("SELECT pid,name,starttime,endtime,technique,domain,function,client_id,workflow_id FROM project p INNER JOIN workflow w ON p.workflow_id =w.wid WHERE sup_eid=#{eid}")
+    @Select("SELECT pid,name,starttime,endtime,technique,domain,function,client_id,workflow_id FROM project p " +
+            "INNER JOIN workflow w ON p.workflow_id =w.wid WHERE sup_eid=#{eid}")
     @Results({
             @Result(property = "client",column = "client_id", one=@One(select = "com.achieveit.mapper.ClientMapper.getByCid")),
             @Result(property = "workflow",column = "workflow_id", one=@One(select = "com.achieveit.mapper.WorkflowMapper.getByWidCascade"))
     })
     List<Project> getBySupEidCascade(int eid);
+
+    @Select("SELECT pid,name,starttime,endtime,technique,domain,function,client_id,workflow_id FROM project p " +
+            "INNER JOIN workflow w ON p.workflow_id =w.wid WHERE pm_eid=#{eid}")
+    @Results({
+            @Result(property = "client",column = "client_id", one=@One(select = "com.achieveit.mapper.ClientMapper.getByCid")),
+            @Result(property = "workflow",column = "workflow_id", one=@One(select = "com.achieveit.mapper.WorkflowMapper.getByWidCascade"))
+    })
+    List<Project> getByPmEidCascade(int eid);
+
+    @Select("SELECT pid,name,starttime,endtime,technique,domain,function,client_id,workflow_id FROM project p " +
+            "INNER JOIN workflow w ON p.workflow_id =w.wid WHERE qamanager_eid=#{eid}")
+    @Results({
+            @Result(property = "client",column = "client_id", one=@One(select = "com.achieveit.mapper.ClientMapper.getByCid")),
+            @Result(property = "workflow",column = "workflow_id", one=@One(select = "com.achieveit.mapper.WorkflowMapper.getByWidCascade"))
+    })
+    List<Project> getByQaManagerEidCascade(int eid);
+
+    @Select("SELECT pid,name,starttime,endtime,technique,domain,function,client_id,workflow_id FROM project p " +
+            "INNER JOIN workflow w ON p.workflow_id =w.wid WHERE epgleader_eid=#{eid}")
+    @Results({
+            @Result(property = "client",column = "client_id", one=@One(select = "com.achieveit.mapper.ClientMapper.getByCid")),
+            @Result(property = "workflow",column = "workflow_id", one=@One(select = "com.achieveit.mapper.WorkflowMapper.getByWidCascade"))
+    })
+    List<Project> getByEpgLeaderEidCascade(int eid);
+
+    @Select("SELECT pid,name,starttime,endtime,technique,domain,function,client_id,workflow_id FROM project p " +
+            "INNER JOIN workflow w ON p.workflow_id =w.wid WHERE configurer_eid=#{eid}")
+    @Results({
+            @Result(property = "client",column = "client_id", one=@One(select = "com.achieveit.mapper.ClientMapper.getByCid")),
+            @Result(property = "workflow",column = "workflow_id", one=@One(select = "com.achieveit.mapper.WorkflowMapper.getByWidCascade"))
+    })
+    List<Project> getByConfigurerEidCascade(int eid);
 
     @Select("SELECT * FROM project")
     List<Project> getAllProjectIds();

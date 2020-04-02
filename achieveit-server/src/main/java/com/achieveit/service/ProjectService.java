@@ -32,22 +32,46 @@ public class ProjectService {
         msg.setStatusAndMessage(404, "请求异常");
         try{
             Project pws = projectMapper.getByPidCascade(pid);
+            List<EmployeeProject> employeeProjects=employeeProjectMapper.getByPidCascade(pid);
             msg.setStatusAndMessage(200, "请求正常");
             msg.getResponseMap().put("Project",pws);
+            msg.getResponseMap().put("EmployeeProjects",employeeProjects);
         }catch(Exception e){
             logger.error(e.getMessage(), e);
         }
         return msg;
     }
 
-    public ResponseMsg getProjectToCheck(int eid){
+    public ResponseMsg getProjectToManage(int eid){
 
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求异常");
         try{
-            List<Project> pws = projectMapper.getBySupEidCascade(eid);
-            msg.setStatusAndMessage(200, "请求正常");
-            msg.getResponseMap().put("Project",pws);
+            Employee employee = employeeMapper.getByEid(eid);
+            String title = employee.getTitle();
+            if(title.equals("pm_manager")){
+                List<Project> pws = projectMapper.getBySupEidCascade(eid);
+                msg.setStatusAndMessage(200, "请求正常");
+                msg.getResponseMap().put("Project",pws);
+            }else if(title.equals("pm")){
+                List<Project> pws = projectMapper.getByPmEidCascade(eid);
+                msg.setStatusAndMessage(200, "请求正常");
+                msg.getResponseMap().put("Project",pws);
+            }else if(title.equals("qa_manager")){
+                List<Project> pws = projectMapper.getByQaManagerEidCascade(eid);
+                msg.setStatusAndMessage(200, "请求正常");
+                msg.getResponseMap().put("Project",pws);
+            }else if(title.equals("epg_leader")){
+                List<Project> pws = projectMapper.getByEpgLeaderEidCascade(eid);
+                msg.setStatusAndMessage(200, "请求正常");
+                msg.getResponseMap().put("Project",pws);
+            }else if(title.equals("configurer")){
+                List<Project> pws = projectMapper.getByConfigurerEidCascade(eid);
+                msg.setStatusAndMessage(200, "请求正常");
+                msg.getResponseMap().put("Project",pws);
+            }else{
+                msg.setStatusAndMessage(208, "你不是项目管理级别人员");
+            }
         }catch(Exception e){
             logger.error(e.getMessage(), e);
         }
@@ -194,6 +218,81 @@ public class ProjectService {
             msg.getResponseMap().put("project",projectMapper.getByPidCascade(pid));
             msg.setStatusAndMessage(200,"正常新增");
         }catch (Exception e){
+            logger.error(e.getMessage(), e);
+        }
+        return msg;
+    }
+
+    public ResponseMsg removeEmployeeProject(int epid) {//'pm','rd_leader','qa_leader','rd','qa','epg'
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求异常");
+        try{
+            EmployeeProject employeeProject = employeeProjectMapper.getByEpid(epid);
+            if(employeeProject.getRoles()!=null){//检查这个人的角色是不是pm/rd_leader/qa_leader
+                for (int i = 0; i < employeeProject.getRoles().size(); i++) {
+                    String role = employeeProject.getRoles().get(i).getRole();
+                    if(role.equals("pm")||role.equals("rd_leader")||role.equals("qa_leader")){
+                        msg.setStatusAndMessage(208, "不能删除pm/rd_leader/qa_leader");
+                        return msg;
+                    }
+                }
+            }
+            int i = employeeProjectMapper.delete(epid);
+            if(i>0){
+                msg.setStatusAndMessage(200, "正常删除");
+            }
+            else{
+                msg.setStatusAndMessage(210, "不存在这个成员");
+            }
+        }catch(Exception e){
+            logger.error(e.getMessage(), e);
+        }
+        return msg;
+    }
+
+    public ResponseMsg updateEmployeeProjectAndRole(ArrayList<String> roles, int eid, String pid) {
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求异常");
+        try{
+            List<EmployeeProject> employeeProjects= employeeProjectMapper.getEmployeeProject(pid, eid);
+            EmployeeProject qaEp= employeeProjectMapper.getEmployeeProjectByRole(pid, "qa_leader").get(0);
+            EmployeeProject pmEp= employeeProjectMapper.getEmployeeProjectByRole(pid, "pm").get(0);
+            EmployeeProject rdEp= employeeProjectMapper.getEmployeeProjectByRole(pid, "rd_leader").get(0);
+            int sup_epid=-1;
+            if(roles.contains("epg")){
+                sup_epid=pmEp.getEpid();
+            }else if(roles.contains("rd")){
+                sup_epid=rdEp.getEpid();
+            }else if(roles.contains("qa")){
+                sup_epid=qaEp.getEpid();
+            }
+            if(sup_epid==-1){
+                msg.setStatusAndMessage(210, "无法配置上级");
+                return msg;
+            }
+            if(employeeProjects==null||employeeProjects.size()==0){//需要新增这个member
+                //先新增ep
+                byte authority[]={0};
+                EmployeeProject employeeProject=new EmployeeProject(0, authority, sup_epid,pid,eid);
+                employeeProjectMapper.addEmployeeProject(employeeProject);
+                //再插入role
+                for (int i = 0; i < roles.size(); i++) {
+                    EmployeeRoleProject employeeRoleProject = new EmployeeRoleProject(roles.get(i), employeeProject.getEpid());
+                    employeeProjectMapper.addEmployeeRoleProject(employeeRoleProject);
+                }
+            }else{
+                EmployeeProject employeeProject=employeeProjects.get(0);
+                int epid=employeeProject.getEpid();
+                //先删除所有的role
+                employeeProjectMapper.deleteEmployeeRoleProject(epid);
+                //然后新增role
+                for (int i = 0; i < roles.size(); i++) {
+                    EmployeeRoleProject employeeRoleProject = new EmployeeRoleProject(roles.get(i), epid);
+                    employeeProjectMapper.addEmployeeRoleProject(employeeRoleProject);
+                }
+            }
+            msg.setStatusAndMessage(200, "正常设定了角色");
+        }catch(Exception e){
             logger.error(e.getMessage(), e);
         }
         return msg;

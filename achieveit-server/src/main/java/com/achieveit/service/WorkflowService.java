@@ -136,7 +136,7 @@ public class WorkflowService {
                 return responseMsg;
             }
             responseMsg.getResponseMap().put("workflow",workflowMapper.getByWidCascade(wid));
-            responseMsg.setStatusAndMessage(200,"正常设定了workflow的状态");
+            responseMsg.setStatusAndMessage(200,"正常设定了workflow的状态");//TODO:发邮件通知管理级人员前往配置
             workflowMapper.addTimeline(wid,"approved",sup_eid);
         }catch (Exception e){
             logger.error(e.getMessage(), e);
