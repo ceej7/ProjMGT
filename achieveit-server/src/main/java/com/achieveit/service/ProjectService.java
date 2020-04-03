@@ -1,5 +1,6 @@
 package com.achieveit.service;
 
+import com.achieveit.config.DateUtil;
 import com.achieveit.entity.*;
 import com.achieveit.mapper.EmployeeMapper;
 import com.achieveit.mapper.EmployeeProjectMapper;
@@ -292,6 +293,42 @@ public class ProjectService {
                 }
             }
             msg.setStatusAndMessage(200, "正常设定了角色");
+        }catch(Exception e){
+            logger.error(e.getMessage(), e);
+        }
+        return msg;
+    }
+
+    public ResponseMsg updateProjectInfo(String pid, Map param) {
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求异常");
+        try{
+            Project project = projectMapper.getByPid(pid);
+            //name，starttime，endtime，technique，domain，function
+            if(param.containsKey("name")){
+                project.setName(param.get("name").toString());
+            }
+            if(param.containsKey("starttime")){
+                String[] startString= param.get("starttime").toString().split("T");
+                Timestamp startdate = DateUtil.String2Timestamp(startString[0]+" "+startString[1].split("\\.")[0], "yyyy-MM-dd HH:mm:ss");
+                project.setStarttime(startdate);
+            }
+            if(param.containsKey("endtime")){
+                String[] endString= param.get("endtime").toString().split("T");
+                Timestamp enddate = DateUtil.String2Timestamp(endString[0]+" "+endString[1].split("\\.")[0], "yyyy-MM-dd HH:mm:ss");
+                project.setEndtime(enddate);
+            }
+            if(param.containsKey("technique")){
+                project.setTechnique(param.get("technique").toString());
+            }
+            if(param.containsKey("domain")){
+                project.setDomain(param.get("domain").toString());
+            }
+            if(param.containsKey("function")){
+                project.setFunction(param.get("function").toString());
+            }
+            projectMapper.updateProject(project);
+            msg.setStatusAndMessage(200, "正常更新");
         }catch(Exception e){
             logger.error(e.getMessage(), e);
         }

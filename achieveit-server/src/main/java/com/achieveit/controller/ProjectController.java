@@ -197,4 +197,22 @@ public class ProjectController {
             responseMsg = projectService.updateEmployeeProjectAndRole((ArrayList<String>)param.get("roles"), eid, pid);
         return responseMsg;
     }
+
+    @ResponseBody
+    @PutMapping("/project/{pid}")
+    @ApiOperation(value="更新项目信息，只能更新name，starttime，endtime，technique，domain，function，以json键值对形式提供，可以同时提供",notes = "时间的输入格式2020-04-08T16:00:00.000Z\n" +
+            "{\n" +
+            "\"name\":\"狗子\",\n" +
+            "\"starttime\":\"2020-04-08T16:00:00.000Z\",\n" +
+            "\"endtime\":\"2020-04-09T16:00:00.000Z\",\n" +
+            "\"technique\":\"没技术\",\n" +
+            "\"domain\":\"也没有\",\n" +
+            "\"function\":\"{\\\"000000\\\":\\\"0-0\\\"}\"\n" +
+            "}")
+    ResponseMsg updateProject(@RequestBody Map param, @PathVariable String pid){
+        ResponseMsg responseMsg = new ResponseMsg();
+        responseMsg.setStatusAndMessage(404,"查询发生异常");
+        responseMsg = projectService.updateProjectInfo(pid, param);
+        return responseMsg;
+    }
 }

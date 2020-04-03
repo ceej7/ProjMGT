@@ -1,10 +1,7 @@
 package com.achieveit.mapper;
 
 import com.achieveit.entity.Defect;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -34,4 +31,30 @@ public interface DefectMapper {
             @Result(property = "employeeProject", column = "employee_project_id", one = @One(select = "com.achieveit.mapper.EmployeeProjectMapper.getByEpid"))
     })
     List<Defect> getDescedByEidCascade(int eid, String desc);
+
+
+    @Select("select * from defect where project_id=#{pid}")
+    @Results({
+            @Result(property = "employeeProject", column = "employee_project_id", one = @One(select = "com.achieveit.mapper.EmployeeProjectMapper.getByEpidCascade"))
+    })
+    List<Defect> getByPidCascade(String pid);
+
+    @Delete("delete from defect where did=#{did}")
+    int deleteByDid(int did);
+
+    @Options(useGeneratedKeys = true,keyProperty = "did")
+    @Insert("insert into defect(authority,defect.desc,git_repo,commit,status,project_id,employee_project_id) " +
+            "values(#{authority},#{desc},#{git_repo},#{commit},#{status},#{project_id},#{employee_project_id})")
+    int add(Defect defect);
+
+    @Update("update defect set " +
+            "authority=#{authority}, "+
+            "defect.desc=#{desc}, "+
+            "git_repo=#{git_repo}, "+
+            "commit=#{commit}, "+
+            "status=#{status}, "+
+            "project_id=#{project_id}, "+
+            "employee_project_id=#{employee_project_id} "+
+            "where did=#{did} ")
+    int update(Defect defect);
 }

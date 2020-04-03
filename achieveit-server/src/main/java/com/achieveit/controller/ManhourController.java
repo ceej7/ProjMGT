@@ -33,6 +33,16 @@ public class ManhourController {
     }
 
     @ResponseBody
+    @GetMapping("/manhour/activity")
+    @ApiOperation("获取所有活动列别")
+    public ResponseMsg getMyManhour(){
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求异常");
+        msg = manhourService.getActivity();
+        return msg;
+    }
+
+    @ResponseBody
     @GetMapping("/manhour/myManhour")
     @ApiOperation("获取自己发起的Manhour的具体列表，需要提供[Authorization, Bearer [token]] 键值对验证用户的token\n" +
             "需要提供[page:数字]和[length:数字]来表示分页位置和每页长度(Page从0开始计数)\n" +
