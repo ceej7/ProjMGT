@@ -48,6 +48,7 @@ public class ManhourServiceTest {
         manhourService = new ManhourService(manhourMapper);
     }
 
+    //////////////getPagedManhourByEid()//////////////
     @Test
     public void happy_path_with_get_paged_manhour_by_eid() throws Exception {
         Manhour manhour = new Manhour(1, null, null, null, null, null, null, null);
@@ -66,6 +67,17 @@ public class ManhourServiceTest {
     }
 
     @Test
+    public void exception_when_get_paged_manhour_by_eid() throws Exception {
+        when(manhourMapper.getByEidCascade(1)).thenThrow(new RuntimeException());
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = manhourService.getPagedManhourByEid(1, 0, 1);
+        assertEquals(404, msg.getStatus());
+        verify(manhourMapper).getByEidCascade(1);
+    }
+
+    //////////////getFilteredPagedManhourByEid()//////////////
+    @Test
     public void happy_path_with_get_filtered_paged_manhour_by_eid() throws Exception {
         Manhour manhour = new Manhour(1, null, null, null, null, null, null, null);
         List<Manhour> manhours = new ArrayList<>();
@@ -80,6 +92,17 @@ public class ManhourServiceTest {
         assertNotNull(msg.getResponseMap());
         assertNotNull(msg.getResponseMap().get("Manhour"));
         assertNotNull(msg.getResponseMap().get("page_length"));
+        verify(manhourMapper).getDatedByEidCascade(1,date);
+    }
+
+    @Test
+    public void exception_when_get_filtered_paged_manhour_by_eid() throws Exception {
+        Date date=new Date(2020-3-29);
+        when(manhourMapper.getDatedByEidCascade(1,date)).thenThrow(new RuntimeException());
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = manhourService.getFilteredPagedManhourByEid(1, 0, 1,date);
+        assertEquals(404, msg.getStatus());
         verify(manhourMapper).getDatedByEidCascade(1,date);
     }
 
