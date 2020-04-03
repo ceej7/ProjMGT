@@ -38,7 +38,7 @@ public class ManhourController {
     @ResponseBody
     @GetMapping("/manhour/activity")
     @ApiOperation("获取所有活动列别")
-    public ResponseMsg getMyManhour(){
+    public ResponseMsg getActivity(){
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求异常");
         msg = manhourService.getActivity();
@@ -162,16 +162,4 @@ public class ManhourController {
         return msg;
     }
 
-
-
-
-
-
-
-//    ResponseMsg msg=new ResponseMsg();
-//        msg.setStatusAndMessage(404, "异常请求");
-//        if(eid<0||pid.length()!=11){
-//              msg.setStatusAndMessage(208, "参数错误");
-//    }
-//    return msg;
 }
