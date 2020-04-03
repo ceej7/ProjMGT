@@ -57,7 +57,7 @@ class DefectControllerTest {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得Defect");
         responseMsg.getResponseMap().put("defect",1);
-        when(defectService.getFilteredPagedDefectByEid(1,0,10,"desc")).thenReturn(responseMsg);
+        when(defectService.getFilteredPagedDefectByEid(1,0,10,"desc",null)).thenReturn(responseMsg);
         mockMvc.perform(MockMvcRequestBuilders.get("/defect/myDefect")
                 .header("accept", "*/*")
                 .header("Authorization",authHeader)
@@ -67,6 +67,6 @@ class DefectControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
                 .andExpect(jsonPath("$.responseMap.defect").isNotEmpty());
-        verify(defectService).getFilteredPagedDefectByEid(1,0,10,"desc");
+        verify(defectService).getFilteredPagedDefectByEid(1,0,10,"desc",null);
     }
 }

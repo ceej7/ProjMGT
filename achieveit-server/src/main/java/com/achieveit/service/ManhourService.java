@@ -61,4 +61,16 @@ public class ManhourService {
         }
         return msg;
     }
+
+    public ResponseMsg getActivity() {
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求异常");
+        try{
+            msg.getResponseMap().put("activities", manhourMapper.getActivity());
+            msg.setStatusAndMessage(200, "正常取出");
+        }catch(Exception e){
+            logger.error(e.getMessage(), e);
+        }
+        return msg;
+    }
 }

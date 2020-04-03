@@ -40,12 +40,15 @@ public class DefectServiceTest {
     private static DefectService defectService;
     @Mock
     private DefectMapper defectMapper;
+    @Mock
+    private EmployeeProjectMapper employeeProjectMapper;
 
 
     @BeforeEach
     public void init() {
         defectMapper = mock(DefectMapper.class);
-        defectService = new DefectService(defectMapper);
+        employeeProjectMapper = mock(EmployeeProjectMapper.class);
+        defectService = new DefectService(defectMapper,employeeProjectMapper);
     }
 
     //////////////getPagedDefectByEid()//////////////
@@ -88,7 +91,7 @@ public class DefectServiceTest {
         when(defectMapper.getDescedByEidCascade(1,"filter")).thenReturn(defects);
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = defectService.getFilteredPagedDefectByEid(1, 0, 1,"filter");
+        msg = defectService.getFilteredPagedDefectByEid(1, 0, 1,"filter",null);
         assertEquals(200, msg.getStatus());
         assertNotNull(msg.getResponseMap());
         assertNotNull(msg.getResponseMap().get("Defect"));

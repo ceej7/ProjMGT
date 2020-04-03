@@ -1,5 +1,6 @@
 package com.achieveit.mapper;
 
+import com.achieveit.entity.Activity;
 import com.achieveit.entity.Manhour;
 import com.achieveit.entity.Project;
 import org.apache.ibatis.annotations.One;
@@ -37,4 +38,7 @@ public interface ManhourMapper {
             @Result(property = "activity", column = "activity_id", one = @One(select = "com.achieveit.mapper.ActivityMapper.getByAid")),
     })
     List<Manhour> getDatedByEidCascade(int eid, Date date);
+
+    @Select("select * from activity")
+    List<Activity> getActivity();
 }

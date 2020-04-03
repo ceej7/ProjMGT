@@ -1,8 +1,12 @@
 package com.achieveit.service;
 
+import com.achieveit.entity.EmployeeProject;
 import com.achieveit.entity.Project;
 import com.achieveit.entity.ResponseMsg;
+import com.achieveit.mapper.EmployeeMapper;
+import com.achieveit.mapper.EmployeeProjectMapper;
 import com.achieveit.mapper.ProjectMapper;
+import com.achieveit.mapper.WorkflowMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,12 +19,19 @@ import static org.mockito.Mockito.*;
 
 class                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ProjectServiceTest {
     ProjectMapper projectMapper;
+    WorkflowMapper workflowMapper;
+    EmployeeMapper employeeMapper;
+    EmployeeProjectMapper employeeProjectMapper;
     ProjectService projectService;
+
 
     @BeforeEach
     void setup(){
         projectMapper = mock(ProjectMapper.class);
-        projectService = new ProjectService(projectMapper);
+        workflowMapper = mock(WorkflowMapper.class);
+        employeeMapper = mock(EmployeeMapper.class);
+        employeeProjectMapper = mock(EmployeeProjectMapper.class);
+        projectService = new ProjectService(projectMapper, workflowMapper, employeeMapper,employeeProjectMapper);
     }
 
     @Test

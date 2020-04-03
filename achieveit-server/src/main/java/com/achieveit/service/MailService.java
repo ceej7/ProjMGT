@@ -15,6 +15,7 @@ import java.util.Map;
 
 @Service
 public class MailService {
+    //TODO:邮件队列
     Logger logger = LoggerFactory.getLogger(getClass());
 
     public MailService(JavaMailSender mailSender) {
