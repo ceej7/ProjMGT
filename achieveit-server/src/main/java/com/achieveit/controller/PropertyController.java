@@ -108,7 +108,7 @@ public class PropertyController {
     }
 
     @ResponseBody
-    @PutMapping("/property/occupy/{poid}}")
+    @PutMapping("/property/occupy/{poid}")
     @ApiOperation(value = "更新租借的到期时间expire_time和is_intact",notes = "{\n" +
             "    \"expire_time\":\"2020-04-08T16:00:00.000Z\",\n" +
             "    \"is_intact\":true\n" +

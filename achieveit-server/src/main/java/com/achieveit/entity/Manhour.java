@@ -2,6 +2,7 @@ package com.achieveit.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import net.sf.json.JSONObject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -82,19 +83,13 @@ public class Manhour {
     public void setActivity_id(Integer activity_id) {
         this.activity_id = activity_id;
     }
+    public String getFunction_desc() {
+        return function_desc;
+    }
 
-    Integer mid;
-    @ApiModelProperty("从Project的function字段的json中解析出的项目功能需求id")
-    Integer fid;
-    Date date;
-    Timestamp starttime;
-    Timestamp endtime;
-    @ApiModelProperty("仅支持'unfilled','unchecked','checked','expired'")
-    String status;
-    @ApiModelProperty("外键：项目成员id")
-    Integer employee_project_id;
-    @ApiModelProperty("外键：工时活动id")
-    Integer activity_id;
+    public void setFunction_desc(String function_desc) {
+        this.function_desc = function_desc;
+    }
 
     public EmployeeProject getEmployeeProject() {
         return employeeProject;
@@ -112,6 +107,38 @@ public class Manhour {
         this.activity = activity;
     }
 
+    public void setFunction_desc_by_FunctionObject(int fid, JSONObject functionObject) {
+        if(functionObject==null){
+            function_desc="unresolved function";
+        }
+        int fid1=fid/1000;
+        int fid2=fid-fid*1000;
+        String fid_str=String.format("%03d%03d", fid1,fid2);
+        if(functionObject.containsKey(fid_str)){
+            function_desc=functionObject.get(fid_str).toString();
+            return;
+        }
+        else{
+            function_desc="unresolved function";
+        }
+
+    }
+
+    Integer mid;
+    @ApiModelProperty("从Project的function字段的json中解析出的项目功能需求id")
+    Integer fid;
+    Date date;
+    Timestamp starttime;
+    Timestamp endtime;
+    @ApiModelProperty("仅支持'unfilled','unchecked','checked'")
+    String status;
+    @ApiModelProperty("外键：项目成员id")
+    Integer employee_project_id;
+    @ApiModelProperty("外键：工时活动id")
+    Integer activity_id;
+
     EmployeeProject employeeProject;
     Activity activity;
+
+    String function_desc;
 }

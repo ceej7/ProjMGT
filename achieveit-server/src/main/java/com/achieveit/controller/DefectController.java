@@ -89,7 +89,7 @@ public class DefectController {
     }
 
     @ResponseBody
-    @PostMapping("/defect/{pid}}")
+    @PostMapping("/defect/{pid}")
     @ApiOperation(value = "新增一个defect，需要提供[Authorization, Bearer [token]] 键值对验证用户的token\n",
             notes="{\n" +
                     "    \"authority_desc\":\"noneAuthority/rdLeaderAuthority/qaLeaderAuthority/pmAuthority\",\n" +
@@ -124,7 +124,7 @@ public class DefectController {
     }
 
     @ResponseBody
-    @PutMapping("/defect/{did}}")
+    @PutMapping("/defect/{did}")
     @ApiOperation(value = "更新一个defect，需要提供[Authorization, Bearer [token]] 键值对验证用户的token\n",
             notes="{\n" +
                     "    \"authority_desc\":\"noneAuthority/rdLeaderAuthority/qaLeaderAuthority/pmAuthority\",\n" +
@@ -159,7 +159,7 @@ public class DefectController {
     }
 
     @ResponseBody
-    @DeleteMapping("/defect/{did}}")
+    @DeleteMapping("/defect/{did}")
     @ApiOperation(value = "删除某个defect，需要提供[Authorization, Bearer [token]] 键值对验证用户的token\n",notes=
             "成员的authority：[noneAuthority/rdLeaderAuthority/qaLeaderAuthority/pmAuthority]\n" +
             "拥有[noneAuthority]的成员只能管理自己发起的缺陷\n" +
