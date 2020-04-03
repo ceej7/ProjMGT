@@ -3,7 +3,10 @@ package com.achieveit.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Calendar;
+
 @ApiModel("PropertyOccupy Entity: 资产租借")
 public class PropertyOccupy {
     public PropertyOccupy(Integer poid, Timestamp expire_time, boolean is_intact, Integer property_id, String project_id, Integer employee_id) {
@@ -13,6 +16,7 @@ public class PropertyOccupy {
         this.property_id = property_id;
         this.project_id = project_id;
         this.employee_id = employee_id;
+        checkExpired();
     }
 
     public Integer getPoid() {
@@ -29,6 +33,7 @@ public class PropertyOccupy {
 
     public void setExpire_time(Timestamp expire_time) {
         this.expire_time = expire_time;
+        checkExpired();
     }
 
     public boolean isIs_intact() {
@@ -86,6 +91,16 @@ public class PropertyOccupy {
         this.project = project;
     }
 
+
+    void checkExpired(){
+        if(Calendar.getInstance().getTimeInMillis()>expire_time.getTime()){
+            isExpired=true;
+        }
+        else{
+            isExpired=false;
+        }
+    }
+
     Integer poid;
     Timestamp expire_time;
     boolean is_intact;
@@ -96,6 +111,15 @@ public class PropertyOccupy {
     @ApiModelProperty("外键：员工的id")
     Integer employee_id;
 
+    public boolean isExpired() {
+        return isExpired;
+    }
+
+    public void setExpired(boolean expired) {
+        isExpired = expired;
+    }
+
+    boolean isExpired;
     Property property;
     Employee employee;
     Project project;

@@ -57,6 +57,7 @@ public class MilestoneService {
         try{
             Milestone milestone=new Milestone(0, time, desc, pid);
             if(milestoneMapper.add(milestone)){
+                responseMsg.getResponseMap().put("milestone", milestone);
                 responseMsg.setStatusAndMessage(200, "添加成功");
             }else{
 

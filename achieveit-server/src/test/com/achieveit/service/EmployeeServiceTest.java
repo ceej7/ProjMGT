@@ -1,23 +1,12 @@
 package com.achieveit.service;
 
-import com.achieveit.config.JwtToken;
 import com.achieveit.entity.*;
 import com.achieveit.mapper.*;
-import com.achieveit.service.EmployeeService;
-import com.achieveit.service.FileService;
-import com.achieveit.service.MailService;
-import com.achieveit.service.WorkflowService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.lang.Assert;
-import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.Mock;
-import static java.time.Duration.ofMillis;
-import static java.time.Duration.ofMinutes;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -26,12 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.concurrent.CountDownLatch;
 
-import org.junit.jupiter.api.Test;
-
-
-import java.io.File;
 import java.util.*;
 
 import static org.mockito.Mockito.*;
@@ -148,7 +132,7 @@ public class EmployeeServiceTest {
         risks.add(risk);
 
         when(employeeMapper.getByEidCascade(1)).thenReturn(employee);
-        when(propertyMapper.getByEid(1)).thenReturn(propertyOccupys);
+        when(propertyMapper.getPropertyOccupyByEid(1)).thenReturn(propertyOccupys);
         when(employeeProjectMapper.getByEidCascade(1)).thenReturn(employeeProjects);
         when(manhourMapper.getByEidCascade(1)).thenReturn(manhours);
         when(defectMapper.getByEidCascade(1)).thenReturn(defects);
@@ -167,7 +151,7 @@ public class EmployeeServiceTest {
         assertNotNull(msg.getResponseMap().get("risks"));
 
         verify(employeeMapper).getByEidCascade(1);
-        verify(propertyMapper).getByEid(1);
+        verify(propertyMapper).getPropertyOccupyByEid(1);
         verify(employeeProjectMapper).getByEidCascade(1);
         verify(manhourMapper).getByEidCascade(1);
         verify(defectMapper).getByEidCascade(1);

@@ -292,6 +292,8 @@ public class ProjectService {
                     employeeProjectMapper.addEmployeeRoleProject(employeeRoleProject);
                 }
             }
+            employeeProjects= employeeProjectMapper.getEmployeeProject(pid, eid);
+            msg.getResponseMap().put("employeeProject",employeeProjects.get(0));
             msg.setStatusAndMessage(200, "正常设定了角色");
         }catch(Exception e){
             logger.error(e.getMessage(), e);

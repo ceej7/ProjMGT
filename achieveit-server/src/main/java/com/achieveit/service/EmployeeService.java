@@ -2,17 +2,13 @@ package com.achieveit.service;
 
 import com.achieveit.config.JwtToken;
 import com.achieveit.entity.Employee;
-import com.achieveit.entity.EmployeeProject;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.mapper.*;
-import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.naming.AuthenticationException;
 import java.util.List;
 
 @Service
@@ -133,7 +129,7 @@ public class EmployeeService {
             else{
                 msg.setStatusAndMessage(200, "获得用户Dashboard"+eid);
                 msg.getResponseMap().put("employee", e);
-                msg.getResponseMap().put("properties", propertyMapper.getByEid(eid));
+                msg.getResponseMap().put("properties", propertyMapper.getPropertyOccupyByEid(eid));
                 msg.getResponseMap().put("projects", employeeProjectMapper.getByEidCascade(eid));
                 msg.getResponseMap().put("manhours", manhourMapper.getByEidCascade(eid));
                 msg.getResponseMap().put("defects", defectMapper.getByEidCascade(eid));

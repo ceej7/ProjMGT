@@ -162,6 +162,7 @@ public class DefectService {
             Defect defect=new Defect(0, authority, desc, git_repo, commit, "bug", pid, epid);
             int ret=defectMapper.add(defect);
             if(ret>0){
+                msg.getResponseMap().put("defect", defect);
                 msg.setStatusAndMessage(200, "成功新建");
             }
 
