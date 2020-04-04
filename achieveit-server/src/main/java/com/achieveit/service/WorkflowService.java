@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class WorkflowService {
@@ -104,7 +105,7 @@ public class WorkflowService {
                 responseMsg.setStatusAndMessage(200,"查询成功，附带组织级成员的具体信息");
             }
             else{
-                responseMsg.setStatusAndMessage(204,"查询无此Workflow");
+                responseMsg.setStatusAndMessage(210,"查询无此Workflow");
             }
         }catch (Exception e){
             logger.error(e.getMessage(), e);
@@ -121,7 +122,7 @@ public class WorkflowService {
                 responseMsg.setStatusAndMessage(200,"查询成功，具体的操作时间信息");
             }
             else{
-                responseMsg.setStatusAndMessage(204,"查询无此Workflow");
+                responseMsg.setStatusAndMessage(210,"查询无此Workflow");
             }
         }catch (Exception e){
             logger.error(e.getMessage(), e);
@@ -310,7 +311,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
-    public ResponseMsg pm_function(int pm_eid, int wid,String function) {
+    public ResponseMsg pm_function(int pm_eid, int wid, Map function) {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
         try{

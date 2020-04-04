@@ -61,7 +61,7 @@ public class MilestoneController {
             "    \"desc\":\"哈哈\"\n" +
             "}")
     @PostMapping("/milestone/add/{pid}")
-    ResponseMsg getByMid(@RequestBody Map param,@PathVariable String pid){
+    ResponseMsg addMilestone(@RequestBody Map param,@PathVariable String pid){
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
         if(!param.containsKey("time")||!param.containsKey("desc")||pid.length()!=11){
@@ -116,14 +116,4 @@ public class MilestoneController {
         responseMsg = milestoneService.update(mid, param);
         return responseMsg;
     }
-
-//    @ResponseBody
-//    @ApiOperation("获取Client的列表")
-//    @GetMapping("/client/getAll")
-//    ResponseMsg getAll(){
-//        ResponseMsg responseMsg = new ResponseMsg();
-//        responseMsg.setStatusAndMessage(404,"查询发生异常");
-//
-//        return responseMsg;
-//    }
 }

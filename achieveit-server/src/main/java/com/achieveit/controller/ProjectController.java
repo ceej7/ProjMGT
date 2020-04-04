@@ -42,7 +42,7 @@ public class ProjectController {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
         if(pid==null||pid.length()!=11){//四位年份+四位客户代码+1位研发类型(D/M/S/O)+2位顺序号
-            responseMsg.setStatusAndMessage(202, "参数无效");
+            responseMsg.setStatusAndMessage(208, "参数无效");
         }
         else
             responseMsg = projectService.getById(pid);
@@ -120,11 +120,11 @@ public class ProjectController {
     @ResponseBody
     @PostMapping("/project/new/{pm_eid}")
     @ApiOperation(value = "项目经理执行新建项目，同时创建工作流。", notes = "{\n" +
-            "    \"name\": \"刚创建的项目\",\n" +
+            "    \"name\": \"new project\",\n" +
             "    \"startdate\":\"2020-04-08T16:00:00.000Z\",\n" +
             "    \"enddate\":\"2020-05-21T16:00:00.000Z\",\n" +
-            "    \"technique\": \"大猪头技术\",\n" +
-            "    \"domain\": \"大猪蹄领域\",\n" +
+            "    \"technique\": \"tech\",\n" +
+            "    \"domain\": \"domain\",\n" +
             "    \"client\": 1,\n" +
             "    \"configurer_eid\": 7,\n" +
             "    \"epgleader_eid\": 5,\n" +
@@ -174,7 +174,7 @@ public class ProjectController {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
         if(epid<0){
-            responseMsg.setStatusAndMessage(202, "参数无效");
+            responseMsg.setStatusAndMessage(208, "参数无效");
         }
         else
             responseMsg = projectService.removeEmployeeProject(epid);
@@ -188,9 +188,9 @@ public class ProjectController {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
         if(eid<0||pid.length()!=11){
-            responseMsg.setStatusAndMessage(202, "参数无效");
+            responseMsg.setStatusAndMessage(208, "参数无效");
         }else if(!param.containsKey("roles")||((ArrayList<String>)param.get("roles")).size()==0){
-            responseMsg.setStatusAndMessage(208, "没有给足够的roles");
+            responseMsg.setStatusAndMessage(210, "没有给足够的roles");
         }
         else
             responseMsg = projectService.updateEmployeeProjectAndRole((ArrayList<String>)param.get("roles"), eid, pid);
@@ -201,12 +201,12 @@ public class ProjectController {
     @PutMapping("/project/{pid}")
     @ApiOperation(value="更新项目信息，只能更新name，starttime，endtime，technique，domain，function，以json键值对形式提供，可以同时提供",notes = "时间的输入格式2020-04-08T16:00:00.000Z\n" +
             "{\n" +
-            "\"name\":\"狗子\",\n" +
+            "\"name\":\"doge\",\n" +
             "\"starttime\":\"2020-04-08T16:00:00.000Z\",\n" +
             "\"endtime\":\"2020-04-09T16:00:00.000Z\",\n" +
-            "\"technique\":\"没技术\",\n" +
-            "\"domain\":\"也没有\",\n" +
-            "\"function\":\"{\\\"000000\\\":\\\"0-0\\\"}\"\n" +
+            "\"technique\":\"no tech\",\n" +
+            "\"domain\":\"not again\",\n" +
+            "\"function\":{\"000000\":\"0-1\"}\n" +
             "}")
     ResponseMsg updateProject(@RequestBody Map param, @PathVariable String pid){
         ResponseMsg responseMsg = new ResponseMsg();

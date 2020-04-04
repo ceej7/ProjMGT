@@ -106,7 +106,7 @@ public class EmployeeService {
         try{
             Employee e =employeeMapper.getByEidCascade(eid);
             if(e==null)
-                msg.setStatusAndMessage(204, "未获得用户"+eid);
+                msg.setStatusAndMessage(210, "未获得用户"+eid);
             else{
                 e.setPassword("");
                 msg.setStatusAndMessage(200, "获得用户"+eid);

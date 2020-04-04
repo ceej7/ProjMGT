@@ -45,7 +45,7 @@ public class WorkflowController {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
         if(wid<0){
-            responseMsg.setStatusAndMessage(202, "参数无效");
+            responseMsg.setStatusAndMessage(208, "参数无效");
         }
         else
             responseMsg = workflowService.getById(wid);
@@ -59,7 +59,7 @@ public class WorkflowController {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404, "查询发生异常");
         if (wid < 0) {
-            responseMsg.setStatusAndMessage(202, "参数无效");
+            responseMsg.setStatusAndMessage(208, "参数无效");
         } else
             responseMsg = workflowService.getTimelineByWid(wid);
         return responseMsg;
@@ -84,7 +84,7 @@ public class WorkflowController {
             "{\"todo\": \"pm_authority\"}\n一个纯粹的接口，配置member的文件/git/邮件权限，推进工作流\n"+"****************************************\n"+
             "{\n" +
             "    \"todo\": \"pm_function\",\n" +
-            "\"function\":\"{\\\"000000\\\":\\\"哈\\\",\\\"000001\\\":\\\"哈哈\\\",\\\"000002\\\":\\\"哈哈哈\\\",\\\"001000\\\":\\\"哈哈哈\\\",\\\"001001\\\":\\\"哈哈哈\\\"}\""+
+            "\"function\":{\"000000\":\"0-1\"}\n"+
             "}\n配置功能列表\n"+"****************************************\n"+
             "{\"todo\": \"pm_start\"}开始项目\n"+"****************************************\n"+
             "{\"todo\": \"pm_submitting\"}开始交付\n"+"****************************************\n"+
@@ -147,7 +147,7 @@ public class WorkflowController {
                 msg.setStatusAndMessage(208, "参数不足");
                 return msg;
             }
-            msg=workflowService.pm_function(eid, wid,param.get("function").toString());
+            msg=workflowService.pm_function(eid, wid,(Map)param.get("function"));
         }else if(param.get("todo").equals("pm_start")){
             msg=workflowService.pm_common_doing_flow(eid, wid,8);
         }else if(param.get("todo").equals("pm_submitting")){

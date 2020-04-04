@@ -6,6 +6,8 @@ import com.achieveit.mapper.EmployeeMapper;
 import com.achieveit.mapper.EmployeeProjectMapper;
 import com.achieveit.mapper.ProjectMapper;
 import com.achieveit.mapper.WorkflowMapper;
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -233,7 +235,7 @@ public class ProjectService {
                 for (int i = 0; i < employeeProject.getRoles().size(); i++) {
                     String role = employeeProject.getRoles().get(i).getRole();
                     if(role.equals("pm")||role.equals("rd_leader")||role.equals("qa_leader")){
-                        msg.setStatusAndMessage(208, "不能删除pm/rd_leader/qa_leader");
+                        msg.setStatusAndMessage(210, "不能删除pm/rd_leader/qa_leader");
                         return msg;
                     }
                 }
@@ -243,7 +245,7 @@ public class ProjectService {
                 msg.setStatusAndMessage(200, "正常删除");
             }
             else{
-                msg.setStatusAndMessage(210, "不存在这个成员");
+                msg.setStatusAndMessage(212, "不存在这个成员");
             }
         }catch(Exception e){
             logger.error(e.getMessage(), e);
@@ -268,7 +270,7 @@ public class ProjectService {
                 sup_epid=qaEp.getEpid();
             }
             if(sup_epid==-1){
-                msg.setStatusAndMessage(210, "无法配置上级");
+                msg.setStatusAndMessage(212, "无法配置上级");
                 return msg;
             }
             if(employeeProjects==null||employeeProjects.size()==0){//需要新增这个member
@@ -327,7 +329,7 @@ public class ProjectService {
                 project.setDomain(param.get("domain").toString());
             }
             if(param.containsKey("function")){
-                project.setFunction(param.get("function").toString());
+                project.setFunction((Map)param.get("function"));
             }
             projectMapper.updateProject(project);
             msg.setStatusAndMessage(200, "正常更新");
