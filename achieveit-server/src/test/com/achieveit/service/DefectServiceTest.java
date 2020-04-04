@@ -91,7 +91,7 @@ public class DefectServiceTest {
         when(defectMapper.getDescedByEidCascade(1,"filter")).thenReturn(defects);
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = defectService.getFilteredPagedDefectByEid(1, 0, 1,"filter",null);
+        msg = defectService.getFilteredPagedDefectByEid(1, 0, 1,"filter","bug");
         assertEquals(200, msg.getStatus());
         assertNotNull(msg.getResponseMap());
         assertNotNull(msg.getResponseMap().get("Defect"));
@@ -104,7 +104,7 @@ public class DefectServiceTest {
         when(defectMapper.getDescedByEidCascade(1,"filter")).thenThrow(new RuntimeException());
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = defectService.getFilteredPagedDefectByEid(1, 0, 1,"filter");
+        msg = defectService.getFilteredPagedDefectByEid(1, 0, 1,"filter","bug");
         assertEquals(404, msg.getStatus());
         assertNotNull(msg.getResponseMap());
         verify(defectMapper).getDescedByEidCascade(1,"filter");

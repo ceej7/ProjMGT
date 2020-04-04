@@ -106,4 +106,32 @@ public class ManhourServiceTest {
         verify(manhourMapper).getDatedByEidCascade(1,date);
     }
 
+    //////////////getFilteredPagedManhourByEid()//////////////
+    @Test
+    public void happy_path_with_get_activity() throws Exception {
+        Activity activity = new Activity(1, null, null);
+        List<Activity> activitys = new ArrayList<>();
+        activitys.add(activity);
+
+        when(manhourMapper.getActivity()).thenReturn(activitys);
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = manhourService.getActivity();
+        assertEquals(200, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
+        assertNotNull(msg.getResponseMap().get("activities"));
+        verify(manhourMapper).getActivity();
+    }
+
+    @Test
+    public void exception_when_get_activity() throws Exception {
+        when(manhourMapper.getActivity()).thenThrow(new RuntimeException());
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = manhourService.getActivity();
+        assertEquals(404, msg.getStatus());
+        verify(manhourMapper).getActivity();
+    }
+
+
 }
