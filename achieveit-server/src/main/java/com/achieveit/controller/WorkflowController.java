@@ -26,7 +26,6 @@ import java.util.Map;
 @Api(tags = "工作流接口", value = "工作流的关键API")
 public class WorkflowController {
     Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
     JwtToken jwtToken;
     private final MailService mailService;
     private final FileService fileService;

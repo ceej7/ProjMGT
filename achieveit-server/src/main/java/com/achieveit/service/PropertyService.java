@@ -17,12 +17,12 @@ import java.util.Map;
 @Service
 public class PropertyService {
     Logger logger = LoggerFactory.getLogger(getClass());
+    PropertyMapper propertyMapper;
+
 
     public PropertyService(PropertyMapper propertyMapper) {
         this.propertyMapper = propertyMapper;
     }
-
-    PropertyMapper propertyMapper;
 
     public ResponseMsg getByPropertyId(int pid) {
         ResponseMsg msg=new ResponseMsg();

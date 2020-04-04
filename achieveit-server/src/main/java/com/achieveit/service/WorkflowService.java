@@ -16,6 +16,11 @@ import java.util.List;
 @Service
 public class WorkflowService {
     Logger logger = LoggerFactory.getLogger(getClass());
+    private final WorkflowMapper workflowMapper;
+    private final EmployeeMapper employeeMapper;
+    private final ProjectMapper projectMapper;
+    private final EmployeeProjectMapper employeeProjectMapper;
+
 
     public WorkflowService(WorkflowMapper workflowMapper, EmployeeMapper employeeMapper, ProjectMapper projectMapper,EmployeeProjectMapper employeeProjectMapper) {
         this.workflowMapper = workflowMapper;
@@ -23,11 +28,6 @@ public class WorkflowService {
         this.projectMapper = projectMapper;
         this.employeeProjectMapper = employeeProjectMapper;
     }
-
-    private final WorkflowMapper workflowMapper;
-    private final EmployeeMapper employeeMapper;
-    private final ProjectMapper projectMapper;
-    private final EmployeeProjectMapper employeeProjectMapper;
 
     //sup, configurer, epgleader, qamanager, pm
     boolean commonCheckImpl(int wid, ResponseMsg responseMsg, int eid, String role, int bit_place)  throws Exception{

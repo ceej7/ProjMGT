@@ -19,7 +19,6 @@ import java.util.Map;
 @Api(tags = "员工接口", value="员工相关API")
 public class EmployeeController {
     Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
     private JwtToken jwtToken;
     private final EmployeeService employeeService;
     private final MailService mailService;

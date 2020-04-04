@@ -1,6 +1,7 @@
 package com.achieveit.controller;
 
 import com.achieveit.config.DateUtil;
+import com.achieveit.config.JwtToken;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.service.MilestoneService;
 import io.swagger.annotations.Api;
@@ -16,12 +17,13 @@ import java.util.Map;
 @Api(tags = "里程碑接口", value="里程碑相关API")
 public class MilestoneController {
     Logger logger = LoggerFactory.getLogger(getClass());
+    JwtToken jwtToken;
+    MilestoneService milestoneService;
 
-    public MilestoneController(MilestoneService milestoneService) {
+    public MilestoneController(JwtToken jwtToken, MilestoneService milestoneService) {
+        this.jwtToken = jwtToken;
         this.milestoneService = milestoneService;
     }
-
-    MilestoneService milestoneService;
 
     @ResponseBody
     @ApiOperation("获取某个Milestone")

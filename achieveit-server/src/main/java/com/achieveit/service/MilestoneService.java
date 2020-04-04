@@ -13,13 +13,13 @@ import java.util.Map;
 
 @Service
 public class MilestoneService {
+    Logger logger = LoggerFactory.getLogger(getClass());
+    MilestoneMapper milestoneMapper;
+
+
     public MilestoneService(MilestoneMapper milestoneMapper) {
         this.milestoneMapper = milestoneMapper;
     }
-
-    MilestoneMapper milestoneMapper;
-
-    Logger logger = LoggerFactory.getLogger(getClass());
 
     public ResponseMsg getByPid(String pid) {
         ResponseMsg responseMsg = new ResponseMsg();

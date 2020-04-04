@@ -15,14 +15,14 @@ import java.util.Map;
 
 @Service
 public class DefectService {
+    Logger logger = LoggerFactory.getLogger(getClass());
+    DefectMapper defectMapper;
+    EmployeeProjectMapper employeeProjectMapper;
+
     public DefectService(DefectMapper defectMapper, EmployeeProjectMapper employeeProjectMapper) {
         this.defectMapper = defectMapper;
         this.employeeProjectMapper=employeeProjectMapper;
     }
-
-    Logger logger = LoggerFactory.getLogger(getClass());
-    DefectMapper defectMapper;
-    EmployeeProjectMapper employeeProjectMapper;
 
     public ResponseMsg getPagedDefectByEid(int eid, int page, int length){
         ResponseMsg msg = new ResponseMsg();

@@ -21,15 +21,15 @@ import java.util.Map;
 @Service
 public class ManhourService {
     Logger logger = LoggerFactory.getLogger(getClass());
+    ManhourMapper manhourMapper;
+    EmployeeProjectMapper employeeProjectMapper;
+    ProjectMapper projectMapper;
+
     public ManhourService(ManhourMapper manhourMapper, EmployeeProjectMapper employeeProjectMapper, ProjectMapper projectMapper) {
         this.manhourMapper = manhourMapper;
         this.employeeProjectMapper = employeeProjectMapper;
         this.projectMapper = projectMapper;
     }
-
-    ManhourMapper manhourMapper;
-    EmployeeProjectMapper employeeProjectMapper;
-    ProjectMapper projectMapper;
 
     public ResponseMsg getPagedManhourByEid(int eid, int page, int length){
         ResponseMsg msg = new ResponseMsg();

@@ -16,17 +16,17 @@ import java.util.*;
 @Service
 public class ProjectService {
     Logger logger = LoggerFactory.getLogger(getClass());
+    private final ProjectMapper projectMapper;
+    private final WorkflowMapper workflowMapper;
+    private final EmployeeMapper employeeMapper;
+    private final EmployeeProjectMapper employeeProjectMapper;
+
     public ProjectService(ProjectMapper projectMapper, WorkflowMapper workflowMapper, EmployeeMapper employeeMapper, EmployeeProjectMapper employeeProjectMapper) {
         this.projectMapper = projectMapper;
         this.workflowMapper = workflowMapper;
         this.employeeMapper = employeeMapper;
         this.employeeProjectMapper = employeeProjectMapper;
     }
-
-    private final ProjectMapper projectMapper;
-    private final WorkflowMapper workflowMapper;
-    private final EmployeeMapper employeeMapper;
-    private final EmployeeProjectMapper employeeProjectMapper;
 
     public ResponseMsg getById(String pid){
         ResponseMsg msg = new ResponseMsg();

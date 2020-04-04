@@ -23,7 +23,6 @@ import java.util.Map;
 @Api(tags = "项目接口", value="以项目为主体的请求")
 public class ProjectController {
     Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
     JwtToken jwtToken;
     private final ProjectService projectService;
     private final MailService mailService;

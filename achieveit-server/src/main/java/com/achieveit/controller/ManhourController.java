@@ -22,7 +22,6 @@ import java.util.Map;
 @Api(tags = "工时接口", value="工时相关API")
 public class ManhourController {
     Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
     JwtToken jwtToken;
     private final ManhourService manhourService;
     private final MailService mailService;

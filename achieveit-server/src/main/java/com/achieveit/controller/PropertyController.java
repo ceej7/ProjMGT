@@ -21,12 +21,13 @@ import java.util.Map;
 @Api(tags = "资产和设备接口", value="以资产和设备为主体的请求")
 public class PropertyController {
     Logger logger = LoggerFactory.getLogger(getClass());
-
-    public PropertyController(PropertyService propertyService) {
-        this.propertyService = propertyService;
-    }
-
+    JwtToken jwtToken;
     PropertyService propertyService;
+
+    public PropertyController(PropertyService propertyService, JwtToken jwtToken) {
+        this.propertyService = propertyService;
+        this.jwtToken=jwtToken;
+    }
 
     @ResponseBody
     @GetMapping("/property/{pid}")

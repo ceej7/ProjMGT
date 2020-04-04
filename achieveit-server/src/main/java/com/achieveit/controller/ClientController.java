@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "客户接口", value="Client相关API")
 public class ClientController {
     Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
     JwtToken jwtToken;
     private final ClientService clientService;
 

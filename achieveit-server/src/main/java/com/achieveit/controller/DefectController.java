@@ -19,7 +19,6 @@ import java.util.Map;
 @Api(tags = "缺陷接口", value="缺陷相关API")
 public class DefectController {
     Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
     JwtToken jwtToken;
     private final DefectService defectService;
     private final MailService mailService;

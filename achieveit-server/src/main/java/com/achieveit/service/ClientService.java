@@ -10,12 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientService {
     Logger logger = LoggerFactory.getLogger(getClass());
+    ClientMapper clientMapper;
 
     public ClientService(ClientMapper clientMapper) {
         this.clientMapper = clientMapper;
     }
-
-    ClientMapper clientMapper;
 
     public ResponseMsg getAll(){
         ResponseMsg responseMsg = new ResponseMsg();

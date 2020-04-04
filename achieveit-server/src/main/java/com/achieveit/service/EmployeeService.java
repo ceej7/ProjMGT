@@ -14,6 +14,16 @@ import java.util.List;
 @Service
 public class EmployeeService {
     Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private JwtToken jwtToken;
+    EmployeeMapper employeeMapper;
+    DefectMapper defectMapper;
+    ManhourMapper manhourMapper;
+    ProjectMapper projectMapper;
+    PropertyMapper propertyMapper;
+    RiskMapper riskMapper;
+    EmployeeProjectMapper employeeProjectMapper;
+
 
 
     public EmployeeService(EmployeeMapper employeeMapper, DefectMapper defectMapper, ManhourMapper manhourMapper, ProjectMapper projectMapper, PropertyMapper propertyMapper, RiskMapper riskMapper, EmployeeProjectMapper employeeProjectMapper) {
@@ -25,17 +35,6 @@ public class EmployeeService {
         this.riskMapper = riskMapper;
         this.employeeProjectMapper = employeeProjectMapper;
     }
-
-    EmployeeMapper employeeMapper;
-    DefectMapper defectMapper;
-    ManhourMapper manhourMapper;
-    ProjectMapper projectMapper;
-    PropertyMapper propertyMapper;
-    RiskMapper riskMapper;
-    EmployeeProjectMapper employeeProjectMapper;
-
-    @Autowired
-    private JwtToken jwtToken;
 
 
     public ResponseMsg getByTitle(String title){
