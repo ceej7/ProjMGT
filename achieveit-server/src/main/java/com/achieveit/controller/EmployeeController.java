@@ -19,7 +19,6 @@ import java.util.Map;
 @Api(tags = "员工接口", value="员工相关API")
 public class EmployeeController {
     Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
     private JwtToken jwtToken;
     private final EmployeeService employeeService;
     private final MailService mailService;
@@ -59,7 +58,7 @@ public class EmployeeController {
                 && !title.equals("epg_leader")
                 && !title.equals("qa_manager")
                 && !title.equals("member")){
-            msg.setStatusAndMessage(202, "未收录的职位");
+            msg.setStatusAndMessage(208, "未收录的职位");
         }
         else{
             msg=employeeService.getByTitle(title);
@@ -100,7 +99,7 @@ public class EmployeeController {
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
         if(eid<0){
-            msg.setStatusAndMessage(202, "非法的id");
+            msg.setStatusAndMessage(208, "非法的id");
         }
         else{
             msg=employeeService.getByIdNonConfidential(eid);

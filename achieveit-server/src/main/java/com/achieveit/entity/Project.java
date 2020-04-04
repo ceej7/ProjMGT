@@ -2,8 +2,13 @@ package com.achieveit.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import net.sf.json.JSONObject;
 
 import java.sql.Timestamp;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 @ApiModel("Project Entity: 项目信息")
 public class Project {
     public Project(String pid, String name, Timestamp starttime, Timestamp endtime, String technique, String domain, String function, Integer client_id, Integer workflow_id) {
@@ -13,7 +18,7 @@ public class Project {
         this.endtime = endtime;
         this.technique = technique;
         this.domain = domain;
-        this.function = function;
+        setFunction(function);
         this.client_id = client_id;
         this.workflow_id = workflow_id;
     }
@@ -74,6 +79,20 @@ public class Project {
         this.function = function;
     }
 
+    public void setFunction(Map param){
+        if(param==null){
+            this.function=null;
+        }
+        JSONObject jsonObject=new JSONObject();
+        Set<String> keys = param.keySet();
+        Iterator<String> iter=keys.iterator();
+        while (iter.hasNext()){
+            String str = iter.next() ;
+            jsonObject.put(str, param.get(str).toString());
+        }
+        this.function=jsonObject.toString();
+    }
+
     public Integer getClient_id() {
         return client_id;
     }
@@ -90,19 +109,6 @@ public class Project {
         this.workflow_id = workflow_id;
     }
 
-    String pid;
-    String name;
-    Timestamp starttime;
-    Timestamp endtime;
-    String technique;
-    String domain;
-    @ApiModelProperty("使用json存储，使用两个Integer解析")
-    String function;
-    @ApiModelProperty("外键：客户的id")
-    Integer client_id;
-    @ApiModelProperty("外键：工作流的id；一一对应关系")
-    Integer workflow_id;
-
     public Client getClient() {
         return client;
     }
@@ -118,6 +124,19 @@ public class Project {
     public void setWorkflow(Workflow workflow) {
         this.workflow = workflow;
     }
+
+    String pid;
+    String name;
+    Timestamp starttime;
+    Timestamp endtime;
+    String technique;
+    String domain;
+    @ApiModelProperty("使用json存储，使用两个Integer解析")
+    String function;
+    @ApiModelProperty("外键：客户的id")
+    Integer client_id;
+    @ApiModelProperty("外键：工作流的id；一一对应关系")
+    Integer workflow_id;
 
     Client client;
     Workflow workflow;

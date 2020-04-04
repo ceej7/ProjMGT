@@ -2,22 +2,28 @@ package com.achieveit.service;
 
 import com.achieveit.config.JwtToken;
 import com.achieveit.entity.Employee;
-import com.achieveit.entity.EmployeeProject;
 import com.achieveit.entity.ResponseMsg;
 import com.achieveit.mapper.*;
-import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.naming.AuthenticationException;
 import java.util.List;
 
 @Service
 public class EmployeeService {
     Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private JwtToken jwtToken;
+    EmployeeMapper employeeMapper;
+    DefectMapper defectMapper;
+    ManhourMapper manhourMapper;
+    ProjectMapper projectMapper;
+    PropertyMapper propertyMapper;
+    RiskMapper riskMapper;
+    EmployeeProjectMapper employeeProjectMapper;
+
 
 
     public EmployeeService(EmployeeMapper employeeMapper, DefectMapper defectMapper, ManhourMapper manhourMapper, ProjectMapper projectMapper, PropertyMapper propertyMapper, RiskMapper riskMapper, EmployeeProjectMapper employeeProjectMapper) {
@@ -29,17 +35,6 @@ public class EmployeeService {
         this.riskMapper = riskMapper;
         this.employeeProjectMapper = employeeProjectMapper;
     }
-
-    EmployeeMapper employeeMapper;
-    DefectMapper defectMapper;
-    ManhourMapper manhourMapper;
-    ProjectMapper projectMapper;
-    PropertyMapper propertyMapper;
-    RiskMapper riskMapper;
-    EmployeeProjectMapper employeeProjectMapper;
-
-    @Autowired
-    private JwtToken jwtToken;
 
 
     public ResponseMsg getByTitle(String title){
@@ -111,7 +106,7 @@ public class EmployeeService {
         try{
             Employee e =employeeMapper.getByEidCascade(eid);
             if(e==null)
-                msg.setStatusAndMessage(204, "未获得用户"+eid);
+                msg.setStatusAndMessage(210, "未获得用户"+eid);
             else{
                 e.setPassword("");
                 msg.setStatusAndMessage(200, "获得用户"+eid);
@@ -133,7 +128,7 @@ public class EmployeeService {
             else{
                 msg.setStatusAndMessage(200, "获得用户Dashboard"+eid);
                 msg.getResponseMap().put("employee", e);
-                msg.getResponseMap().put("properties", propertyMapper.getByEid(eid));
+                msg.getResponseMap().put("properties", propertyMapper.getPropertyOccupyByEid(eid));
                 msg.getResponseMap().put("projects", employeeProjectMapper.getByEidCascade(eid));
                 msg.getResponseMap().put("manhours", manhourMapper.getByEidCascade(eid));
                 msg.getResponseMap().put("defects", defectMapper.getByEidCascade(eid));

@@ -40,12 +40,13 @@ public class ManhourServiceTest {
     private static ManhourService manhourService;
     @Mock
     private ManhourMapper manhourMapper;
-
+    private EmployeeProjectMapper employeeProjectMapper;
+    private ProjectMapper projectMapper;
 
     @BeforeEach
     public void init() {
         manhourMapper = mock(ManhourMapper.class);
-        manhourService = new ManhourService(manhourMapper);
+        manhourService = new ManhourService(manhourMapper,employeeProjectMapper,projectMapper);
     }
 
     @Test

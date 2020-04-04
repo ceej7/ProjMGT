@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = "为了在SwaggerUI中显示所有Dao", value="不要调用")
+@Api(tags = "Uncallable为了在SwaggerUI中显示所有Dao", value="不要调用")
 public class ShowDaoPurposeController {
     @ResponseBody
     @GetMapping("/showDao/getActivity")
