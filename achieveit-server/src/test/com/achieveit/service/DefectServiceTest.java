@@ -110,5 +110,38 @@ public class DefectServiceTest {
         verify(defectMapper).getDescedByEidCascade(1,"filter");
     }
 
+    //////////////getByPid()//////////////
+    @Test
+    public void happy_path_with_get_by_pid() throws Exception {
+        Defect defect = new Defect(1, null, null, null, null, null, null, null);
+        List<Defect> defects = new ArrayList<>();
+        defects.add(defect);
+        when(defectMapper.getByPidCascade(anyString())).thenReturn(defects);
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = defectService.getByPid("1");
+        assertEquals(200, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
+        assertNotNull(msg.getResponseMap().get("Defect"));
+        verify(defectMapper).getByPidCascade(anyString());
+    }
+
+    @Test
+    void exception_when_get_by_pid() throws Exception {
+        when(defectMapper.getByPidCascade(anyString())).thenThrow(new RuntimeException());
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = defectService.getByPid("1");
+        assertEquals(404, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
+        verify(defectMapper).getByPidCascade(anyString());
+    }
+
+    //////////////deleteDefect()//////////////
+    @Test
+    void happypath_with_deleteDefect()throws Exception{
+
+
+    }
 
 }

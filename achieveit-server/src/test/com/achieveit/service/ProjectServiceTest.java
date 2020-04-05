@@ -10,10 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -329,5 +326,38 @@ class                                                                           
     }
 
     //////////////updateProjectInfo()//////////////
+    @Test
+    void happy_path_updateProjectInfo()throws Exception{
+        Project project = new Project("20200001O01", "", new Timestamp((long)1),new Timestamp((long)1) ,"" , "", "", 1, 1);
+        when(projectMapper.getByPid("20200001O01")).thenReturn(project);
+        Map<String,String> param=new HashMap<String, String>();
+        param.put("name","Proj1");
+        param.put("starttime","2020-04-09T16:00:00.000Z");
+        param.put("endtime","2020-05-09T16:00:00.000Z");
+        param.put("technique","no");
+        param.put("domain","no");
+//        param.put("function","{\"000000\":\"0-1\"}");
 
+        when(projectMapper.updateProject(any())).thenReturn(1);
+        ResponseMsg msg=projectService.updateProjectInfo("20200001O01",param);
+        assertEquals(200, msg.getStatus());
+    }
+
+    @Test
+    void exception_when_updateProjectInfo()throws Exception{
+        when(projectMapper.getByPid(anyString())).thenThrow(new RuntimeException());
+        Map<String,String> param=new HashMap<String, String>();
+        param.put("name","Proj1");
+        param.put("starttime","2020-04-09T16:00:00.000Z");
+        param.put("endtime","2020-05-09T16:00:00.000Z");
+        param.put("technique","no");
+        param.put("domain","no");
+        param.put("function","");
+        param.put("","{\"000000\":\"0-1\"}");
+
+        when(projectMapper.updateProject(any())).thenReturn(1);
+        ResponseMsg msg=projectService.updateProjectInfo("20200001O01",param);
+        assertEquals(200, msg.getStatus());
+
+    }
 }

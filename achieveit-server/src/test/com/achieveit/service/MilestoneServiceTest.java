@@ -78,10 +78,10 @@ public class MilestoneServiceTest {
         when(milestoneMapper.getByMid(1)).thenReturn(milestone);
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = milestoneService.getByPid("1");
+        msg = milestoneService.getByMid(1);
         assertEquals(200, msg.getStatus());
         assertNotNull(msg.getResponseMap());
-        assertNotNull(msg.getResponseMap().get("milestones"));
+        assertNotNull(msg.getResponseMap().get("milestone"));
         verify(milestoneMapper).getByMid(1);
     }
 
@@ -90,7 +90,7 @@ public class MilestoneServiceTest {
         when(milestoneMapper.getByMid(1)).thenThrow(new RuntimeException());
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = milestoneService.getByPid("1");
+        msg = milestoneService.getByMid(1);
         assertEquals(404, msg.getStatus());
         verify(milestoneMapper).getByMid(1);
     }
@@ -100,10 +100,10 @@ public class MilestoneServiceTest {
         when(milestoneMapper.getByMid(1)).thenReturn(null);
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = milestoneService.getByPid("1");
+        msg = milestoneService.getByMid(1);
         assertEquals(210, msg.getStatus());
         assertNotNull(msg.getResponseMap());
-        assertNull(msg.getResponseMap().get("milestones"));
+        assertNull(msg.getResponseMap().get("milestone"));
         verify(milestoneMapper).getByMid(1);
     }
 
