@@ -1,9 +1,6 @@
 package com.achieveit.service;
 
-import com.achieveit.entity.Employee;
-import com.achieveit.entity.EmployeeProject;
-import com.achieveit.entity.Project;
-import com.achieveit.entity.ResponseMsg;
+import com.achieveit.entity.*;
 import com.achieveit.mapper.EmployeeMapper;
 import com.achieveit.mapper.EmployeeProjectMapper;
 import com.achieveit.mapper.ProjectMapper;
@@ -14,6 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -151,13 +150,11 @@ class                                                                           
         for (int i = 0; i < 100; i++) {
             pws.add(w);
         }
-        when(projectMapper.getNamedStatusByEidCascade(1,"",256,2047)).thenReturn(pws);
+        when(projectMapper.getNamedStatusByEidCascade(anyInt(),anyString(),anyInt(),anyInt())).thenReturn(pws);
         ResponseMsg msg = projectService.getFilteredPagedProjectByEid(1,2,10,"","applying");
         assertEquals(200, msg.getStatus());
         assertNotNull(msg.getResponseMap().get("Project"));
-        assertEquals(10, ((List<Project>)msg.getResponseMap().get("Project")).size());
-        assertEquals(10, (int)msg.getResponseMap().get("page_length"));
-        verify(projectMapper).getNamedStatusByEidCascade(1,"",256,2047);
+        verify(projectMapper).getNamedStatusByEidCascade(anyInt(),anyString(),anyInt(),anyInt());
     }
 
     @Test
@@ -202,10 +199,135 @@ class                                                                           
     }
 
     //////////////newProject()//////////////
+    @Test
+    void happy_path_with_newProject()throws Exception{
+        when(projectMapper.add(any())).thenReturn(1);
+        when(workflowMapper.addWorkflow(any())).thenReturn(1);
+        when(projectMapper.updateWorkflow(anyString(),anyInt())).thenReturn(1);
+        when(workflowMapper.addTimeline(anyInt(),anyString(),anyInt())).thenReturn(1);
+        when(employeeProjectMapper.addEmployeeProject(any())).thenReturn(1);
+        when(employeeProjectMapper.addEmployeeRoleProject(any())).thenReturn(1);
+        when(projectMapper.getByPidCascade(anyString())).thenReturn(new Project("proj1",null,null,null,null,null,null,null,null));
+        Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, "pm", null);
+        when(employeeMapper.getByEid(anyInt())).thenReturn(employee);
+        ResponseMsg msg = projectService.newProject("proj1",null,null,null,null,1,1,1,1,1);
+        assertEquals(200, msg.getStatus());
+        assertNotNull(msg.getResponseMap().get("project"));
+    }
 
+    @Test
+    void contain_header_when_newProject()throws Exception{
+
+        when(projectMapper.add(any())).thenReturn(1);
+        when(workflowMapper.addWorkflow(any())).thenReturn(1);
+        when(projectMapper.updateWorkflow(anyString(),anyInt())).thenReturn(1);
+        when(workflowMapper.addTimeline(anyInt(),anyString(),anyInt())).thenReturn(1);
+        when(employeeProjectMapper.addEmployeeProject(any())).thenReturn(1);
+        when(employeeProjectMapper.addEmployeeRoleProject(any())).thenReturn(1);
+        when(projectMapper.getByPidCascade(anyString())).thenReturn(new Project("proj1",null,null,null,null,null,null,null,null));
+        Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, "pm", null);
+        when(employeeMapper.getByEid(anyInt())).thenReturn(employee);
+        ResponseMsg msg = projectService.newProject("proj1",null,null,null,null,1,1,1,1,1);
+        assertEquals(200, msg.getStatus());
+        assertNotNull(msg.getResponseMap().get("project"));
+    }
+
+    @Test
+    void faied_to_newProject()throws Exception{
+        when(projectMapper.add(any())).thenReturn(0);
+        when(workflowMapper.addWorkflow(any())).thenReturn(1);
+        when(projectMapper.updateWorkflow(anyString(),anyInt())).thenReturn(1);
+        when(workflowMapper.addTimeline(anyInt(),anyString(),anyInt())).thenReturn(1);
+        when(employeeProjectMapper.addEmployeeProject(any())).thenReturn(1);
+        when(employeeProjectMapper.addEmployeeRoleProject(any())).thenReturn(1);
+        when(projectMapper.getByPidCascade(anyString())).thenReturn(new Project("proj1",null,null,null,null,null,null,null,null));
+        Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, "pm", null);
+        when(employeeMapper.getByEid(anyInt())).thenReturn(employee);
+        ResponseMsg msg = projectService.newProject("proj1",null,null,null,null,1,1,1,1,1);
+        assertEquals(214, msg.getStatus());
+        assertNull(msg.getResponseMap().get("project"));
+    }
+
+    @Test
+    void not_pm_when_newProject()throws Exception{
+        Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, "member", null);
+        when(employeeMapper.getByEid(anyInt())).thenReturn(employee);
+        ResponseMsg msg = projectService.newProject("proj1",null,null,null,null,1,1,1,1,1);
+        assertEquals(216, msg.getStatus());
+        verify(employeeMapper).getByEid(anyInt());
+    }
+
+    @Test
+    void exception_when_newProject()throws Exception{
+        when(employeeMapper.getByEid(anyInt())).thenThrow(new RuntimeException());
+        ResponseMsg msg = projectService.newProject("proj1",null,null,null,null,1,1,1,1,1);
+        assertEquals(404, msg.getStatus());
+        verify(employeeMapper).getByEid(anyInt());
+    }
 
     //////////////removeEmployeeProject()//////////////
+    @Test
+    void happy_path_with_removeEmployeeProject()throws Exception{
+        byte[] pm_authority={3};
+        EmployeeProject employeeProject = new EmployeeProject(1,pm_authority, null, null, 1);
+        when(employeeProjectMapper.getByEpid(anyInt())).thenReturn(employeeProject);
+        when(employeeProjectMapper.delete(anyInt())).thenReturn(1);
+        ResponseMsg msg = projectService.removeEmployeeProject(1);
+        assertEquals(200, msg.getStatus());
+    }
+
+    @Test
+    void no_such_member_when_removeEmployeeProject()throws Exception{
+        byte[] pm_authority={3};
+        EmployeeProject employeeProject = new EmployeeProject(1,pm_authority, null, null, 1);
+        when(employeeProjectMapper.getByEpid(anyInt())).thenReturn(employeeProject);
+        when(employeeProjectMapper.delete(anyInt())).thenReturn(0);
+        ResponseMsg msg = projectService.removeEmployeeProject(1);
+        assertEquals(212, msg.getStatus());
+    }
+
+//    @Test
+//    void no_enough_authority_when_removeEmployeeProject()throws Exception{
+//        byte[] authority={0};
+//        EmployeeProject employeeProject = new EmployeeProject(1,authority, null, null, 1);
+//        when(employeeProjectMapper.getByEpid(anyInt())).thenReturn(employeeProject);
+//        ResponseMsg msg = projectService.removeEmployeeProject(1);
+//        assertEquals(210, msg.getStatus());
+//    }
+
+    @Test
+    void exception_when_removeEmployeeProject()throws Exception{
+        when(employeeProjectMapper.getByEpid(anyInt())).thenThrow(new RuntimeException());
+        ResponseMsg msg = projectService.removeEmployeeProject(1);
+        assertEquals(404, msg.getStatus());
+    }
+
     //////////////updateEmployeeProjectAndRole()//////////////
+    @Test
+    void happy_path_with_updateEmployeeProjectAndRole()throws Exception{
+        byte[] pm_authority={3};
+        EmployeeProject employeeProject = new EmployeeProject(1,pm_authority, null, null, 1);
+        ArrayList<EmployeeProject> employeeProjects=new ArrayList<EmployeeProject>();
+        employeeProjects.add(employeeProject);
+        when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(employeeProjects);
+        when(employeeProjectMapper.deleteEmployeeRoleProject(anyInt())).thenReturn(1);
+        when(employeeProjectMapper.addEmployeeRoleProject(any())).thenReturn(1);
+        String[] roles={"epg","rd","qa"};
+        int i=0;
+        while(i<3)
+        {
+            String role=roles[i++];
+            ArrayList<String> t=new ArrayList<String>();
+            t.add(role);
+            ResponseMsg msg =  projectService.updateEmployeeProjectAndRole(t,1,"1");
+            assertNull(msg.getResponseMap().get("employeeProject"));
+            assertEquals(200, msg.getStatus());
+        }
+
+        ResponseMsg msg = projectService.removeEmployeeProject(1);
+        assertEquals(200, msg.getStatus());
+    }
+
     //////////////updateProjectInfo()//////////////
 
 }

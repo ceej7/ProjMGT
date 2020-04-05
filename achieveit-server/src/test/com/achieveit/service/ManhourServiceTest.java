@@ -134,5 +134,32 @@ public class ManhourServiceTest {
         verify(manhourMapper).getActivity();
     }
 
+    //////////////getFilteredPagedManhourByEid()//////////////
+    @Test
+    public void happy_path_with_updateManhour() throws Exception {
+        Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", null, null);
+        List<Manhour> manhours = new ArrayList<>();
+        manhours.add(manhour);
+        when(manhourMapper.getByMidCascade(anyInt())).thenReturn(manhour);
+        EmployeeProject employeeProject = new EmployeeProject(1,null, null, null, 1);
+        ArrayList<EmployeeProject> employeeProjects=new ArrayList<EmployeeProject>();
+        when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(employeeProjects);
+
+
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = manhourService.updateManhour(anyInt(), anyInt(), anyMap());
+
+        Map<String,String> param=new HashMap<String, String>();
+        param.put("status","unfilled");
+//        param.put("fid","null");
+        param.put("starttime","2020-04-09T16:00:00.000Z");
+        param.put("endtime","2020-05-09T16:00:00.000Z");
+//        param.put("activity_id","null");
+
+        when(manhourMapper.update(manhour)).thenReturn(1);
+        assertEquals(200, msg.getStatus());
+        assertNotNull(msg.getResponseMap().get("Manhour"));
+    }
 
 }
