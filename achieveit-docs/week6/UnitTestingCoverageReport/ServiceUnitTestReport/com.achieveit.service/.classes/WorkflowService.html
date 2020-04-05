@@ -1,0 +1,548 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: WorkflowService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.achieveit.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: WorkflowService (com.achieveit.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WorkflowService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/ 16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (301/ 301)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.achieveit.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.achieveit.entity.*;
+<i>4</i>&nbsp;import com.achieveit.mapper.EmployeeMapper;
+<i>5</i>&nbsp;import com.achieveit.mapper.EmployeeProjectMapper;
+<i>6</i>&nbsp;import com.achieveit.mapper.ProjectMapper;
+<i>7</i>&nbsp;import com.achieveit.mapper.WorkflowMapper;
+<i>8</i>&nbsp;import org.slf4j.Logger;
+<i>9</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>10</i>&nbsp;import org.springframework.stereotype.Service;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import java.sql.Time;
+<i>13</i>&nbsp;import java.util.ArrayList;
+<i>14</i>&nbsp;import java.util.List;
+<i>15</i>&nbsp;import java.util.Map;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;@Service
+<i>18</i>&nbsp;public class WorkflowService {
+<b class="fc"><i>19</i>&nbsp;    Logger logger = LoggerFactory.getLogger(getClass());</b>
+<i>20</i>&nbsp;    private final WorkflowMapper workflowMapper;
+<i>21</i>&nbsp;    private final EmployeeMapper employeeMapper;
+<i>22</i>&nbsp;    private final ProjectMapper projectMapper;
+<i>23</i>&nbsp;    private final EmployeeProjectMapper employeeProjectMapper;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;
+<b class="fc"><i>26</i>&nbsp;    public WorkflowService(WorkflowMapper workflowMapper, EmployeeMapper employeeMapper, ProjectMapper projectMapper,EmployeeProjectMapper employeeProjectMapper) {</b>
+<b class="fc"><i>27</i>&nbsp;        this.workflowMapper = workflowMapper;</b>
+<b class="fc"><i>28</i>&nbsp;        this.employeeMapper = employeeMapper;</b>
+<b class="fc"><i>29</i>&nbsp;        this.projectMapper = projectMapper;</b>
+<b class="fc"><i>30</i>&nbsp;        this.employeeProjectMapper = employeeProjectMapper;</b>
+<i>31</i>&nbsp;        // 配置重要的工作流部分
+<b class="fc"><i>32</i>&nbsp;        int workflow_bit_num=32;</b>
+<b class="fc"><i>33</i>&nbsp;        WorkflowEngineService.setDependency(1,0,workflow_bit_num);</b>
+<b class="fc"><i>34</i>&nbsp;        WorkflowEngineService.setDependency(2,1,workflow_bit_num);</b>
+<b class="fc"><i>35</i>&nbsp;        WorkflowEngineService.setDependency(3,1,workflow_bit_num);</b>
+<b class="fc"><i>36</i>&nbsp;        WorkflowEngineService.setDependency(4,1,workflow_bit_num);</b>
+<b class="fc"><i>37</i>&nbsp;        WorkflowEngineService.setDependency(5,2,workflow_bit_num);</b>
+<b class="fc"><i>38</i>&nbsp;        WorkflowEngineService.setDependency(5,3,workflow_bit_num);</b>
+<b class="fc"><i>39</i>&nbsp;        WorkflowEngineService.setDependency(5,4,workflow_bit_num);</b>
+<b class="fc"><i>40</i>&nbsp;        WorkflowEngineService.setDependency(6,5,workflow_bit_num);</b>
+<b class="fc"><i>41</i>&nbsp;        WorkflowEngineService.setDependency(7,6,workflow_bit_num);</b>
+<b class="fc"><i>42</i>&nbsp;        WorkflowEngineService.setDependency(8,5,workflow_bit_num);</b>
+<b class="fc"><i>43</i>&nbsp;        WorkflowEngineService.setDependency(8,6,workflow_bit_num);</b>
+<b class="fc"><i>44</i>&nbsp;        WorkflowEngineService.setDependency(8,7,workflow_bit_num);</b>
+<b class="fc"><i>45</i>&nbsp;        WorkflowEngineService.setDependency(9,8,workflow_bit_num);</b>
+<b class="fc"><i>46</i>&nbsp;        WorkflowEngineService.setDependency(10,9,workflow_bit_num);</b>
+<b class="fc"><i>47</i>&nbsp;        for (int i = 11; i &lt;=27; i++) {</b>
+<b class="fc"><i>48</i>&nbsp;            WorkflowEngineService.setDependency(i,10,workflow_bit_num);</b>
+<b class="fc"><i>49</i>&nbsp;            WorkflowEngineService.setDependency(28,i,workflow_bit_num);</b>
+<i>50</i>&nbsp;        }
+<b class="fc"><i>51</i>&nbsp;    }</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    //sup, configurer, epgleader, qamanager, pm
+<i>54</i>&nbsp;    boolean commonCheckImpl(int wid, ResponseMsg responseMsg, int eid, String role, int bit_place)  throws Exception{
+<b class="fc"><i>55</i>&nbsp;        Workflow workflow = workflowMapper.getByWidCascade(wid);</b>
+<b class="fc"><i>56</i>&nbsp;        if(workflow==null){</b>
+<b class="fc"><i>57</i>&nbsp;            responseMsg.setStatusAndMessage(210,&quot;没有查到这个workflow&quot;);</b>
+<b class="fc"><i>58</i>&nbsp;            return false;</b>
+<i>59</i>&nbsp;        }
+<b class="fc"><i>60</i>&nbsp;        int match_id=0;</b>
+<b class="fc"><i>61</i>&nbsp;        if(role.equals(&quot;sup&quot;))</b>
+<i>62</i>&nbsp;        {
+<b class="fc"><i>63</i>&nbsp;            match_id=workflow.getSup_eid();</b>
+<b class="fc"><i>64</i>&nbsp;        }else if(role.equals(&quot;configurer&quot;))</b>
+<i>65</i>&nbsp;        {
+<b class="fc"><i>66</i>&nbsp;            match_id=workflow.getConfigurer_eid();</b>
+<b class="fc"><i>67</i>&nbsp;        }else if(role.equals(&quot;epgleader&quot;))</b>
+<i>68</i>&nbsp;        {
+<b class="fc"><i>69</i>&nbsp;            match_id=workflow.getEpgleader_eid();</b>
+<b class="fc"><i>70</i>&nbsp;        }else if(role.equals(&quot;qamanager&quot;))</b>
+<i>71</i>&nbsp;        {
+<b class="fc"><i>72</i>&nbsp;            match_id=workflow.getQamanager_eid();</b>
+<i>73</i>&nbsp;        }
+<i>74</i>&nbsp;        else{
+<b class="fc"><i>75</i>&nbsp;            match_id=workflow.getPm_eid();</b>
+<i>76</i>&nbsp;        }
+<b class="fc"><i>77</i>&nbsp;        if(eid!=match_id){</b>
+<b class="fc"><i>78</i>&nbsp;            responseMsg.setStatusAndMessage(212,&quot;你不是&quot;+role+&quot;没资格配置项目&quot;);</b>
+<b class="fc"><i>79</i>&nbsp;            return false;</b>
+<i>80</i>&nbsp;        }
+<b class="fc"><i>81</i>&nbsp;        WorkflowEngineService workflowEngineService=new WorkflowEngineService();</b>
+<b class="fc"><i>82</i>&nbsp;        int altered_flowbits=workflowEngineService.checkTodo(bit_place, workflow.getFlowbits());</b>
+<b class="fc"><i>83</i>&nbsp;        if(altered_flowbits==workflow.getFlowbits()){</b>
+<b class="fc"><i>84</i>&nbsp;            responseMsg.setStatusAndMessage(214,&quot;项目状态没变，可能是没有到你的流程或者你的流程已经结束啦&quot;);</b>
+<b class="fc"><i>85</i>&nbsp;            return false;</b>
+<i>86</i>&nbsp;        }
+<b class="fc"><i>87</i>&nbsp;        workflowMapper.updateFlowBits(wid, altered_flowbits);//更新workflow的比特位</b>
+<b class="fc"><i>88</i>&nbsp;        return true;</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;    int memberAttend_and_RoleAssign_commonImpl(String role, int sup_Epid, String pid, int eid) throws Exception{
+<b class="fc"><i>91</i>&nbsp;        byte[] authority = {0};</b>
+<b class="fc"><i>92</i>&nbsp;        if(role.equals(&quot;pm&quot;)){</b>
+<b class="fc"><i>93</i>&nbsp;            authority[0]=3;</b>
+<i>94</i>&nbsp;        }else
+<b class="fc"><i>95</i>&nbsp;        if(role.equals(&quot;rd_leader&quot;)){</b>
+<b class="fc"><i>96</i>&nbsp;            authority[0]=1;</b>
+<i>97</i>&nbsp;        }else
+<b class="fc"><i>98</i>&nbsp;        if(role.equals(&quot;qa_leader&quot;)){</b>
+<b class="fc"><i>99</i>&nbsp;            authority[0]=2;</b>
+<i>100</i>&nbsp;        }else
+<i>101</i>&nbsp;        {
+<b class="fc"><i>102</i>&nbsp;            authority[0]=0;</b>
+<i>103</i>&nbsp;        }
+<b class="fc"><i>104</i>&nbsp;        EmployeeProject employeeProjectQa = new EmployeeProject(0, authority, sup_Epid, pid, eid);</b>
+<b class="fc"><i>105</i>&nbsp;        List&lt;EmployeeProject&gt; existenceTest = employeeProjectMapper.getEmployeeProject(pid,eid);//测试存在性</b>
+<b class="fc"><i>106</i>&nbsp;        if(existenceTest.size()&gt;0){</b>
+<b class="fc"><i>107</i>&nbsp;            employeeProjectQa=existenceTest.get(0);//如果这个人存在的话，添加的角色需要收敛权限，比如它本来是rd_leader，现在又要当qa_leader了，那么就给他11的权限</b>
+<b class="fc"><i>108</i>&nbsp;            byte existAuthority = employeeProjectQa.getDefect_authority()[0];</b>
+<b class="fc"><i>109</i>&nbsp;            int combintedAuthority = (int)authority[0]|(int)existAuthority;</b>
+<b class="fc"><i>110</i>&nbsp;            employeeProjectQa.getDefect_authority()[0]=(byte)combintedAuthority;</b>
+<b class="fc"><i>111</i>&nbsp;        }</b>
+<i>112</i>&nbsp;        else
+<b class="fc"><i>113</i>&nbsp;            employeeProjectMapper.addEmployeeProject(employeeProjectQa);//不存在则新建</b>
+<b class="fc"><i>114</i>&nbsp;        employeeProjectMapper.addEmployeeRoleProject(new EmployeeRoleProject(role, employeeProjectQa.getEpid()));</b>
+<b class="fc"><i>115</i>&nbsp;        return employeeProjectQa.getEpid();</b>
+<i>116</i>&nbsp;    }
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    public ResponseMsg getById(int wid){
+<b class="fc"><i>119</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>120</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>121</i>&nbsp;        try{
+<b class="fc"><i>122</i>&nbsp;            Workflow w =workflowMapper.getByWidCascade(wid);</b>
+<b class="fc"><i>123</i>&nbsp;            if(w!=null){</b>
+<b class="fc"><i>124</i>&nbsp;                responseMsg.getResponseMap().put(&quot;workflow&quot;,w);</b>
+<b class="fc"><i>125</i>&nbsp;                responseMsg.setStatusAndMessage(200,&quot;查询成功，附带组织级成员的具体信息&quot;);</b>
+<i>126</i>&nbsp;            }
+<i>127</i>&nbsp;            else{
+<b class="fc"><i>128</i>&nbsp;                responseMsg.setStatusAndMessage(210,&quot;查询无此Workflow&quot;);</b>
+<i>129</i>&nbsp;            }
+<b class="fc"><i>130</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>131</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>132</i>&nbsp;        }</b>
+<b class="fc"><i>133</i>&nbsp;        return responseMsg;</b>
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    public ResponseMsg getTimelineByWid(int wid){
+<b class="fc"><i>137</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>138</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>139</i>&nbsp;        try{
+<b class="fc"><i>140</i>&nbsp;            List&lt;Timeline&gt; w =workflowMapper.getTimelineByWid(wid);</b>
+<b class="fc"><i>141</i>&nbsp;            if(w!=null){</b>
+<b class="fc"><i>142</i>&nbsp;                responseMsg.getResponseMap().put(&quot;timelines&quot;,w);</b>
+<b class="fc"><i>143</i>&nbsp;                responseMsg.setStatusAndMessage(200,&quot;查询成功，具体的操作时间信息&quot;);</b>
+<i>144</i>&nbsp;            }
+<i>145</i>&nbsp;            else{
+<b class="fc"><i>146</i>&nbsp;                responseMsg.setStatusAndMessage(210,&quot;查询无此Workflow&quot;);</b>
+<i>147</i>&nbsp;            }
+<b class="fc"><i>148</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>149</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>150</i>&nbsp;        }</b>
+<b class="fc"><i>151</i>&nbsp;        return responseMsg;</b>
+<i>152</i>&nbsp;    }
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    public ResponseMsg sup_agree(int sup_eid, int wid){
+<b class="fc"><i>155</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>156</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>157</i>&nbsp;        try{
+<b class="fc"><i>158</i>&nbsp;            if(!commonCheckImpl(wid, responseMsg, sup_eid,&quot;sup&quot;,1)){</b>
+<b class="fc"><i>159</i>&nbsp;                return responseMsg;</b>
+<i>160</i>&nbsp;            }
+<b class="fc"><i>161</i>&nbsp;            responseMsg.getResponseMap().put(&quot;workflow&quot;,workflowMapper.getByWidCascade(wid));</b>
+<b class="fc"><i>162</i>&nbsp;            responseMsg.setStatusAndMessage(200,&quot;正常设定了workflow的状态&quot;);//TODO:发邮件通知管理级人员前往配置</b>
+<b class="fc"><i>163</i>&nbsp;            workflowMapper.addTimeline(wid,&quot;approved&quot;,sup_eid);</b>
+<b class="fc"><i>164</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>165</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>166</i>&nbsp;        }</b>
+<b class="fc"><i>167</i>&nbsp;        return responseMsg;</b>
+<i>168</i>&nbsp;    }
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;    public ResponseMsg sup_disagree(int sup_eid, int wid){
+<b class="fc"><i>171</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>172</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>173</i>&nbsp;        try{
+<b class="fc"><i>174</i>&nbsp;            Workflow workflow = workflowMapper.getByWidCascade(wid);</b>
+<b class="fc"><i>175</i>&nbsp;            if(workflow==null){</b>
+<b class="fc"><i>176</i>&nbsp;                responseMsg.setStatusAndMessage(210,&quot;没有查到这个workflow&quot;);</b>
+<b class="fc"><i>177</i>&nbsp;                return responseMsg;</b>
+<i>178</i>&nbsp;            }
+<b class="fc"><i>179</i>&nbsp;            if(sup_eid!=workflow.getSup_eid()){</b>
+<b class="fc"><i>180</i>&nbsp;                responseMsg.setStatusAndMessage(212,&quot;你不是sup没资格不同意项目&quot;);</b>
+<b class="fc"><i>181</i>&nbsp;                return responseMsg;</b>
+<i>182</i>&nbsp;            }
+<b class="fc"><i>183</i>&nbsp;            WorkflowEngineService workflowEngineService=new WorkflowEngineService();</b>
+<b class="fc"><i>184</i>&nbsp;            int altered_flowbits=workflowEngineService.uncheckTodo(0, workflow.getFlowbits());</b>
+<b class="fc"><i>185</i>&nbsp;            if(altered_flowbits==workflow.getFlowbits()){</b>
+<b class="fc"><i>186</i>&nbsp;                responseMsg.setStatusAndMessage(214,&quot;项目状态没变，可能是没有到你的流程或者你的流程已经结束啦&quot;);</b>
+<b class="fc"><i>187</i>&nbsp;                return responseMsg;</b>
+<i>188</i>&nbsp;            }
+<b class="fc"><i>189</i>&nbsp;            workflowMapper.updateFlowBits(wid, altered_flowbits);//更新workflow的比特位</b>
+<b class="fc"><i>190</i>&nbsp;            responseMsg.getResponseMap().put(&quot;workflow&quot;,workflowMapper.getByWidCascade(wid));</b>
+<b class="fc"><i>191</i>&nbsp;            responseMsg.setStatusAndMessage(200,&quot;正常设定了workflow的状态&quot;);</b>
+<b class="fc"><i>192</i>&nbsp;            workflowMapper.addTimeline(wid,&quot;rejected&quot;,sup_eid);</b>
+<b class="fc"><i>193</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>194</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>195</i>&nbsp;        }</b>
+<b class="fc"><i>196</i>&nbsp;        return responseMsg;</b>
+<i>197</i>&nbsp;    }
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;    public ResponseMsg configurer_config(int configurer_eid, int wid,String git_repo, String server_root, String mail_list){
+<b class="fc"><i>200</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>201</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>202</i>&nbsp;        try{
+<b class="fc"><i>203</i>&nbsp;            if(!commonCheckImpl(wid, responseMsg, configurer_eid,&quot;configurer&quot;,2)){</b>
+<b class="fc"><i>204</i>&nbsp;                return responseMsg;</b>
+<i>205</i>&nbsp;            }
+<b class="fc"><i>206</i>&nbsp;            workflowMapper.updateConfig(wid, git_repo, server_root, mail_list);</b>
+<b class="fc"><i>207</i>&nbsp;            responseMsg.getResponseMap().put(&quot;workflow&quot;,workflowMapper.getByWidCascade(wid));</b>
+<b class="fc"><i>208</i>&nbsp;            responseMsg.setStatusAndMessage(200,&quot;正常设定了workflow的状态&quot;);</b>
+<b class="fc"><i>209</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>210</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>211</i>&nbsp;        }</b>
+<b class="fc"><i>212</i>&nbsp;        return responseMsg;</b>
+<i>213</i>&nbsp;    }
+<i>214</i>&nbsp;
+<i>215</i>&nbsp;    public ResponseMsg epg_config(int epgleader_eid, int wid, List&lt;Integer&gt; epgs){
+<b class="fc"><i>216</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>217</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>218</i>&nbsp;        try{
+<b class="fc"><i>219</i>&nbsp;            if(epgs==null){</b>
+<b class="fc"><i>220</i>&nbsp;                responseMsg.setStatusAndMessage(404,&quot;epg数组出现null异常了&quot;);</b>
+<b class="fc"><i>221</i>&nbsp;                return responseMsg;</b>
+<i>222</i>&nbsp;            }
+<b class="fc"><i>223</i>&nbsp;            if(!commonCheckImpl(wid, responseMsg, epgleader_eid,&quot;epgleader&quot;,3)){</b>
+<b class="fc"><i>224</i>&nbsp;                return responseMsg;</b>
+<i>225</i>&nbsp;            }
+<b class="fc"><i>226</i>&nbsp;            Project project = projectMapper.getByWid(wid).get(0);</b>
+<i>227</i>&nbsp;            //设定epgLeader在项目里的角色
+<b class="fc"><i>228</i>&nbsp;            byte authority[]={0};// epg leader不加入项目成员</b>
+<i>229</i>&nbsp;            //设定拉入的epg的角色
+<b class="fc"><i>230</i>&nbsp;            EmployeeProject supEP = employeeProjectMapper.getEmployeeProjectByRole(project.getPid(),&quot;pm&quot;).get(0);//认为上级是pm，拉pm的epid</b>
+<b class="fc"><i>231</i>&nbsp;            for (int i = 0; i &lt; epgs.size(); i++) {</b>
+<b class="fc"><i>232</i>&nbsp;                EmployeeProject employeeProjectEpg = new EmployeeProject(0, authority, supEP.getEpid(), project.getPid(), epgs.get(i));</b>
+<b class="fc"><i>233</i>&nbsp;                List&lt;EmployeeProject&gt; existenceTest = employeeProjectMapper.getEmployeeProject(project.getPid(),epgs.get(i));//测试存在性</b>
+<b class="fc"><i>234</i>&nbsp;                if(existenceTest.size()&gt;0){</b>
+<b class="fc"><i>235</i>&nbsp;                    employeeProjectEpg=existenceTest.get(0);</b>
+<i>236</i>&nbsp;                }
+<i>237</i>&nbsp;                else
+<b class="fc"><i>238</i>&nbsp;                    employeeProjectMapper.addEmployeeProject(employeeProjectEpg);</b>
+<b class="fc"><i>239</i>&nbsp;                employeeProjectMapper.addEmployeeRoleProject(new EmployeeRoleProject(&quot;epg&quot;, employeeProjectEpg.getEpid()));</b>
+<i>240</i>&nbsp;            }
+<i>241</i>&nbsp;            // 返回workflow
+<b class="fc"><i>242</i>&nbsp;            responseMsg.getResponseMap().put(&quot;workflow&quot;,workflowMapper.getByWidCascade(wid));</b>
+<b class="fc"><i>243</i>&nbsp;            responseMsg.setStatusAndMessage(200,&quot;正常设定了workflow的状态&quot;);</b>
+<b class="fc"><i>244</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>245</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>246</i>&nbsp;        }</b>
+<b class="fc"><i>247</i>&nbsp;        return responseMsg;</b>
+<i>248</i>&nbsp;    }
+<i>249</i>&nbsp;
+<i>250</i>&nbsp;    public ResponseMsg qa_config(int qamanager_eid, int wid, ArrayList&lt;Integer&gt; qas) {
+<b class="fc"><i>251</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>252</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>253</i>&nbsp;        try{
+<b class="fc"><i>254</i>&nbsp;            if(qas==null){</b>
+<b class="fc"><i>255</i>&nbsp;                responseMsg.setStatusAndMessage(404,&quot;qa数组出现null异常了&quot;);</b>
+<b class="fc"><i>256</i>&nbsp;                return responseMsg;</b>
+<i>257</i>&nbsp;            }
+<b class="fc"><i>258</i>&nbsp;            if(!commonCheckImpl(wid, responseMsg, qamanager_eid,&quot;qamanager&quot;,4)){</b>
+<b class="fc"><i>259</i>&nbsp;                return responseMsg;</b>
+<i>260</i>&nbsp;            }
+<b class="fc"><i>261</i>&nbsp;            Project project = projectMapper.getByWid(wid).get(0);</b>
+<i>262</i>&nbsp;            //设定qaManager在项目里的角色
+<b class="fc"><i>263</i>&nbsp;            byte authority[]={2};// qamanager 加入项目成员</b>
+<b class="fc"><i>264</i>&nbsp;            EmployeeProject pmEP = employeeProjectMapper.getEmployeeProjectByRole(project.getPid(),&quot;pm&quot;).get(0);//认为上级是pm，拉pm的epid</b>
+<b class="fc"><i>265</i>&nbsp;            EmployeeProject employeeProjectQamanager = new EmployeeProject(0, authority, pmEP.getEpid(), project.getPid(), qamanager_eid);</b>
+<b class="fc"><i>266</i>&nbsp;            List&lt;EmployeeProject&gt; existenceTest = employeeProjectMapper.getEmployeeProject(project.getPid(),qamanager_eid);//测试存在性</b>
+<b class="fc"><i>267</i>&nbsp;            if(existenceTest.size()&gt;0){</b>
+<b class="fc"><i>268</i>&nbsp;                employeeProjectQamanager=existenceTest.get(0);</b>
+<i>269</i>&nbsp;            }
+<i>270</i>&nbsp;            else
+<b class="fc"><i>271</i>&nbsp;                employeeProjectMapper.addEmployeeProject(employeeProjectQamanager);</b>
+<b class="fc"><i>272</i>&nbsp;            employeeProjectMapper.addEmployeeRoleProject(new EmployeeRoleProject(&quot;qa_leader&quot;, employeeProjectQamanager.getEpid()));</b>
+<i>273</i>&nbsp;            //设定拉入的qa的角色
+<b class="fc"><i>274</i>&nbsp;            for (int i = 0; i &lt; qas.size(); i++) {</b>
+<b class="fc"><i>275</i>&nbsp;                authority[0]=0;</b>
+<b class="fc"><i>276</i>&nbsp;                EmployeeProject employeeProjectQa = new EmployeeProject(0, authority, employeeProjectQamanager.getEpid(), project.getPid(), qas.get(i));</b>
+<b class="fc"><i>277</i>&nbsp;                existenceTest = employeeProjectMapper.getEmployeeProject(project.getPid(),qas.get(i));//测试存在性</b>
+<b class="fc"><i>278</i>&nbsp;                if(existenceTest.size()&gt;0){</b>
+<b class="fc"><i>279</i>&nbsp;                    employeeProjectQa=existenceTest.get(0);</b>
+<i>280</i>&nbsp;                }
+<i>281</i>&nbsp;                else
+<b class="fc"><i>282</i>&nbsp;                    employeeProjectMapper.addEmployeeProject(employeeProjectQa);</b>
+<b class="fc"><i>283</i>&nbsp;                employeeProjectMapper.addEmployeeRoleProject(new EmployeeRoleProject(&quot;qa&quot;, employeeProjectQa.getEpid()));</b>
+<i>284</i>&nbsp;            }
+<i>285</i>&nbsp;            // 返回workflow
+<b class="fc"><i>286</i>&nbsp;            responseMsg.getResponseMap().put(&quot;workflow&quot;,workflowMapper.getByWidCascade(wid));</b>
+<b class="fc"><i>287</i>&nbsp;            responseMsg.setStatusAndMessage(200,&quot;正常设定了workflow的状态&quot;);</b>
+<b class="fc"><i>288</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>289</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>290</i>&nbsp;        }</b>
+<b class="fc"><i>291</i>&nbsp;        return responseMsg;</b>
+<i>292</i>&nbsp;    }
+<i>293</i>&nbsp;
+<i>294</i>&nbsp;    public ResponseMsg member_config(int pm_eid, int wid, Integer rd_leader_id, ArrayList&lt;Integer&gt; rd_ids, ArrayList&lt;Integer&gt; qa_ids) {
+<b class="fc"><i>295</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>296</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>297</i>&nbsp;        try{
+<b class="fc"><i>298</i>&nbsp;            if(rd_ids==null||qa_ids==null){</b>
+<b class="fc"><i>299</i>&nbsp;                responseMsg.setStatusAndMessage(404,&quot;qa数组出现null异常了&quot;);</b>
+<b class="fc"><i>300</i>&nbsp;                return responseMsg;</b>
+<i>301</i>&nbsp;            }
+<b class="fc"><i>302</i>&nbsp;            if(!commonCheckImpl(wid, responseMsg, pm_eid,&quot;pm&quot;,5)){</b>
+<b class="fc"><i>303</i>&nbsp;                return responseMsg;</b>
+<i>304</i>&nbsp;            }
+<b class="fc"><i>305</i>&nbsp;            Project project = projectMapper.getByWid(wid).get(0);</b>
+<b class="fc"><i>306</i>&nbsp;            EmployeeProject pmEP = employeeProjectMapper.getEmployeeProjectByRole(project.getPid(),&quot;pm&quot;).get(0);//认为上级是pm，拉pm的epid</b>
+<b class="fc"><i>307</i>&nbsp;            EmployeeProject qaleaderEP = employeeProjectMapper.getEmployeeProjectByRole(project.getPid(),&quot;qa_leader&quot;).get(0);//认为上级是pm，拉pm的epid</b>
+<i>308</i>&nbsp;            //设定rd_leader在项目里的角色
+<b class="fc"><i>309</i>&nbsp;            int rdleader_EPid = memberAttend_and_RoleAssign_commonImpl(&quot;rd_leader&quot;,pmEP.getEpid(),project.getPid(),rd_leader_id);</b>
+<i>310</i>&nbsp;            //设定拉入的rd的角色
+<b class="fc"><i>311</i>&nbsp;            for (int i = 0; i &lt; rd_ids.size(); i++) {</b>
+<b class="fc"><i>312</i>&nbsp;                memberAttend_and_RoleAssign_commonImpl(&quot;rd&quot;,rdleader_EPid,project.getPid(),rd_ids.get(i));</b>
+<i>313</i>&nbsp;            }
+<i>314</i>&nbsp;            //设定拉入的qa的角色
+<b class="fc"><i>315</i>&nbsp;            for (int i = 0; i &lt; qa_ids.size(); i++) {</b>
+<b class="fc"><i>316</i>&nbsp;                memberAttend_and_RoleAssign_commonImpl(&quot;qa&quot;,qaleaderEP.getEpid(),project.getPid(),qa_ids.get(i));</b>
+<i>317</i>&nbsp;            }
+<i>318</i>&nbsp;            // 返回workflow
+<b class="fc"><i>319</i>&nbsp;            responseMsg.getResponseMap().put(&quot;workflow&quot;,workflowMapper.getByWidCascade(wid));</b>
+<b class="fc"><i>320</i>&nbsp;            responseMsg.setStatusAndMessage(200,&quot;正常设定了workflow的状态&quot;);</b>
+<b class="fc"><i>321</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>322</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>323</i>&nbsp;        }</b>
+<b class="fc"><i>324</i>&nbsp;        return responseMsg;</b>
+<i>325</i>&nbsp;    }
+<i>326</i>&nbsp;
+<i>327</i>&nbsp;    public ResponseMsg pm_authority(int pm_eid, int wid) {
+<i>328</i>&nbsp;        //这里应该去掉外部接口 给成员配置git/文件/邮件的权限的
+<b class="fc"><i>329</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>330</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>331</i>&nbsp;        try{
+<b class="fc"><i>332</i>&nbsp;            if(!commonCheckImpl(wid, responseMsg, pm_eid,&quot;pm&quot;,6)){</b>
+<b class="fc"><i>333</i>&nbsp;                return responseMsg;</b>
+<i>334</i>&nbsp;            }
+<b class="fc"><i>335</i>&nbsp;            responseMsg.getResponseMap().put(&quot;workflow&quot;,workflowMapper.getByWidCascade(wid));</b>
+<b class="fc"><i>336</i>&nbsp;            responseMsg.setStatusAndMessage(200,&quot;正常设定了workflow的状态&quot;);</b>
+<b class="fc"><i>337</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>338</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>339</i>&nbsp;        }</b>
+<b class="fc"><i>340</i>&nbsp;        return responseMsg;</b>
+<i>341</i>&nbsp;    }
+<i>342</i>&nbsp;
+<i>343</i>&nbsp;    public ResponseMsg pm_function(int pm_eid, int wid, Map function) {
+<b class="fc"><i>344</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>345</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>346</i>&nbsp;        try{
+<b class="fc"><i>347</i>&nbsp;            if(!commonCheckImpl(wid, responseMsg, pm_eid,&quot;pm&quot;,7)){</b>
+<b class="fc"><i>348</i>&nbsp;                return responseMsg;</b>
+<i>349</i>&nbsp;            }
+<b class="fc"><i>350</i>&nbsp;            Project project=projectMapper.getByWid(wid).get(0);</b>
+<b class="fc"><i>351</i>&nbsp;            project.setFunction(function);//TODO: 检查function的正确性</b>
+<b class="fc"><i>352</i>&nbsp;            projectMapper.updateProject(project);</b>
+<b class="fc"><i>353</i>&nbsp;            responseMsg.getResponseMap().put(&quot;workflow&quot;,workflowMapper.getByWidCascade(wid));</b>
+<b class="fc"><i>354</i>&nbsp;            responseMsg.setStatusAndMessage(200,&quot;正常设定了workflow的状态&quot;);</b>
+<b class="fc"><i>355</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>356</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>357</i>&nbsp;        }</b>
+<b class="fc"><i>358</i>&nbsp;        return responseMsg;</b>
+<i>359</i>&nbsp;    }
+<i>360</i>&nbsp;
+<i>361</i>&nbsp;    public ResponseMsg pm_common_doing_flow(int pm_eid, int wid, int bits) {
+<b class="fc"><i>362</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>363</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>364</i>&nbsp;        try{
+<b class="fc"><i>365</i>&nbsp;            if(!commonCheckImpl(wid, responseMsg, pm_eid,&quot;pm&quot;,bits)){</b>
+<b class="fc"><i>366</i>&nbsp;                return responseMsg;</b>
+<i>367</i>&nbsp;            }
+<b class="fc"><i>368</i>&nbsp;            responseMsg.getResponseMap().put(&quot;workflow&quot;,workflowMapper.getByWidCascade(wid));</b>
+<b class="fc"><i>369</i>&nbsp;            responseMsg.setStatusAndMessage(200,&quot;正常设定了workflow的状态&quot;);</b>
+<b class="fc"><i>370</i>&nbsp;            String[] operations={&quot;started&quot;,&quot;delivering&quot;,&quot;submitted&quot;};</b>
+<b class="fc"><i>371</i>&nbsp;            workflowMapper.addTimeline(wid, operations[(bits-8)%3], pm_eid);</b>
+<b class="fc"><i>372</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>373</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>374</i>&nbsp;        }</b>
+<b class="fc"><i>375</i>&nbsp;        return responseMsg;</b>
+<i>376</i>&nbsp;    }
+<i>377</i>&nbsp;
+<i>378</i>&nbsp;    public ResponseMsg pm_common_archive(int eid, int wid, Integer archive_id, String content) {
+<b class="fc"><i>379</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>380</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>381</i>&nbsp;        try{
+<b class="fc"><i>382</i>&nbsp;            if(!commonCheckImpl(wid, responseMsg, eid,&quot;pm&quot;,archive_id+11)){</b>
+<b class="fc"><i>383</i>&nbsp;                return responseMsg;</b>
+<i>384</i>&nbsp;            }
+<b class="fc"><i>385</i>&nbsp;            Workflow workflow =workflowMapper.getByWid(wid);</b>
+<b class="fc"><i>386</i>&nbsp;            switch (archive_id){</b>
+<i>387</i>&nbsp;                case 0:
+<b class="fc"><i>388</i>&nbsp;                    workflow.setArchive00(content);</b>
+<b class="fc"><i>389</i>&nbsp;                    break;</b>
+<i>390</i>&nbsp;                case 1:
+<b class="fc"><i>391</i>&nbsp;                    workflow.setArchive01(content);</b>
+<b class="fc"><i>392</i>&nbsp;                    break;</b>
+<i>393</i>&nbsp;                case 2:
+<b class="fc"><i>394</i>&nbsp;                    workflow.setArchive02(content);</b>
+<b class="fc"><i>395</i>&nbsp;                    break;</b>
+<i>396</i>&nbsp;                case 3:
+<b class="fc"><i>397</i>&nbsp;                    workflow.setArchive03(content);</b>
+<b class="fc"><i>398</i>&nbsp;                    break;</b>
+<i>399</i>&nbsp;                case 4:
+<b class="fc"><i>400</i>&nbsp;                    workflow.setArchive04(content);</b>
+<b class="fc"><i>401</i>&nbsp;                    break;</b>
+<i>402</i>&nbsp;                case 5:
+<b class="fc"><i>403</i>&nbsp;                    workflow.setArchive05(content);</b>
+<b class="fc"><i>404</i>&nbsp;                    break;</b>
+<i>405</i>&nbsp;                case 6:
+<b class="fc"><i>406</i>&nbsp;                    workflow.setArchive06(content);</b>
+<b class="fc"><i>407</i>&nbsp;                    break;</b>
+<i>408</i>&nbsp;                case 7:
+<b class="fc"><i>409</i>&nbsp;                    workflow.setArchive07(content);</b>
+<b class="fc"><i>410</i>&nbsp;                    break;</b>
+<i>411</i>&nbsp;                case 8:
+<b class="fc"><i>412</i>&nbsp;                    workflow.setArchive08(content);</b>
+<b class="fc"><i>413</i>&nbsp;                    break;</b>
+<i>414</i>&nbsp;                case 9:
+<b class="fc"><i>415</i>&nbsp;                    workflow.setArchive09(content);</b>
+<b class="fc"><i>416</i>&nbsp;                    break;</b>
+<i>417</i>&nbsp;                case 10:
+<b class="fc"><i>418</i>&nbsp;                    workflow.setArchive10(content);</b>
+<b class="fc"><i>419</i>&nbsp;                    break;</b>
+<i>420</i>&nbsp;                case 11:
+<b class="fc"><i>421</i>&nbsp;                    workflow.setArchive11(content);</b>
+<b class="fc"><i>422</i>&nbsp;                    break;</b>
+<i>423</i>&nbsp;                case 12:
+<b class="fc"><i>424</i>&nbsp;                    workflow.setArchive12(content);</b>
+<b class="fc"><i>425</i>&nbsp;                    break;</b>
+<i>426</i>&nbsp;                case 13:
+<b class="fc"><i>427</i>&nbsp;                    workflow.setArchive13(content);</b>
+<b class="fc"><i>428</i>&nbsp;                    break;</b>
+<i>429</i>&nbsp;                case 14:
+<b class="fc"><i>430</i>&nbsp;                    workflow.setArchive14(content);</b>
+<b class="fc"><i>431</i>&nbsp;                    break;</b>
+<i>432</i>&nbsp;                case 15:
+<b class="fc"><i>433</i>&nbsp;                    workflow.setArchive15(content);</b>
+<b class="fc"><i>434</i>&nbsp;                    break;</b>
+<i>435</i>&nbsp;                case 16:
+<b class="fc"><i>436</i>&nbsp;                    workflow.setArchive16(content);</b>
+<b class="fc"><i>437</i>&nbsp;                    break;</b>
+<i>438</i>&nbsp;                default:
+<i>439</i>&nbsp;                    break;
+<i>440</i>&nbsp;            }
+<b class="fc"><i>441</i>&nbsp;            workflowMapper.update(workflow);</b>
+<b class="fc"><i>442</i>&nbsp;            responseMsg.getResponseMap().put(&quot;workflow&quot;,workflowMapper.getByWidCascade(wid));</b>
+<b class="fc"><i>443</i>&nbsp;            responseMsg.setStatusAndMessage(200,&quot;正常设定了workflow的状态&quot;);</b>
+<b class="fc"><i>444</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>445</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>446</i>&nbsp;        }</b>
+<b class="fc"><i>447</i>&nbsp;        return responseMsg;</b>
+<i>448</i>&nbsp;    }
+<i>449</i>&nbsp;
+<i>450</i>&nbsp;    public ResponseMsg configurer_after_archive(int eid, int wid) {
+<b class="fc"><i>451</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>452</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<i>453</i>&nbsp;        try{
+<b class="fc"><i>454</i>&nbsp;            if(!commonCheckImpl(wid, responseMsg, eid,&quot;configurer&quot;,28)){</b>
+<b class="fc"><i>455</i>&nbsp;                return responseMsg;</b>
+<i>456</i>&nbsp;            }
+<b class="fc"><i>457</i>&nbsp;            responseMsg.getResponseMap().put(&quot;workflow&quot;,workflowMapper.getByWidCascade(wid));</b>
+<b class="fc"><i>458</i>&nbsp;            responseMsg.setStatusAndMessage(200,&quot;正常设定了workflow的状态&quot;);</b>
+<b class="fc"><i>459</i>&nbsp;            workflowMapper.addTimeline(wid,&quot;achieved&quot;,eid);</b>
+<b class="fc"><i>460</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>461</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>462</i>&nbsp;        }</b>
+<b class="fc"><i>463</i>&nbsp;        return responseMsg;</b>
+<i>464</i>&nbsp;    }
+<i>465</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-06 04:34</div>
+</div>
+</body>
+</html>

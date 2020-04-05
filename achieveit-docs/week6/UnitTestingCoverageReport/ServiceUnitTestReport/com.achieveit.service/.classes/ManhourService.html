@@ -1,0 +1,330 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ManhourService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.achieveit.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ManhourService (com.achieveit.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ManhourService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (149/ 149)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.achieveit.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.achieveit.config.DateUtil;
+<i>4</i>&nbsp;import com.achieveit.entity.*;
+<i>5</i>&nbsp;import com.achieveit.mapper.EmployeeProjectMapper;
+<i>6</i>&nbsp;import com.achieveit.mapper.ManhourMapper;
+<i>7</i>&nbsp;import com.achieveit.mapper.ProjectMapper;
+<i>8</i>&nbsp;import com.fasterxml.jackson.core.JsonParser;
+<i>9</i>&nbsp;import net.sf.json.JSONObject;
+<i>10</i>&nbsp;import org.slf4j.Logger;
+<i>11</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>12</i>&nbsp;import org.springframework.stereotype.Service;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import java.sql.Date;
+<i>15</i>&nbsp;import java.sql.Timestamp;
+<i>16</i>&nbsp;import java.util.ArrayList;
+<i>17</i>&nbsp;import java.util.Calendar;
+<i>18</i>&nbsp;import java.util.List;
+<i>19</i>&nbsp;import java.util.Map;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;@Service
+<i>22</i>&nbsp;public class ManhourService {
+<b class="fc"><i>23</i>&nbsp;    Logger logger = LoggerFactory.getLogger(getClass());</b>
+<i>24</i>&nbsp;    ManhourMapper manhourMapper;
+<i>25</i>&nbsp;    EmployeeProjectMapper employeeProjectMapper;
+<i>26</i>&nbsp;    ProjectMapper projectMapper;
+<i>27</i>&nbsp;
+<b class="fc"><i>28</i>&nbsp;    public ManhourService(ManhourMapper manhourMapper, EmployeeProjectMapper employeeProjectMapper, ProjectMapper projectMapper) {</b>
+<b class="fc"><i>29</i>&nbsp;        this.manhourMapper = manhourMapper;</b>
+<b class="fc"><i>30</i>&nbsp;        this.employeeProjectMapper = employeeProjectMapper;</b>
+<b class="fc"><i>31</i>&nbsp;        this.projectMapper = projectMapper;</b>
+<b class="fc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public ResponseMsg getPagedManhourByEid(int eid, int page, int length){
+<b class="fc"><i>35</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>36</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<i>37</i>&nbsp;        try{
+<b class="fc"><i>38</i>&nbsp;            List&lt;Manhour&gt; pws = manhourMapper.getByEidCascade(eid);</b>
+<b class="fc"><i>39</i>&nbsp;            List&lt;Manhour&gt; pws_paged = new ArrayList&lt;Manhour&gt;();</b>
+<b class="fc"><i>40</i>&nbsp;            for(int i=page*length;i&lt;page*length+length;i++){</b>
+<b class="fc"><i>41</i>&nbsp;                if(i&lt;pws.size()){</b>
+<b class="fc"><i>42</i>&nbsp;                    pws.get(i).setFunction_desc_by_FunctionObject(pws.get(i).getFid(), JSONObject.fromObject(pws.get(i).getEmployeeProject().getProject().getFunction()));</b>
+<b class="fc"><i>43</i>&nbsp;                    pws_paged.add(pws.get(i));</b>
+<i>44</i>&nbsp;                }
+<i>45</i>&nbsp;            }
+<b class="fc"><i>46</i>&nbsp;            int page_length = (pws.size()+length-1)/length;</b>
+<b class="fc"><i>47</i>&nbsp;            msg.setStatusAndMessage(200, &quot;请求正常&quot;);</b>
+<b class="fc"><i>48</i>&nbsp;            msg.getResponseMap().put(&quot;Manhour&quot;,pws_paged);</b>
+<b class="fc"><i>49</i>&nbsp;            msg.getResponseMap().put(&quot;page_length&quot;,page_length);</b>
+<b class="fc"><i>50</i>&nbsp;        }catch(Exception e){</b>
+<b class="fc"><i>51</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>52</i>&nbsp;        }</b>
+<b class="fc"><i>53</i>&nbsp;        return msg;</b>
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;    public ResponseMsg getFilteredPagedManhourByEid(int eid, int page, int length, Date date){
+<b class="fc"><i>56</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>57</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<i>58</i>&nbsp;        try{
+<b class="fc"><i>59</i>&nbsp;            List&lt;Manhour&gt; pws = manhourMapper.getDatedByEidCascade(eid,date);</b>
+<b class="fc"><i>60</i>&nbsp;            List&lt;Manhour&gt; pws_paged = new ArrayList&lt;Manhour&gt;();</b>
+<b class="fc"><i>61</i>&nbsp;            for(int i=page*length;i&lt;page*length+length;i++){</b>
+<b class="fc"><i>62</i>&nbsp;                if(i&lt;pws.size()){</b>
+<b class="fc"><i>63</i>&nbsp;                    pws.get(i).setFunction_desc_by_FunctionObject(pws.get(i).getFid(), JSONObject.fromObject(pws.get(i).getEmployeeProject().getProject().getFunction()));</b>
+<b class="fc"><i>64</i>&nbsp;                    pws_paged.add(pws.get(i));</b>
+<i>65</i>&nbsp;                }
+<i>66</i>&nbsp;            }
+<b class="fc"><i>67</i>&nbsp;            int page_length = (pws.size()+length-1)/length;</b>
+<b class="fc"><i>68</i>&nbsp;            msg.setStatusAndMessage(200, &quot;请求正常&quot;);</b>
+<b class="fc"><i>69</i>&nbsp;            msg.getResponseMap().put(&quot;Manhour&quot;,pws_paged);</b>
+<b class="fc"><i>70</i>&nbsp;            msg.getResponseMap().put(&quot;page_length&quot;,page_length);</b>
+<b class="fc"><i>71</i>&nbsp;        }catch(Exception e){</b>
+<b class="fc"><i>72</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>73</i>&nbsp;        }</b>
+<b class="fc"><i>74</i>&nbsp;        return msg;</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    public ResponseMsg getActivity() {
+<b class="fc"><i>78</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>79</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<i>80</i>&nbsp;        try{
+<b class="fc"><i>81</i>&nbsp;            msg.getResponseMap().put(&quot;activities&quot;, manhourMapper.getActivity());</b>
+<b class="fc"><i>82</i>&nbsp;            msg.setStatusAndMessage(200, &quot;正常取出&quot;);</b>
+<b class="fc"><i>83</i>&nbsp;        }catch(Exception e){</b>
+<b class="fc"><i>84</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>85</i>&nbsp;        }</b>
+<b class="fc"><i>86</i>&nbsp;        return msg;</b>
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    public ResponseMsg newManhour(int eid, String pid, int aid, int fid, Timestamp startdate, Timestamp enddate) {
+<b class="fc"><i>91</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>92</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<i>93</i>&nbsp;        try{
+<b class="fc"><i>94</i>&nbsp;            List&lt;EmployeeProject&gt; employeeProjects=employeeProjectMapper.getEmployeeProject(pid, eid);</b>
+<b class="fc"><i>95</i>&nbsp;            if(employeeProjects==null||employeeProjects.size()==0){</b>
+<b class="fc"><i>96</i>&nbsp;                msg.setStatusAndMessage(212, &quot;eid/pid组合出错&quot;);</b>
+<b class="fc"><i>97</i>&nbsp;                return msg;</b>
+<i>98</i>&nbsp;            }
+<b class="fc"><i>99</i>&nbsp;            EmployeeProject employeeProject=employeeProjects.get(0);</b>
+<b class="fc"><i>100</i>&nbsp;            if(employeeProject.getSup()==null){</b>
+<b class="fc"><i>101</i>&nbsp;                msg.setStatusAndMessage(216, &quot;没有sup&quot;);</b>
+<b class="fc"><i>102</i>&nbsp;                return msg;</b>
+<i>103</i>&nbsp;            }
+<b class="fc"><i>104</i>&nbsp;            int epid = employeeProject.getEpid();</b>
+<i>105</i>&nbsp;
+<b class="fc"><i>106</i>&nbsp;            Project project= projectMapper.getByPid(pid);</b>
+<b class="fc"><i>107</i>&nbsp;            JSONObject functionObject=JSONObject.fromObject(project.getFunction());</b>
+<i>108</i>&nbsp;
+<b class="fc"><i>109</i>&nbsp;            Activity activity = manhourMapper.getActivityByAid(aid);</b>
+<b class="fc"><i>110</i>&nbsp;            if(activity==null){</b>
+<b class="fc"><i>111</i>&nbsp;                msg.setStatusAndMessage(214, &quot;aid出错&quot;);</b>
+<b class="fc"><i>112</i>&nbsp;                return msg;</b>
+<i>113</i>&nbsp;            }
+<i>114</i>&nbsp;
+<b class="fc"><i>115</i>&nbsp;            Date date=new Date(Calendar.getInstance().getTimeInMillis());</b>
+<b class="fc"><i>116</i>&nbsp;            Manhour manhour=new Manhour(0, fid, date,startdate,enddate,&quot;unfilled&quot;, epid,aid);</b>
+<b class="fc"><i>117</i>&nbsp;            manhour.setFunction_desc_by_FunctionObject(fid, functionObject);</b>
+<i>118</i>&nbsp;
+<b class="fc"><i>119</i>&nbsp;            int ret = manhourMapper.add(manhour);</b>
+<b class="fc"><i>120</i>&nbsp;            if(ret&gt;0){</b>
+<b class="fc"><i>121</i>&nbsp;                msg.getResponseMap().put(&quot;manhour&quot;,manhour);</b>
+<b class="fc"><i>122</i>&nbsp;                msg.setStatusAndMessage(200, &quot;正常新建manhour&quot;);</b>
+<i>123</i>&nbsp;            }
+<i>124</i>&nbsp;            else{
+<b class="fc"><i>125</i>&nbsp;                msg.setStatusAndMessage(212, &quot;新建manhour失败啦&quot;);</b>
+<i>126</i>&nbsp;            }
+<b class="fc"><i>127</i>&nbsp;        }catch(Exception e){</b>
+<b class="fc"><i>128</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>129</i>&nbsp;        }</b>
+<b class="fc"><i>130</i>&nbsp;        return msg;</b>
+<i>131</i>&nbsp;    }
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    public ResponseMsg deleteManhour(int eid, int mid) {
+<b class="fc"><i>134</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>135</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<i>136</i>&nbsp;        try{
+<b class="fc"><i>137</i>&nbsp;            Manhour manhour=manhourMapper.getByMidCascade(mid);</b>
+<b class="fc"><i>138</i>&nbsp;            if(manhour.getEmployeeProject().getEmployee_id()!=eid){</b>
+<b class="fc"><i>139</i>&nbsp;                msg.setStatusAndMessage(210, &quot;你不是Manhour发起者不能删除&quot;);</b>
+<b class="fc"><i>140</i>&nbsp;                return msg;</b>
+<i>141</i>&nbsp;            }
+<b class="fc"><i>142</i>&nbsp;            int ret=manhourMapper.deleteManhour(mid);</b>
+<b class="fc"><i>143</i>&nbsp;            if(ret&gt;0){</b>
+<b class="fc"><i>144</i>&nbsp;                msg.setStatusAndMessage(200, &quot;删除成功&quot;);</b>
+<i>145</i>&nbsp;            }else{
+<b class="fc"><i>146</i>&nbsp;                msg.setStatusAndMessage(212, &quot;删除失败&quot;);</b>
+<i>147</i>&nbsp;            }
+<b class="fc"><i>148</i>&nbsp;        }catch(Exception e){</b>
+<b class="fc"><i>149</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>150</i>&nbsp;        }</b>
+<b class="fc"><i>151</i>&nbsp;        return msg;</b>
+<i>152</i>&nbsp;    }
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;//    &quot;{\n&quot; +
+<i>155</i>&nbsp;//            &quot;    \&quot;fid\&quot;:0,\n&quot; +
+<i>156</i>&nbsp;//            &quot;    \&quot;starttime\&quot;:\&quot;2020-04-08T16:00:00.000Z\&quot;,\n&quot; +
+<i>157</i>&nbsp;//            &quot;    \&quot;endtime\&quot;:\&quot;2020-04-09T16:00:00.000Z\&quot;,\n&quot; +
+<i>158</i>&nbsp;//            &quot;    \&quot;status\&quot;:\&quot;unfilled/unchecked/checked\&quot;,\n&quot; +
+<i>159</i>&nbsp;//            &quot;    \&quot;activity_id\&quot;:1\n&quot; +
+<i>160</i>&nbsp;//            &quot;}\n&quot; +
+<i>161</i>&nbsp;//            &quot;如果提供了status则只检查status，则需要检查eid的身份是否是manhour发起者在项目中的上级\n &quot; +
+<i>162</i>&nbsp;//            &quot;status具有语义-unfilled[发起者还可修改]-unchecked[不通过]-checked[通过]\n&quot; +
+<i>163</i>&nbsp;//            &quot;上级打回方是将status置为unfilled，如果变为unfilled必须要在现在的状态是checked/unchecked而且现在距离manhour的date在三天内&quot;
+<i>164</i>&nbsp;    public ResponseMsg updateManhour(int eid, int mid, Map param) {
+<b class="fc"><i>165</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>166</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<i>167</i>&nbsp;        try{
+<b class="fc"><i>168</i>&nbsp;            Manhour manhour=manhourMapper.getByMidCascade(mid);</b>
+<b class="fc"><i>169</i>&nbsp;            if(param.containsKey(&quot;status&quot;)){//Manhour的发起者的上级进行状态变更</b>
+<b class="fc"><i>170</i>&nbsp;                List&lt;EmployeeProject&gt; employeeProjects = employeeProjectMapper.getEmployeeProject(manhour.getEmployeeProject().getProject_id(), eid);</b>
+<b class="fc"><i>171</i>&nbsp;                if(employeeProjects.size()==0){</b>
+<b class="fc"><i>172</i>&nbsp;                    msg.setStatusAndMessage(210, &quot;你不是可操作者&quot;);</b>
+<b class="fc"><i>173</i>&nbsp;                    return msg;</b>
+<i>174</i>&nbsp;                }
+<b class="fc"><i>175</i>&nbsp;                EmployeeProject sup_ep = employeeProjects.get(0);</b>
+<b class="fc"><i>176</i>&nbsp;                if(manhour.getEmployeeProject().getSup()==null||sup_ep.getEpid()!=manhour.getEmployeeProject().getSup().getEpid()){</b>
+<b class="fc"><i>177</i>&nbsp;                    msg.setStatusAndMessage(210, &quot;你不是可操作者&quot;);</b>
+<b class="fc"><i>178</i>&nbsp;                    return msg;</b>
+<i>179</i>&nbsp;                }
+<b class="fc"><i>180</i>&nbsp;                String status = param.get(&quot;status&quot;).toString();</b>
+<b class="fc"><i>181</i>&nbsp;                if(!status.equals(&quot;unfilled&quot;)&amp;&amp;!status.equals(&quot;unchecked&quot;)&amp;&amp;!status.equals(&quot;checked&quot;)){</b>
+<b class="fc"><i>182</i>&nbsp;                    msg.setStatusAndMessage(212, &quot;不存在的状态，状态参数错误&quot;);</b>
+<b class="fc"><i>183</i>&nbsp;                    return msg;</b>
+<i>184</i>&nbsp;                }
+<b class="fc"><i>185</i>&nbsp;                manhour.setStatus(status);</b>
+<b class="fc"><i>186</i>&nbsp;            }</b>
+<i>187</i>&nbsp;            else{//Manhour的发起者自己更新除了status的内容
+<b class="fc"><i>188</i>&nbsp;                if(!manhour.getStatus().equals(&quot;unfilled&quot;)){</b>
+<b class="fc"><i>189</i>&nbsp;                    msg.setStatusAndMessage(216, &quot;非unfilled状态下无法更新&quot;);</b>
+<b class="fc"><i>190</i>&nbsp;                    return msg;</b>
+<i>191</i>&nbsp;                }
+<b class="fc"><i>192</i>&nbsp;                List&lt;EmployeeProject&gt; employeeProjects = employeeProjectMapper.getEmployeeProject(manhour.getEmployeeProject().getProject_id(), eid);</b>
+<b class="fc"><i>193</i>&nbsp;                if(employeeProjects.size()==0){</b>
+<b class="fc"><i>194</i>&nbsp;                    msg.setStatusAndMessage(210, &quot;你不是可操作者&quot;);</b>
+<b class="fc"><i>195</i>&nbsp;                    return msg;</b>
+<i>196</i>&nbsp;                }
+<b class="fc"><i>197</i>&nbsp;                EmployeeProject me_ep = employeeProjects.get(0);</b>
+<b class="fc"><i>198</i>&nbsp;                if(me_ep.getEpid()!=manhour.getEmployee_project_id()){</b>
+<b class="fc"><i>199</i>&nbsp;                    msg.setStatusAndMessage(210, &quot;你不是可操作者&quot;);</b>
+<b class="fc"><i>200</i>&nbsp;                    return msg;</b>
+<i>201</i>&nbsp;                }
+<b class="fc"><i>202</i>&nbsp;                if(param.containsKey(&quot;fid&quot;)){</b>
+<b class="fc"><i>203</i>&nbsp;                    manhour.setFid(Integer.valueOf(param.get(&quot;fid&quot;).toString()));</b>
+<i>204</i>&nbsp;                }
+<b class="fc"><i>205</i>&nbsp;                if(param.containsKey(&quot;starttime&quot;)){</b>
+<b class="fc"><i>206</i>&nbsp;                    Timestamp startdate=null;</b>
+<b class="fc"><i>207</i>&nbsp;                    String[] startString = param.get(&quot;starttime&quot;).toString().split(&quot;T&quot;);</b>
+<b class="fc"><i>208</i>&nbsp;                    startdate = DateUtil.String2Timestamp(startString[0]+&quot; &quot;+startString[1].split(&quot;\\.&quot;)[0], &quot;yyyy-MM-dd HH:mm:ss&quot;);</b>
+<b class="fc"><i>209</i>&nbsp;                    manhour.setStarttime(startdate);</b>
+<i>210</i>&nbsp;                }
+<b class="fc"><i>211</i>&nbsp;                if(param.containsKey(&quot;endtime&quot;)){</b>
+<b class="fc"><i>212</i>&nbsp;                    Timestamp enddate = null;</b>
+<b class="fc"><i>213</i>&nbsp;                    String[] endString = param.get(&quot;endtime&quot;).toString().split(&quot;T&quot;);</b>
+<b class="fc"><i>214</i>&nbsp;                    enddate = DateUtil.String2Timestamp(endString[0]+&quot; &quot;+endString[1].split(&quot;\\.&quot;)[0], &quot;yyyy-MM-dd HH:mm:ss&quot;);</b>
+<b class="fc"><i>215</i>&nbsp;                    manhour.setEndtime(enddate);</b>
+<i>216</i>&nbsp;                }
+<b class="fc"><i>217</i>&nbsp;                if(param.containsKey(&quot;activity_id&quot;)){</b>
+<b class="fc"><i>218</i>&nbsp;                    manhour.setActivity_id(Integer.valueOf(param.get(&quot;activity_id&quot;).toString()));</b>
+<i>219</i>&nbsp;                }
+<i>220</i>&nbsp;            }
+<b class="fc"><i>221</i>&nbsp;            int ret = manhourMapper.update(manhour);</b>
+<b class="fc"><i>222</i>&nbsp;            if(ret&gt;0){</b>
+<b class="fc"><i>223</i>&nbsp;                msg.getResponseMap().put(&quot;manhour&quot;, manhour);</b>
+<b class="fc"><i>224</i>&nbsp;                msg.setStatusAndMessage(200, &quot;更新成功&quot;);</b>
+<i>225</i>&nbsp;            }
+<i>226</i>&nbsp;            else{
+<i>227</i>&nbsp;
+<b class="fc"><i>228</i>&nbsp;                msg.setStatusAndMessage(214, &quot;更新失败&quot;);</b>
+<i>229</i>&nbsp;            }
+<b class="fc"><i>230</i>&nbsp;        }catch(Exception e){</b>
+<b class="fc"><i>231</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>232</i>&nbsp;        }</b>
+<b class="fc"><i>233</i>&nbsp;        return msg;</b>
+<i>234</i>&nbsp;    }
+<i>235</i>&nbsp;
+<i>236</i>&nbsp;    public ResponseMsg getSubManhour(int eid) {
+<b class="fc"><i>237</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>238</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<i>239</i>&nbsp;        try{
+<b class="fc"><i>240</i>&nbsp;            msg.getResponseMap().put(&quot;activities&quot;, manhourMapper.getSubManhour(eid));</b>
+<b class="fc"><i>241</i>&nbsp;            msg.setStatusAndMessage(200, &quot;正常取出&quot;);</b>
+<b class="fc"><i>242</i>&nbsp;        }catch(Exception e){</b>
+<b class="fc"><i>243</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>244</i>&nbsp;        }</b>
+<b class="fc"><i>245</i>&nbsp;        return msg;</b>
+<i>246</i>&nbsp;    }
+<i>247</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-06 04:34</div>
+</div>
+</body>
+</html>
