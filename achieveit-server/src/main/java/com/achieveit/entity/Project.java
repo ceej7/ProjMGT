@@ -96,6 +96,7 @@ public class Project {
     public void setFunction(Map param){
         if(param==null){
             this.function=null;
+            return;
         }
         JSONObject jsonObject=new JSONObject();
         Set<String> keys = param.keySet();
