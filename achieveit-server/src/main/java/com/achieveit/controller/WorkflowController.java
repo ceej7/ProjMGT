@@ -133,7 +133,7 @@ public class WorkflowController {
             Integer rd_leader_id = Integer.valueOf(members.get("rd_leader").toString());
             ArrayList<Integer> rd_ids = (ArrayList<Integer>) members.get("rd");
             ArrayList<Integer> qa_ids = null;
-            if(!members.containsKey("rd")){
+            if(!members.containsKey("qa")){
                 qa_ids = new ArrayList<>();
             }
             else{
