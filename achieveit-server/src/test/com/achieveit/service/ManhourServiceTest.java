@@ -20,6 +20,7 @@ import java.sql.Date;
 import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofMinutes;
 
+import java.sql.Timestamp;
 import java.util.concurrent.CountDownLatch;
 
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,8 @@ public class ManhourServiceTest {
     @BeforeEach
     public void init() {
         manhourMapper = mock(ManhourMapper.class);
+        employeeProjectMapper=mock(EmployeeProjectMapper.class);
+        projectMapper=mock(ProjectMapper.class);
         manhourService = new ManhourService(manhourMapper,employeeProjectMapper,projectMapper);
     }
 
@@ -130,24 +133,27 @@ public class ManhourServiceTest {
 
     //////////////updateManhour()//////////////
     @Test
-    public void happy_path_with_updateManhour() throws Exception {
-        Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", null, null);
-        List<Manhour> manhours = new ArrayList<>();
-        manhours.add(manhour);
-        when(manhourMapper.getByMidCascade(anyInt())).thenReturn(manhour);
-        EmployeeProject employeeProject = new EmployeeProject(1,null, null, null, 1);
+    public void happy_path_with_updateManhour_ret200() throws Exception {
+        Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", 1, 1);
+        EmployeeProject employeeProject = new EmployeeProject(1,null, 0, "1", 1);
+        manhour.setEmployeeProject(employeeProject);
+
         ArrayList<EmployeeProject> employeeProjects=new ArrayList<EmployeeProject>();
-        when(employeeProjectMapper.getEmployeeProjectByRole(anyString(),anyString())).thenReturn(employeeProjects);
+        employeeProjects.add(employeeProject);
+
+        when(manhourMapper.getByMidCascade(anyInt())).thenReturn(manhour);
+        when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(employeeProjects);
+
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = manhourService.updateManhour(anyInt(), anyInt(), anyMap());
-
         Map<String,String> param=new HashMap<String, String>();
         param.put("status","unfilled");
-//        param.put("fid","null");
+        param.put("fid","0");
         param.put("starttime","2020-04-09T16:00:00.000Z");
         param.put("endtime","2020-05-09T16:00:00.000Z");
-//        param.put("activity_id","null");
+        param.put("activity_id","1");
+
+        msg = manhourService.updateManhour(1,1,param);
 
         when(manhourMapper.update(manhour)).thenReturn(1);
         assertEquals(200, msg.getStatus());
@@ -157,23 +163,25 @@ public class ManhourServiceTest {
     @Test
     public void happy_path_with_updateManhour_wo_status() throws Exception {
         Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", null, null);
+        EmployeeProject employeeProject = new EmployeeProject(1,null, null, null, null);
+        manhour.setEmployeeProject(employeeProject);
         List<Manhour> manhours = new ArrayList<>();
         manhours.add(manhour);
         when(manhourMapper.getByMidCascade(anyInt())).thenReturn(manhour);
-        EmployeeProject employeeProject = new EmployeeProject(1,null, null, null, 1);
         ArrayList<EmployeeProject> employeeProjects=new ArrayList<EmployeeProject>();
-        when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(new ArrayList<EmployeeProject>());
+        employeeProjects.add(employeeProject);
+        when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(employeeProjects);
 
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = manhourService.updateManhour(anyInt(), anyInt(), anyMap());
-
         Map<String,String> param=new HashMap<String, String>();
-//        param.put("status","unfilled");
-//        param.put("fid","null");
+        param.put("status","unfilled");
+        param.put("fid","0");
         param.put("starttime","2020-04-09T16:00:00.000Z");
         param.put("endtime","2020-05-09T16:00:00.000Z");
-//        param.put("activity_id","null");
+        param.put("activity_id","1");
+
+        msg = manhourService.updateManhour(1,1,param);
 
         when(manhourMapper.update(manhour)).thenReturn(1);
         assertEquals(200, msg.getStatus());
@@ -181,13 +189,14 @@ public class ManhourServiceTest {
     }
 
     @Test
-    public void no_authorities_when_updateManhour_wo_status() throws Exception {
+    public void no_authorities_when_updateManhour_wo_status_ret210() throws Exception {
         Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", null, null);
+        EmployeeProject employeeProject = new EmployeeProject(1,null, null, null, null);
+        manhour.setEmployeeProject(employeeProject);
         List<Manhour> manhours = new ArrayList<>();
         manhours.add(manhour);
         when(manhourMapper.getByMidCascade(anyInt())).thenReturn(manhour);
-        EmployeeProject employeeProject = new EmployeeProject(1,null, null, null, 1);
-        ArrayList<EmployeeProject> employeeProjects = new ArrayList<EmployeeProject>();
+        ArrayList<EmployeeProject> employeeProjects=new ArrayList<EmployeeProject>();
         employeeProjects.add(employeeProject);
         when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(employeeProjects);
 
@@ -200,29 +209,30 @@ public class ManhourServiceTest {
     }
 
     @Test
-    public void failed_to_updateManhour() throws Exception {
-        Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", null, null);
-        List<Manhour> manhours = new ArrayList<>();
-        manhours.add(manhour);
-        when(manhourMapper.getByMidCascade(anyInt())).thenReturn(manhour);
-        EmployeeProject employeeProject = new EmployeeProject(1,null, null, null, 1);
+    public void alternate_updateManhour_ret210() throws Exception {
+        Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", 1, 1);
+        EmployeeProject employeeProject = new EmployeeProject(1,null, 0, "1", 1);
+        manhour.setEmployeeProject(employeeProject);
+
         ArrayList<EmployeeProject> employeeProjects=new ArrayList<EmployeeProject>();
         employeeProjects.add(employeeProject);
+
+        when(manhourMapper.getByMidCascade(anyInt())).thenReturn(manhour);
         when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(employeeProjects);
 
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = manhourService.updateManhour(anyInt(), anyInt(), anyMap());
-
         Map<String,String> param=new HashMap<String, String>();
         param.put("status","unfilled");
-//        param.put("fid","null");
+        param.put("fid","0");
         param.put("starttime","2020-04-09T16:00:00.000Z");
         param.put("endtime","2020-05-09T16:00:00.000Z");
-//        param.put("activity_id","null");
+        param.put("activity_id","1");
 
-        when(manhourMapper.update(manhour)).thenReturn(0);
-        assertEquals(214, msg.getStatus());
+        msg = manhourService.updateManhour(1,1,param);
+
+        when(manhourMapper.update(manhour)).thenReturn(1);
+        assertEquals(210, msg.getStatus());
         assertNotNull(msg.getResponseMap().get("Manhour"));
     }
 
