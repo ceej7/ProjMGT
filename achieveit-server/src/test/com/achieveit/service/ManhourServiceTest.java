@@ -19,13 +19,6 @@ import org.mockito.Mock;
 import java.sql.Date;
 import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofMinutes;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTimeout;
-import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -35,6 +28,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 public class ManhourServiceTest {
     private static ManhourService manhourService;
@@ -134,7 +128,7 @@ public class ManhourServiceTest {
         verify(manhourMapper).getActivity();
     }
 
-    //////////////getFilteredPagedManhourByEid()//////////////
+    //////////////updateManhour()//////////////
     @Test
     public void happy_path_with_updateManhour() throws Exception {
         Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", null, null);
@@ -143,9 +137,7 @@ public class ManhourServiceTest {
         when(manhourMapper.getByMidCascade(anyInt())).thenReturn(manhour);
         EmployeeProject employeeProject = new EmployeeProject(1,null, null, null, 1);
         ArrayList<EmployeeProject> employeeProjects=new ArrayList<EmployeeProject>();
-        when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(employeeProjects);
-
-
+        when(employeeProjectMapper.getEmployeeProjectByRole(anyString(),anyString())).thenReturn(employeeProjects);
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
         msg = manhourService.updateManhour(anyInt(), anyInt(), anyMap());
@@ -162,4 +154,117 @@ public class ManhourServiceTest {
         assertNotNull(msg.getResponseMap().get("Manhour"));
     }
 
+    @Test
+    public void happy_path_with_updateManhour_wo_status() throws Exception {
+        Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", null, null);
+        List<Manhour> manhours = new ArrayList<>();
+        manhours.add(manhour);
+        when(manhourMapper.getByMidCascade(anyInt())).thenReturn(manhour);
+        EmployeeProject employeeProject = new EmployeeProject(1,null, null, null, 1);
+        ArrayList<EmployeeProject> employeeProjects=new ArrayList<EmployeeProject>();
+        when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(new ArrayList<EmployeeProject>());
+
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = manhourService.updateManhour(anyInt(), anyInt(), anyMap());
+
+        Map<String,String> param=new HashMap<String, String>();
+//        param.put("status","unfilled");
+//        param.put("fid","null");
+        param.put("starttime","2020-04-09T16:00:00.000Z");
+        param.put("endtime","2020-05-09T16:00:00.000Z");
+//        param.put("activity_id","null");
+
+        when(manhourMapper.update(manhour)).thenReturn(1);
+        assertEquals(200, msg.getStatus());
+        assertNotNull(msg.getResponseMap().get("Manhour"));
+    }
+
+    @Test
+    public void no_authorities_when_updateManhour_wo_status() throws Exception {
+        Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", null, null);
+        List<Manhour> manhours = new ArrayList<>();
+        manhours.add(manhour);
+        when(manhourMapper.getByMidCascade(anyInt())).thenReturn(manhour);
+        EmployeeProject employeeProject = new EmployeeProject(1,null, null, null, 1);
+        ArrayList<EmployeeProject> employeeProjects = new ArrayList<EmployeeProject>();
+        employeeProjects.add(employeeProject);
+        when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(employeeProjects);
+
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = manhourService.updateManhour(anyInt(), anyInt(), anyMap());
+
+        assertEquals(210, msg.getStatus());
+        assertNotNull(msg.getResponseMap().get("Manhour"));
+    }
+
+    @Test
+    public void failed_to_updateManhour() throws Exception {
+        Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", null, null);
+        List<Manhour> manhours = new ArrayList<>();
+        manhours.add(manhour);
+        when(manhourMapper.getByMidCascade(anyInt())).thenReturn(manhour);
+        EmployeeProject employeeProject = new EmployeeProject(1,null, null, null, 1);
+        ArrayList<EmployeeProject> employeeProjects=new ArrayList<EmployeeProject>();
+        employeeProjects.add(employeeProject);
+        when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(employeeProjects);
+
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = manhourService.updateManhour(anyInt(), anyInt(), anyMap());
+
+        Map<String,String> param=new HashMap<String, String>();
+        param.put("status","unfilled");
+//        param.put("fid","null");
+        param.put("starttime","2020-04-09T16:00:00.000Z");
+        param.put("endtime","2020-05-09T16:00:00.000Z");
+//        param.put("activity_id","null");
+
+        when(manhourMapper.update(manhour)).thenReturn(0);
+        assertEquals(214, msg.getStatus());
+        assertNotNull(msg.getResponseMap().get("Manhour"));
+    }
+
+    @Test
+    public void exception_when_updateManhour() throws Exception {
+        when(manhourMapper.getByMidCascade(anyInt())).thenThrow(new RuntimeException());
+
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = manhourService.updateManhour(anyInt(), anyInt(), anyMap());
+        assertEquals(404, msg.getStatus());
+        assertNull(msg.getResponseMap().get("Manhour"));
+    }
+
+    //////////////updateManhour()//////////////
+    @Test
+    public void no_authorities_with_getSubManhour() throws Exception {
+        Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", null, null);
+        List<Manhour> manhours = new ArrayList<>();
+        manhours.add(manhour);
+        when(manhourMapper.getSubManhour(anyInt())).thenReturn(manhours);
+
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = manhourService.getSubManhour(1);
+
+        assertEquals(200, msg.getStatus());
+        assertNotNull(msg.getResponseMap().get("activities"));
+    }
+
+    @Test
+    public void exception_when_getSubManhour() throws Exception {
+        Manhour manhour = new Manhour(1, null, null, null, null, "unfilled", null, null);
+        List<Manhour> manhours = new ArrayList<>();
+        manhours.add(manhour);
+        when(manhourMapper.getSubManhour(anyInt())).thenReturn(manhours);
+
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = manhourService.getSubManhour(1);
+
+        assertEquals(200, msg.getStatus());
+        assertNotNull(msg.getResponseMap().get("activities"));
+    }
 }
