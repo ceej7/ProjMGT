@@ -11,7 +11,11 @@ public class RiskRelation {
         this.employee_project_id = employee_project_id;
         this.risk_id = risk_id;
     }
-
+    public RiskRelation(){
+        this.employee_project_id = 0;
+        this.risk_id = 0;
+        employeeProject=new EmployeeProject();
+    }
 
     public Integer getEmployee_project_id() {
         return employee_project_id;

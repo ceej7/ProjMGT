@@ -3,6 +3,7 @@ package com.achieveit.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel("Risk Entity: 风险信息")
@@ -18,6 +19,23 @@ public class Risk {
         this.template = template;
         this.employee_id = employee_id;
         this.project_id = project_id;
+    }
+
+    public Risk() {
+        this.rid = 0;
+        this.type = "";
+        this.desc = "";
+        this.grade = "";
+        this.strategy = "";
+        this.influence = "";
+        this.frequency = 0;
+        this.template = false;
+        this.employee_id = 0;
+        this.project_id = "";
+        employee=new Employee();
+        project=new Project();
+        relations = new ArrayList<RiskRelation>();
+        relations.add(new RiskRelation());
     }
 
     public Integer getRid() {

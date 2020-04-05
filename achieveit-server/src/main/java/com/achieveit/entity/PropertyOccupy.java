@@ -19,6 +19,19 @@ public class PropertyOccupy {
         checkExpired();
     }
 
+    public PropertyOccupy() {
+        this.poid = 0;
+        this.expire_time = new Timestamp(0);
+        this.is_intact = true;
+        this.property_id = 0;
+        this.project_id = "";
+        this.employee_id = 0;
+        checkExpired();
+        property=new Property();
+        employee = new Employee();
+        project = new Project();
+    }
+
     public Integer getPoid() {
         return poid;
     }

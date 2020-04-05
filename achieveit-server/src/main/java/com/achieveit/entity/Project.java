@@ -23,6 +23,20 @@ public class Project {
         this.workflow_id = workflow_id;
     }
 
+    public Project() {
+        this.pid = "";
+        this.name = "";
+        this.starttime = new Timestamp(0);
+        this.endtime = new Timestamp(0);
+        this.technique = "";
+        this.domain = "";
+        setFunction("{\"000000\":\"\"}");
+        this.client_id = 0;
+        this.workflow_id = 0;
+        client = new Client();
+        workflow= new Workflow();
+    }
+
     public String getPid() {
         return pid;
     }

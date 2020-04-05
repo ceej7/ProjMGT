@@ -10,6 +10,11 @@ public class EmployeeRoleProject {
         this.employee_project_id = employee_project_id;
     }
 
+    public EmployeeRoleProject(){
+        role = "";
+        employee_project_id=0;
+    }
+
     public String getRole() {
         return role;
     }

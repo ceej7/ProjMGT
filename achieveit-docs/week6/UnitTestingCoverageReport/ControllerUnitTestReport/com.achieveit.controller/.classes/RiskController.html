@@ -1,0 +1,233 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RiskController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.achieveit.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RiskController (com.achieveit.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RiskController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (57/ 57)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.achieveit.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.achieveit.config.JwtToken;
+<i>4</i>&nbsp;import com.achieveit.entity.ResponseMsg;
+<i>5</i>&nbsp;import com.achieveit.service.ClientService;
+<i>6</i>&nbsp;import com.achieveit.service.RiskService;
+<i>7</i>&nbsp;import io.swagger.annotations.Api;
+<i>8</i>&nbsp;import io.swagger.annotations.ApiOperation;
+<i>9</i>&nbsp;import org.slf4j.Logger;
+<i>10</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>11</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>12</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import java.util.ArrayList;
+<i>15</i>&nbsp;import java.util.Map;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;@RestController
+<i>18</i>&nbsp;@Api(tags = &quot;风险接口&quot;, value=&quot;Risk相关API&quot;)
+<i>19</i>&nbsp;public class RiskController {
+<b class="fc"><i>20</i>&nbsp;    Logger logger = LoggerFactory.getLogger(getClass());</b>
+<i>21</i>&nbsp;    JwtToken jwtToken;
+<i>22</i>&nbsp;    private final RiskService riskService;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;
+<b class="fc"><i>25</i>&nbsp;    public RiskController(RiskService riskService, JwtToken jwtToken) {</b>
+<b class="fc"><i>26</i>&nbsp;        this.riskService = riskService;</b>
+<b class="fc"><i>27</i>&nbsp;        this.jwtToken = jwtToken;</b>
+<b class="fc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;//    @ResponseBody
+<i>32</i>&nbsp;//    @GetMapping(&quot;/risk/getByPid/{pid}&quot;)
+<i>33</i>&nbsp;//    @ApiOperation(&quot;获取Project下Risk的列表&quot;)
+<i>34</i>&nbsp;//    ResponseMsg getByProject(@PathVariable String pid){
+<i>35</i>&nbsp;//        ResponseMsg responseMsg = new ResponseMsg();
+<i>36</i>&nbsp;//        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);
+<i>37</i>&nbsp;//        if(pid.length()!=11){
+<i>38</i>&nbsp;//            responseMsg.setStatusAndMessage(208, &quot;参数解析错误&quot;);
+<i>39</i>&nbsp;//            return responseMsg;
+<i>40</i>&nbsp;//        }
+<i>41</i>&nbsp;//        return responseMsg;
+<i>42</i>&nbsp;//    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    @ResponseBody
+<i>45</i>&nbsp;    @GetMapping(&quot;/risk/getByPid/{pid}&quot;)
+<i>46</i>&nbsp;    @ApiOperation(&quot;获取Project下Risk的列表&quot;)
+<i>47</i>&nbsp;    ResponseMsg getByProject(@PathVariable String pid){
+<b class="fc"><i>48</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>49</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<b class="fc"><i>50</i>&nbsp;        if(pid.length()!=11){</b>
+<b class="fc"><i>51</i>&nbsp;            responseMsg.setStatusAndMessage(208, &quot;参数解析错误&quot;);</b>
+<b class="fc"><i>52</i>&nbsp;            return responseMsg;</b>
+<i>53</i>&nbsp;        }
+<b class="fc"><i>54</i>&nbsp;        responseMsg=riskService.getByProjectId(pid);</b>
+<b class="fc"><i>55</i>&nbsp;        return responseMsg;</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    @ResponseBody
+<i>59</i>&nbsp;    @GetMapping(&quot;/risk/getByTemplate&quot;)
+<i>60</i>&nbsp;    @ApiOperation(&quot;获取是Template的下Risk的列表&quot;)
+<i>61</i>&nbsp;    ResponseMsg getByTemplate(){
+<b class="fc"><i>62</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>63</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<b class="fc"><i>64</i>&nbsp;        responseMsg=riskService.getByTemplate();</b>
+<b class="fc"><i>65</i>&nbsp;        return responseMsg;</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    @ResponseBody
+<i>69</i>&nbsp;    @PostMapping(&quot;/risk/{eid}/{pid}&quot;)
+<i>70</i>&nbsp;    @ApiOperation(value = &quot;新建风险，提供员工id和项目id , requestBody中还要提供相关成员的ep_ids&quot;,notes = &quot;eg[eid=2, pid=20200001D00]\n&quot; +
+<i>71</i>&nbsp;            &quot;{\n&quot; +
+<i>72</i>&nbsp;            &quot;    \&quot;type\&quot;:\&quot;some risk\&quot;,\n&quot; +
+<i>73</i>&nbsp;            &quot;    \&quot;desc\&quot;:\&quot;description for the concrete risk\&quot;,\n&quot; +
+<i>74</i>&nbsp;            &quot;    \&quot;grade\&quot;:\&quot;p1/p2/...../p9\&quot;,\n&quot; +
+<i>75</i>&nbsp;            &quot;    \&quot;influence\&quot;:\&quot;filling as ur will\&quot;,\n&quot; +
+<i>76</i>&nbsp;            &quot;    \&quot;strategy\&quot;:\&quot;filling it plz\&quot;,\n&quot; +
+<i>77</i>&nbsp;            &quot;    \&quot;frequency\&quot;:1,&quot; +
+<i>78</i>&nbsp;            &quot;    \&quot;ep_ids\&quot;:[73,72,71,70,68,67,66]\n&quot; +
+<i>79</i>&nbsp;            &quot;}\n&quot;)
+<i>80</i>&nbsp;    ResponseMsg add(@PathVariable int eid, @PathVariable String pid,@RequestBody Map param){
+<b class="fc"><i>81</i>&nbsp;        ArrayList&lt;String&gt; pList = new ArrayList&lt;String&gt;();</b>
+<b class="fc"><i>82</i>&nbsp;        for(int i=0;i&lt;10;i++){</b>
+<b class="fc"><i>83</i>&nbsp;            pList.add(&quot;p&quot;+i);</b>
+<i>84</i>&nbsp;        }
+<b class="fc"><i>85</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>86</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<b class="fc"><i>87</i>&nbsp;        if(eid&lt;0||pid.length()!=11</b>
+<b class="fc"><i>88</i>&nbsp;                ||!param.containsKey(&quot;type&quot;)</b>
+<b class="fc"><i>89</i>&nbsp;                ||!param.containsKey(&quot;desc&quot;)</b>
+<b class="fc"><i>90</i>&nbsp;                ||!param.containsKey(&quot;grade&quot;)</b>
+<b class="fc"><i>91</i>&nbsp;                ||!param.containsKey(&quot;influence&quot;)</b>
+<b class="fc"><i>92</i>&nbsp;                ||!param.containsKey(&quot;strategy&quot;)</b>
+<b class="fc"><i>93</i>&nbsp;                ||!param.containsKey(&quot;frequency&quot;)</b>
+<b class="fc"><i>94</i>&nbsp;                ||!param.containsKey(&quot;ep_ids&quot;)){</b>
+<b class="fc"><i>95</i>&nbsp;            responseMsg.setStatusAndMessage(208, &quot;参数解析错误&quot;);</b>
+<b class="fc"><i>96</i>&nbsp;            return responseMsg;</b>
+<b class="fc"><i>97</i>&nbsp;        }else if(!pList.contains(param.get(&quot;grade&quot;).toString())){</b>
+<b class="fc"><i>98</i>&nbsp;            responseMsg.setStatusAndMessage(208, &quot;参数解析错误&quot;);</b>
+<b class="fc"><i>99</i>&nbsp;            return responseMsg;</b>
+<i>100</i>&nbsp;        }
+<b class="fc"><i>101</i>&nbsp;        String type = param.get(&quot;type&quot;).toString();</b>
+<b class="fc"><i>102</i>&nbsp;        String desc= param.get(&quot;desc&quot;).toString();</b>
+<b class="fc"><i>103</i>&nbsp;        String grade= param.get(&quot;grade&quot;).toString();</b>
+<b class="fc"><i>104</i>&nbsp;        String influence= param.get(&quot;influence&quot;).toString();</b>
+<b class="fc"><i>105</i>&nbsp;        String strategy= param.get(&quot;strategy&quot;).toString();</b>
+<b class="fc"><i>106</i>&nbsp;        int frequency = Integer.valueOf(param.get(&quot;frequency&quot;).toString());</b>
+<b class="fc"><i>107</i>&nbsp;        ArrayList&lt;Integer&gt; ep_ids= (ArrayList&lt;Integer&gt; )param.get(&quot;ep_ids&quot;);</b>
+<b class="fc"><i>108</i>&nbsp;        responseMsg=riskService.add(eid,pid,type, desc, grade, influence, strategy, frequency,ep_ids);</b>
+<b class="fc"><i>109</i>&nbsp;        return responseMsg;</b>
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    @ResponseBody
+<i>114</i>&nbsp;    @PutMapping(&quot;/risk/{eid}/{rid}&quot;)
+<i>115</i>&nbsp;    @ApiOperation(value = &quot;更新风险，提供员工eid和风险rid , requestBody中还可提供相关成员的ep_ids来更新整个相关成员列表&quot;,notes = &quot;eg[eid=2, rid=37]\n&quot; +
+<i>116</i>&nbsp;            &quot;{\n&quot; +
+<i>117</i>&nbsp;            &quot;    \&quot;type\&quot;:\&quot;some risk yo\&quot;,\n&quot; +
+<i>118</i>&nbsp;            &quot;    \&quot;desc\&quot;:\&quot;description for the concrete risk yo\&quot;,\n&quot; +
+<i>119</i>&nbsp;            &quot;    \&quot;grade\&quot;:\&quot;p1/p2/...../p9\&quot;,\n&quot; +
+<i>120</i>&nbsp;            &quot;    \&quot;influence\&quot;:\&quot;filling as ur will yo\&quot;,\n&quot; +
+<i>121</i>&nbsp;            &quot;    \&quot;strategy\&quot;:\&quot;filling it plz yo\&quot;,\n&quot; +
+<i>122</i>&nbsp;            &quot;    \&quot;frequency\&quot;:2,&quot; +
+<i>123</i>&nbsp;            &quot;    \&quot;ep_ids\&quot;:[73]\n&quot; +
+<i>124</i>&nbsp;            &quot;}\n&quot;)
+<i>125</i>&nbsp;    ResponseMsg update(@PathVariable int eid, @PathVariable int rid,@RequestBody Map param){
+<b class="fc"><i>126</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>127</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<b class="fc"><i>128</i>&nbsp;        if(eid&lt;0||rid&lt;0){</b>
+<b class="fc"><i>129</i>&nbsp;            responseMsg.setStatusAndMessage(208, &quot;参数解析错误&quot;);</b>
+<b class="fc"><i>130</i>&nbsp;            return responseMsg;</b>
+<i>131</i>&nbsp;        }
+<b class="fc"><i>132</i>&nbsp;        responseMsg=riskService.update(eid,rid,param);</b>
+<b class="fc"><i>133</i>&nbsp;        return responseMsg;</b>
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    @ResponseBody
+<i>137</i>&nbsp;    @DeleteMapping(&quot;/risk/{eid}/{rid}&quot;)
+<i>138</i>&nbsp;    @ApiOperation(&quot;删除风险信息，这里只能由拥有者删除&quot;)
+<i>139</i>&nbsp;    ResponseMsg delete(@PathVariable int eid, @PathVariable int rid){
+<b class="fc"><i>140</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>141</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<b class="fc"><i>142</i>&nbsp;        if(eid&lt;0||rid&lt;0){</b>
+<b class="fc"><i>143</i>&nbsp;            responseMsg.setStatusAndMessage(208, &quot;参数解析错误&quot;);</b>
+<b class="fc"><i>144</i>&nbsp;            return responseMsg;</b>
+<i>145</i>&nbsp;        }
+<b class="fc"><i>146</i>&nbsp;        responseMsg=riskService.delete(eid,rid);</b>
+<b class="fc"><i>147</i>&nbsp;        return responseMsg;</b>
+<i>148</i>&nbsp;    }
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-05 21:05</div>
+</div>
+</body>
+</html>

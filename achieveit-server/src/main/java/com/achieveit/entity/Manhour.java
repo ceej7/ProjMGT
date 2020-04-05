@@ -18,6 +18,21 @@ public class Manhour {
         this.status = status;
         this.employee_project_id = employee_project_id;
         this.activity_id = activity_id;
+        function_desc="";
+    }
+
+    public Manhour(){
+        this.mid = 0;
+        this.fid = 0;
+        this.date = new Date(0);
+        this.starttime = new Timestamp(0);
+        this.endtime = new Timestamp(0);
+        this.status = "";
+        this.employee_project_id = 0;
+        this.activity_id = 0;
+        employeeProject=new EmployeeProject();
+        activity=new Activity();
+        String function_desc="";
     }
 
     public Integer getMid() {

@@ -14,6 +14,14 @@ public class Milestone {
         this.project_id = project_id;
     }
 
+    public Milestone(){
+        this.mid = 0;
+        this.time = new Timestamp(0);
+        this.desc = "";
+        this.project_id = "";
+        project=new Project();
+    }
+
     public Integer getMid() {
         return mid;
     }
