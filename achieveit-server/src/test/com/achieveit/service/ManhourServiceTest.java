@@ -40,6 +40,8 @@ public class ManhourServiceTest {
     @BeforeEach
     public void init() {
         manhourMapper = mock(ManhourMapper.class);
+        employeeProjectMapper=mock(EmployeeProjectMapper.class);
+        projectMapper=mock(ProjectMapper.class);
         manhourService = new ManhourService(manhourMapper,employeeProjectMapper,projectMapper);
     }
 
@@ -205,25 +207,25 @@ public class ManhourServiceTest {
         List<Manhour> manhours = new ArrayList<>();
         manhours.add(manhour);
         when(manhourMapper.getByMidCascade(anyInt())).thenReturn(manhour);
-        EmployeeProject employeeProject = new EmployeeProject(1,null, null, null, 1);
+        EmployeeProject employeeProject = new EmployeeProject(1,null, 2, "1", 1);
         ArrayList<EmployeeProject> employeeProjects=new ArrayList<EmployeeProject>();
         employeeProjects.add(employeeProject);
         when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(employeeProjects);
 
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = manhourService.updateManhour(anyInt(), anyInt(), anyMap());
-
         Map<String,String> param=new HashMap<String, String>();
         param.put("status","unfilled");
-//        param.put("fid","null");
+        param.put("fid","0");
         param.put("starttime","2020-04-09T16:00:00.000Z");
         param.put("endtime","2020-05-09T16:00:00.000Z");
-//        param.put("activity_id","null");
+        param.put("activity_id","1");
+
+        msg = manhourService.updateManhour(1,1,param);
 
         when(manhourMapper.update(manhour)).thenReturn(0);
         assertEquals(214, msg.getStatus());
-        assertNotNull(msg.getResponseMap().get("Manhour"));
+        assertNotNull(msg.getResponseMap().get("manhour"));
     }
 
     @Test
