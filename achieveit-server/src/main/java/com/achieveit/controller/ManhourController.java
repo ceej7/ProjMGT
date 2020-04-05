@@ -134,8 +134,8 @@ public class ManhourController {
         msg.setStatusAndMessage(404, "异常请求");
         if(eid<0||mid<0){
               msg.setStatusAndMessage(208, "参数错误");
-        }
-        msg=manhourService.deleteManhour(eid,mid);
+        }else
+            msg=manhourService.deleteManhour(eid,mid);
         return msg;
     }
 
@@ -157,8 +157,8 @@ public class ManhourController {
         msg.setStatusAndMessage(404, "异常请求");
         if(eid<0||mid<0){
             msg.setStatusAndMessage(208, "参数错误");
-        }
-        msg=manhourService.updateManhour(eid, mid, map);
+        }else
+            msg=manhourService.updateManhour(eid, mid, map);
         return msg;
     }
 
