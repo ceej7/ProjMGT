@@ -83,6 +83,7 @@ class WorkflowEngineServiceTest {
 
     @Test
     void error_path_uncheckTodo() {
-        assertEquals(1, workflowEngineService.uncheckTodo(34, 1));
+        assertEquals(1
+                , workflowEngineService.uncheckTodo(34, 1));
     }
 }

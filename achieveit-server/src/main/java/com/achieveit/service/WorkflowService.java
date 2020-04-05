@@ -28,6 +28,26 @@ public class WorkflowService {
         this.employeeMapper = employeeMapper;
         this.projectMapper = projectMapper;
         this.employeeProjectMapper = employeeProjectMapper;
+        // 配置重要的工作流部分
+        int workflow_bit_num=32;
+        WorkflowEngineService.setDependency(1,0,workflow_bit_num);
+        WorkflowEngineService.setDependency(2,1,workflow_bit_num);
+        WorkflowEngineService.setDependency(3,1,workflow_bit_num);
+        WorkflowEngineService.setDependency(4,1,workflow_bit_num);
+        WorkflowEngineService.setDependency(5,2,workflow_bit_num);
+        WorkflowEngineService.setDependency(5,3,workflow_bit_num);
+        WorkflowEngineService.setDependency(5,4,workflow_bit_num);
+        WorkflowEngineService.setDependency(6,5,workflow_bit_num);
+        WorkflowEngineService.setDependency(7,6,workflow_bit_num);
+        WorkflowEngineService.setDependency(8,5,workflow_bit_num);
+        WorkflowEngineService.setDependency(8,6,workflow_bit_num);
+        WorkflowEngineService.setDependency(8,7,workflow_bit_num);
+        WorkflowEngineService.setDependency(9,8,workflow_bit_num);
+        WorkflowEngineService.setDependency(10,9,workflow_bit_num);
+        for (int i = 11; i <=27; i++) {
+            WorkflowEngineService.setDependency(i,10,workflow_bit_num);
+            WorkflowEngineService.setDependency(28,i,workflow_bit_num);
+        }
     }
 
     //sup, configurer, epgleader, qamanager, pm
@@ -112,6 +132,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
+
     public ResponseMsg getTimelineByWid(int wid){
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
@@ -129,6 +150,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
+
     public ResponseMsg sup_agree(int sup_eid, int wid){
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
@@ -144,6 +166,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
+
     public ResponseMsg sup_disagree(int sup_eid, int wid){
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
@@ -172,6 +195,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
+
     public ResponseMsg configurer_config(int configurer_eid, int wid,String git_repo, String server_root, String mail_list){
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
@@ -187,6 +211,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
+
     public ResponseMsg epg_config(int epgleader_eid, int wid, List<Integer> epgs){
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
@@ -221,6 +246,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
+
     public ResponseMsg qa_config(int qamanager_eid, int wid, ArrayList<Integer> qas) {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
@@ -264,6 +290,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
+
     public ResponseMsg member_config(int pm_eid, int wid, Integer rd_leader_id, ArrayList<Integer> rd_ids, ArrayList<Integer> qa_ids) {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
@@ -296,6 +323,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
+
     public ResponseMsg pm_authority(int pm_eid, int wid) {
         //这里应该去掉外部接口 给成员配置git/文件/邮件的权限的
         ResponseMsg responseMsg = new ResponseMsg();
@@ -311,6 +339,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
+
     public ResponseMsg pm_function(int pm_eid, int wid, Map function) {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
@@ -328,6 +357,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
+
     public ResponseMsg pm_common_doing_flow(int pm_eid, int wid, int bits) {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
@@ -344,6 +374,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
+
     public ResponseMsg pm_common_archive(int eid, int wid, Integer archive_id, String content) {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
@@ -415,6 +446,7 @@ public class WorkflowService {
         }
         return responseMsg;
     }
+
     public ResponseMsg configurer_after_archive(int eid, int wid) {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setStatusAndMessage(404,"查询发生异常");
