@@ -6,6 +6,16 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel("Client Entity: 客户数据")
 public class Client {
 
+    public Client() {
+        this.cid = 0;
+        this.name = "";
+        this.company = "";
+        this.grade = "";
+        this.email = "";
+        this.phone = "";
+        this.address = "";
+    }
+
     public Client(Integer cid, String name, String company, String grade, String email, String phone, String address) {
         this.cid = cid;
         this.name = name;

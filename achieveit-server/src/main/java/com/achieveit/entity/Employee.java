@@ -17,6 +17,19 @@ public class Employee {
         this.sup_eid = sup_eid;
     }
 
+    public Employee(){
+        this.eid = 0;
+        this.name = "";
+        this.email = "";
+        this.address = "";
+        this.department = "";
+        this.phone = "";
+        this.password = "";
+        this.portrait = "";
+        this.title = "";
+        this.sup_eid = 0;
+    }
+
     public Integer getEid() {
         return eid;
     }

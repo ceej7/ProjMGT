@@ -3,6 +3,7 @@ package com.achieveit.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel("EmployeeProject Entity: 项目成员数据")
@@ -14,6 +15,20 @@ public class EmployeeProject {
         this.project_id = project_id;
         this.employee_id = employee_id;
         authority2Desc();
+    }
+
+    public EmployeeProject() {
+        this.epid = 0;
+        byte[] b={0};
+        this.defect_authority = b;
+        this.superior_epid = 0;
+        this.project_id = "";
+        this.employee_id = 0;
+        authority2Desc();
+        project=new Project();
+        employee=new Employee();
+        List<EmployeeRoleProject> roles=new ArrayList<>();
+        roles.add(new EmployeeRoleProject());
     }
 
     public Integer getEpid() {

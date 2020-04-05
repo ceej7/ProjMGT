@@ -9,6 +9,11 @@ public class Property {
         this.desc = desc;
     }
 
+    public Property() {
+        this.pid = 0;
+        this.desc = "";
+    }
+
     public Integer getPid() {
         return pid;
     }
