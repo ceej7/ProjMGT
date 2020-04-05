@@ -55,7 +55,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void happy_path_when_getActivity() throws Exception{
+    void happy_path_when_getActivity_ret200() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
 
@@ -67,7 +67,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void happy_path_when_getSubManhour() throws Exception{
+    void happy_path_when_getSubManhour_ret200() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
 
@@ -79,7 +79,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void error_path_when_getSubManhour() throws Exception{
+    void error_path_when_getSubManhour_ret208() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
 
@@ -90,7 +90,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void happy_path_when_getMyManhour_woDate() throws Exception {
+    void happy_path_when_getMyManhour_woDate_ret200() throws Exception {
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
@@ -108,7 +108,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void happy_path_when_getMyManhour_wDate() throws Exception {
+    void happy_path_when_getMyManhour_wDate_ret200() throws Exception {
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
@@ -128,7 +128,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void error_path_when_getMyManhour_wDate() throws Exception {
+    void error_path_when_getMyManhour_wDate_ret208() throws Exception {
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
@@ -146,7 +146,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void errorToken_path_when_deleteDefect_BearerError()throws Exception{
+    void errorToken_path_when_deleteDefect_BearerError_ret202()throws Exception{
         String authHeader="Bearer";
         Date date= new Date(11);
         mockMvc.perform(MockMvcRequestBuilders.get("/manhour/myManhour")
@@ -160,7 +160,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void ineffectiveToken_path_when_deleteDefect_BearerError()throws Exception{
+    void ineffectiveToken_path_when_deleteDefect_BearerError_ret204()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1))+"1";
         Date date= new Date(11);
         mockMvc.perform(MockMvcRequestBuilders.get("/manhour/myManhour")
@@ -174,7 +174,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void expiredToken_path_when_deleteDefect_BearerError()throws Exception{
+    void expiredToken_path_when_deleteDefect_BearerError_ret206()throws Exception{
         java.util.Date nowDate = new java.util.Date(0);
         Date date= new Date(11);
         java.util.Date expireDate = new java.util.Date(nowDate.getTime() + jwtToken.expire * 1000);
@@ -197,7 +197,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void happy_path_when_newManhour() throws Exception{
+    void happy_path_when_newManhour_ret200() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
         responseMsg.getResponseMap().put("manhour",1);
@@ -215,7 +215,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void error_path_when_newManhour() throws Exception{
+    void error_path_when_newManhour_ret208() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
         responseMsg.getResponseMap().put("manhour",1);
@@ -231,7 +231,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void exception_path_when_newManhour() throws Exception{
+    void exception_path_when_newManhour_ret210() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
         responseMsg.getResponseMap().put("manhour",1);
@@ -247,7 +247,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void happy_path_when_deleteManhour() throws Exception{
+    void happy_path_when_deleteManhour_ret200() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
         responseMsg.getResponseMap().put("manhour",1);
@@ -260,7 +260,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void error_path_when_deleteManhour() throws Exception{
+    void error_path_when_deleteManhour_ret208() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
         responseMsg.getResponseMap().put("manhour",1);
@@ -272,7 +272,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void happy_path_when_update() throws Exception{
+    void happy_path_when_update_ret200() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
         responseMsg.getResponseMap().put("manhour",1);
@@ -293,7 +293,7 @@ class ManhourControllerTest {
     }
 
     @Test
-    void error_path_when_update() throws Exception{
+    void error_path_when_update_ret208() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得manhour");
         responseMsg.getResponseMap().put("manhour",1);

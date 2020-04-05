@@ -54,7 +54,7 @@ class MilestoneControllerTest {
     }
 
     @Test
-    void happy_path_getByMid() throws Exception {
+    void happy_path_getByMid_ret200() throws Exception {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
         responseMsg.getResponseMap().put("employee",1);
@@ -71,7 +71,7 @@ class MilestoneControllerTest {
     }
 
     @Test
-    void error_path_getByMid() throws Exception {
+    void error_path_getByMid_ret208() throws Exception {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
         responseMsg.getResponseMap().put("employee",1);
@@ -88,7 +88,7 @@ class MilestoneControllerTest {
     }
 
     @Test
-    void happy_path_getByPid() throws Exception {
+    void happy_path_getByPid_ret200() throws Exception {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
         responseMsg.getResponseMap().put("employee",1);
@@ -105,7 +105,7 @@ class MilestoneControllerTest {
     }
 
     @Test
-    void error_path_getByPid() throws Exception {
+    void error_path_getByPid_ret208() throws Exception {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
         responseMsg.getResponseMap().put("employee",1);
@@ -122,7 +122,7 @@ class MilestoneControllerTest {
     }
 
     @Test
-    void happy_path_deleteByMid() throws Exception {
+    void happy_path_deleteByMid_ret200() throws Exception {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
         responseMsg.getResponseMap().put("employee",1);
@@ -139,7 +139,7 @@ class MilestoneControllerTest {
     }
 
     @Test
-    void error_path_deleteByMid() throws Exception {
+    void error_path_deleteByMid_ret208() throws Exception {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
         responseMsg.getResponseMap().put("employee",1);
@@ -156,7 +156,7 @@ class MilestoneControllerTest {
     }
 
     @Test
-    void happy_path_updateProject() throws Exception {
+    void happy_path_updateProject_ret200() throws Exception {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
         responseMsg.getResponseMap().put("employee",1);
@@ -176,7 +176,7 @@ class MilestoneControllerTest {
     }
 
     @Test
-    void error_path_updateProject() throws Exception {
+    void error_path_updateProject_ret208() throws Exception {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
         responseMsg.getResponseMap().put("employee",1);
@@ -196,7 +196,7 @@ class MilestoneControllerTest {
     }
 
     @Test
-    void happy_path_addMilestone() throws Exception {
+    void happy_path_addMilestone_ret200() throws Exception {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
         responseMsg.getResponseMap().put("employee",1);
@@ -216,7 +216,7 @@ class MilestoneControllerTest {
     }
 
     @Test
-    void error_path_addMilestone() throws Exception {
+    void error_path_addMilestone_ret208() throws Exception {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
         responseMsg.getResponseMap().put("employee",1);
@@ -236,7 +236,7 @@ class MilestoneControllerTest {
     }
 
     @Test
-    void error_path_addMilestone_Error210() throws Exception {
+    void error_path_addMilestone_ret210() throws Exception {
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
         responseMsg.getResponseMap().put("employee",1);

@@ -60,7 +60,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    public void happy_path_when_login() throws Exception{
+    public void happy_path_when_login_ret200() throws Exception{
 
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
@@ -86,7 +86,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    public void error_path_when_login() throws Exception{
+    public void error_path_when_login_ret202() throws Exception{
 
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "成功登陆");
@@ -110,7 +110,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void happy_path_when_get_by_title() throws Exception{
+    void happy_path_when_get_by_title_ret200() throws Exception{
         String[] titles={"pm_manager","configurer","pm","epg_leader","qa_manager","member"};
 
         ResponseMsg responseMsg=new ResponseMsg();
@@ -129,7 +129,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void error_path_when_get_by_title() throws Exception{
+    void error_path_when_get_by_title_ret208() throws Exception{
         String[] titles={"pm_manager","configurer","pm","epg_leader","qa_manager","member"};
 
         ResponseMsg responseMsg=new ResponseMsg();
@@ -146,7 +146,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void happy_path_when_get_by_token() throws Exception{
+    void happy_path_when_get_by_token_ret200() throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得用户1");
@@ -162,7 +162,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void errorToken_path_when_getByToken_BearerError()throws Exception{
+    void errorToken_path_when_getByToken_BearerError_ret202()throws Exception{
         String authHeader="Bearer";
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得用户1");
@@ -176,7 +176,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void ineffectiveToken_path_when_getByToken_BearerError()throws Exception{
+    void ineffectiveToken_path_when_getByToken_BearerError_ret204()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1))+"1";
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得用户1");
@@ -190,7 +190,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void expiredToken_path_when_getByToken_BearerError()throws Exception{
+    void expiredToken_path_when_getByToken_BearerError_ret206()throws Exception{
         Date nowDate = new Date(0);
         Date expireDate = new Date(nowDate.getTime() + jwtToken.expire * 1000);
         String token= Jwts.builder()
@@ -213,7 +213,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void happy_path_when_get_by_id() throws Exception{
+    void happy_path_when_get_by_id_ret200() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "正常返回");
         responseMsg.getResponseMap().put("employee",1);
@@ -227,7 +227,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void error_path_when_get_by_id() throws Exception{
+    void error_path_when_get_by_id_ret208() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "正常返回");
         responseMsg.getResponseMap().put("employee",1);
@@ -239,7 +239,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void happy_path_when_get_dashboard_by_id_confidential() throws Exception{
+    void happy_path_when_get_dashboard_by_id_confidential_ret200() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "正常返回");
         responseMsg.getResponseMap().put("employee",1);
@@ -257,7 +257,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void errorToken_path_when_get_dashboard_by_id_BearerError()throws Exception{
+    void errorToken_path_when_get_dashboard_by_id_BearerError_ret202()throws Exception{
         String authHeader="Bearer";
         mockMvc.perform(MockMvcRequestBuilders.get("/employee/myDashBoard")
                 .header("accept", "*/*")
@@ -267,7 +267,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void ineffectiveToken_path_when_get_dashboard_by_id_BearerError()throws Exception{
+    void ineffectiveToken_path_when_get_dashboard_by_id_BearerError_ret204()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1))+"1";
         mockMvc.perform(MockMvcRequestBuilders.get("/employee/myDashBoard")
                 .header("accept", "*/*")
@@ -277,7 +277,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void expiredToken_path_when_get_dashboard_by_id_BearerError()throws Exception{
+    void expiredToken_path_when_get_dashboard_by_id_BearerError_ret208()throws Exception{
         Date nowDate = new Date(0);
         Date expireDate = new Date(nowDate.getTime() + jwtToken.expire * 1000);
         String token= Jwts.builder()

@@ -49,7 +49,7 @@ class ClientControllerTest {
 
 
     @Test
-    void happy_path_getAll() throws Exception {
+    void happy_path_getAll_ret200() throws Exception {
         when(clientService.getAll()).thenReturn(null);
         mockMvc.perform(MockMvcRequestBuilders.get("/client/getAll"))
                 .andExpect(status().isOk());

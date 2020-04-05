@@ -54,7 +54,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void happy_path_getByPid() throws Exception {
+    void happy_path_getByPid_ret200() throws Exception {
         ResponseMsg msg=new ResponseMsg();
         msg.setStatusAndMessage(200, "");
         when(defectService.getByPid(anyString())).thenReturn(msg);
@@ -65,7 +65,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void alternate_path_getByPid() throws Exception {
+    void alternate_path_getByPid_ret200() throws Exception {
         ResponseMsg msg=new ResponseMsg();
         msg.setStatusAndMessage(200, "");
         when(defectService.getByPid(anyString())).thenReturn(msg);
@@ -76,7 +76,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void happy_path_when_getMyDefect_woDesc() throws Exception {
+    void happy_path_when_getMyDefect_woDesc_ret200() throws Exception {
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得Defect");
@@ -94,7 +94,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void happy_path_when_getMyDefect_wDesc() throws Exception {
+    void happy_path_when_getMyDefect_wDesc_ret200() throws Exception {
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得Defect");
@@ -113,7 +113,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void wrong_param_path_when_getMyDefect() throws Exception {
+    void wrong_param_path_when_getMyDefect_ret208() throws Exception {
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         mockMvc.perform(MockMvcRequestBuilders.get("/defect/myDefect")
                 .header("accept", "*/*")
@@ -126,7 +126,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void errorToken_path_when_getMyDefect_BearerError()throws Exception{
+    void errorToken_path_when_getMyDefect_BearerError_ret202()throws Exception{
         String authHeader="Bearer";
         mockMvc.perform(MockMvcRequestBuilders.get("/defect/myDefect")
                 .header("accept", "*/*")
@@ -139,7 +139,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void ineffectiveToken_path_when_getMyDefect_BearerError()throws Exception{
+    void ineffectiveToken_path_when_getMyDefect_BearerError_ret204()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1))+"1";
         mockMvc.perform(MockMvcRequestBuilders.get("/defect/myDefect")
                 .header("accept", "*/*")
@@ -152,7 +152,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void expiredToken_path_when_getMyDefect_BearerError()throws Exception{
+    void expiredToken_path_when_getMyDefect_BearerError_ret206()throws Exception{
         Date nowDate = new Date(0);
         Date expireDate = new Date(nowDate.getTime() + jwtToken.expire * 1000);
         String token= Jwts.builder()
@@ -174,7 +174,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void happy_path_when_addDefect()throws Exception{
+    void happy_path_when_addDefect_ret200()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得Defect");
@@ -194,7 +194,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void wrong_parameter_path_when_addDefect()throws Exception{
+    void wrong_parameter_path_when_addDefect_ret208()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         mockMvc.perform(MockMvcRequestBuilders.post("/defect/2020002S01")
                 .header("accept", "*/*")
@@ -211,7 +211,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void errorToken_path_when_addDefect_BearerError()throws Exception{
+    void errorToken_path_when_addDefect_BearerError_ret202()throws Exception{
         String authHeader="Bearer";
         mockMvc.perform(MockMvcRequestBuilders.post("/defect/1")
                 .header("accept", "*/*")
@@ -228,7 +228,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void ineffectiveToken_path_when_addDefect_BearerError()throws Exception{
+    void ineffectiveToken_path_when_addDefect_BearerError_ret204()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1))+"1";
         mockMvc.perform(MockMvcRequestBuilders.post("/defect/1")
                 .header("accept", "*/*")
@@ -245,7 +245,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void expiredToken_path_when_addDefect_BearerError()throws Exception{
+    void expiredToken_path_when_addDefect_BearerError_ret206()throws Exception{
         Date nowDate = new Date(0);
         Date expireDate = new Date(nowDate.getTime() + jwtToken.expire * 1000);
         String token= Jwts.builder()
@@ -272,7 +272,7 @@ class DefectControllerTest {
 
 
     @Test
-    void happy_path_when_updateDefect()throws Exception{
+    void happy_path_when_updateDefect_ret200()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得Defect");
@@ -292,7 +292,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void wrong_parameter_path_when_updateDefect()throws Exception{
+    void wrong_parameter_path_when_updateDefect_ret208()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得Defect");
@@ -312,7 +312,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void errorToken_path_when_updateDefect_BearerError()throws Exception{
+    void errorToken_path_when_updateDefect_BearerError_ret202()throws Exception{
         String authHeader="Bearer";
         mockMvc.perform(MockMvcRequestBuilders.put("/defect/1")
                 .header("accept", "*/*")
@@ -329,7 +329,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void ineffectiveToken_path_when_updateDefect_BearerError()throws Exception{
+    void ineffectiveToken_path_when_updateDefect_BearerError_ret204()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1))+"1";
         mockMvc.perform(MockMvcRequestBuilders.put("/defect/1")
                 .header("accept", "*/*")
@@ -346,7 +346,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void expiredToken_path_when_updateDefect_BearerError()throws Exception{
+    void expiredToken_path_when_updateDefect_BearerError_ret206()throws Exception{
         Date nowDate = new Date(0);
         Date expireDate = new Date(nowDate.getTime() + jwtToken.expire * 1000);
         String token= Jwts.builder()
@@ -373,7 +373,7 @@ class DefectControllerTest {
 
 
     @Test
-    void happy_path_when_deleteDefect()throws Exception{
+    void happy_path_when_deleteDefect_ret200()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得Defect");
@@ -387,7 +387,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void wrong_parameter_path_when_deleteDefect()throws Exception{
+    void wrong_parameter_path_when_deleteDefect_ret208()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "获得Defect");
@@ -401,7 +401,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void errorToken_path_when_deleteDefect_BearerError()throws Exception{
+    void errorToken_path_when_deleteDefect_BearerError_ret202()throws Exception{
         String authHeader="Bearer";
         mockMvc.perform(MockMvcRequestBuilders.delete("/defect/1")
                 .header("accept", "*/*")
@@ -412,7 +412,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void ineffectiveToken_path_when_deleteDefect_BearerError()throws Exception{
+    void ineffectiveToken_path_when_deleteDefect_BearerError_ret204()throws Exception{
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1))+"1";
         mockMvc.perform(MockMvcRequestBuilders.delete("/defect/1")
                 .header("accept", "*/*")
@@ -423,7 +423,7 @@ class DefectControllerTest {
     }
 
     @Test
-    void expiredToken_path_when_deleteDefect_BearerError()throws Exception{
+    void expiredToken_path_when_deleteDefect_BearerError_ret206()throws Exception{
         Date nowDate = new Date(0);
         Date expireDate = new Date(nowDate.getTime() + jwtToken.expire * 1000);
         String token= Jwts.builder()
