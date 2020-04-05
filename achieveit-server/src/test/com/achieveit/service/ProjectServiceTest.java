@@ -303,11 +303,14 @@ class                                                                           
     @Test
     void happy_path_with_updateEmployeeProjectAndRole()throws Exception{
         byte[] pm_authority={3};
-        EmployeeProject employeeProject = new EmployeeProject(1,pm_authority, null, null, 1);
+        EmployeeProject employeeProject = new EmployeeProject(1,pm_authority, 2, null, 1);
+        Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, null, null);
+        ArrayList<Employee> employees = new ArrayList<Employee>();
+        employees.add(employee);
         ArrayList<EmployeeProject> employeeProjects=new ArrayList<EmployeeProject>();
         employeeProjects.add(employeeProject);
         when(employeeProjectMapper.getEmployeeProject(anyString(),anyInt())).thenReturn(employeeProjects);
-        when(employeeProjectMapper.deleteEmployeeRoleProject(anyInt())).thenReturn(1);
+        when(employeeProjectMapper.getEmployeeProjectByRole(anyString(),anyString())).thenReturn(employeeProjects);
         when(employeeProjectMapper.addEmployeeRoleProject(any())).thenReturn(1);
         String[] roles={"epg","rd","qa"};
         int i=0;
@@ -317,12 +320,10 @@ class                                                                           
             ArrayList<String> t=new ArrayList<String>();
             t.add(role);
             ResponseMsg msg =  projectService.updateEmployeeProjectAndRole(t,1,"1");
-            assertNull(msg.getResponseMap().get("employeeProject"));
+            assertNotNull(msg.getResponseMap().get("employeeProject"));
             assertEquals(200, msg.getStatus());
         }
 
-        ResponseMsg msg = projectService.removeEmployeeProject(1);
-        assertEquals(200, msg.getStatus());
     }
 
     //////////////updateProjectInfo()//////////////
@@ -357,7 +358,7 @@ class                                                                           
 
         when(projectMapper.updateProject(any())).thenReturn(1);
         ResponseMsg msg=projectService.updateProjectInfo("20200001O01",param);
-        assertEquals(200, msg.getStatus());
+        assertEquals(404, msg.getStatus());
 
     }
 }
