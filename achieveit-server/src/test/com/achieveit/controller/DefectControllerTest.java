@@ -1,16 +1,19 @@
 package com.achieveit.controller;
 
 import com.achieveit.config.JwtToken;
+import com.achieveit.entity.Defect;
 import com.achieveit.entity.ResponseMsg;
-import com.achieveit.service.DefectService;
-import com.achieveit.service.EmployeeService;
-import com.achieveit.service.FileService;
-import com.achieveit.service.MailService;
+import com.achieveit.service.*;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -18,19 +21,58 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class DefectControllerTest {
-    MailService mailService;
-    FileService fileService;
+    ClientService clientService;
     DefectService defectService;
-    MockMvc mockMvc;
+    EmployeeService employeeService;
+    FileService fileService;
+    MailService mailService;
+    ManhourService manhourService;
+    MilestoneService milestoneService;
+    ProjectService projectService;
+    PropertyService propertyService;
+    RiskService riskService;
+    WorkflowService workflowService;
     JwtToken jwtToken;
+    MockMvc mockMvc;
+
 
     @BeforeEach
     void setUp(){
-        jwtToken = new JwtToken();
-        mailService = mock(MailService.class);
-        fileService = mock(FileService.class);
+        clientService=mock(ClientService.class);
         defectService = mock(DefectService.class);
+        employeeService=mock(EmployeeService.class);
+        fileService = mock(FileService.class);
+        mailService = mock(MailService.class);
+        manhourService=mock(ManhourService.class);
+        milestoneService=mock(MilestoneService.class);
+        projectService=mock(ProjectService.class);
+        propertyService=mock(PropertyService.class);
+        riskService=mock(RiskService.class);
+        workflowService=mock(WorkflowService.class);
+        jwtToken = new JwtToken();
         mockMvc = MockMvcBuilders.standaloneSetup(new DefectController(mailService,fileService, defectService,jwtToken)).build();
+    }
+
+    @Test
+    void happy_path_getByPid() throws Exception {
+        ResponseMsg msg=new ResponseMsg();
+        msg.setStatusAndMessage(200, "");
+        when(defectService.getByPid(anyString())).thenReturn(msg);
+        mockMvc.perform(MockMvcRequestBuilders.get("/defect/getByPid/20200001S01"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(200));
+        verify(defectService).getByPid(anyString());
+    }
+
+    @Test
+    void alternate_path_getByPid() throws Exception {
+        ResponseMsg msg=new ResponseMsg();
+        msg.setStatusAndMessage(200, "");
+        when(defectService.getByPid(anyString())).thenReturn(msg);
+        mockMvc.perform(MockMvcRequestBuilders.get("/defect/getByPid/20200001"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(208));
+        verify(defectService,times(0)).getByPid(anyString());
     }
 
     @Test
@@ -68,5 +110,341 @@ class DefectControllerTest {
                 .andExpect(jsonPath("$.status").value(200))
                 .andExpect(jsonPath("$.responseMap.defect").isNotEmpty());
         verify(defectService).getFilteredPagedDefectByEid(1,0,10,"desc",null);
+    }
+
+    @Test
+    void wrong_param_path_when_getMyDefect() throws Exception {
+        String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
+        mockMvc.perform(MockMvcRequestBuilders.get("/defect/myDefect")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .param("page", "-1")
+                .param("length","10")
+                .param("desc", "desc"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(208));
+    }
+
+    @Test
+    void errorToken_path_when_getMyDefect_BearerError()throws Exception{
+        String authHeader="Bearer";
+        mockMvc.perform(MockMvcRequestBuilders.get("/defect/myDefect")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .param("page", "0")
+                .param("length","10")
+                .param("desc", "desc"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(202));
+    }
+
+    @Test
+    void ineffectiveToken_path_when_getMyDefect_BearerError()throws Exception{
+        String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1))+"1";
+        mockMvc.perform(MockMvcRequestBuilders.get("/defect/myDefect")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .param("page", "0")
+                .param("length","10")
+                .param("desc", "desc"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(204));
+    }
+
+    @Test
+    void expiredToken_path_when_getMyDefect_BearerError()throws Exception{
+        Date nowDate = new Date(0);
+        Date expireDate = new Date(nowDate.getTime() + jwtToken.expire * 1000);
+        String token= Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setSubject(1 + "")
+                .setIssuedAt(nowDate)
+                .setExpiration(expireDate)
+                .signWith(SignatureAlgorithm.HS512, jwtToken.secret)
+                .compact();
+        String authHeader="Bearer"+token;
+        mockMvc.perform(MockMvcRequestBuilders.get("/defect/myDefect")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .param("page", "0")
+                .param("length","10")
+                .param("desc", "desc"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(206));
+    }
+
+    @Test
+    void happy_path_when_addDefect()throws Exception{
+        String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
+        ResponseMsg responseMsg=new ResponseMsg();
+        responseMsg.setStatusAndMessage(200, "获得Defect");
+        when(defectService.addDefect(anyInt(), any(), anyString(), any(), anyString(),any())).thenReturn(responseMsg);
+        mockMvc.perform(MockMvcRequestBuilders.post("/defect/20200202S01")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "\"authority_desc\":\"noneAuthority\",\n" +
+                        "\"desc\":\"aaa\",\n" +
+                        "\"git_repo\":\"aaa\",\n" +
+                        "\"commit\":\"aaa\"\n" +
+                        "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(200));
+    }
+
+    @Test
+    void wrong_parameter_path_when_addDefect()throws Exception{
+        String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
+        mockMvc.perform(MockMvcRequestBuilders.post("/defect/2020002S01")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "\"authority_desc\":\"noneAuthority\",\n" +
+                        "\"desc\":\"aaa\",\n" +
+                        "\"git_repo\":\"aaa\",\n" +
+                        "\"commit\":\"aaa\"\n" +
+                        "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(208));
+    }
+
+    @Test
+    void errorToken_path_when_addDefect_BearerError()throws Exception{
+        String authHeader="Bearer";
+        mockMvc.perform(MockMvcRequestBuilders.post("/defect/1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "\"authority_desc\":\"noneAuthority\",\n" +
+                        "\"desc\":\"aaa\",\n" +
+                        "\"git_repo\":\"aaa\",\n" +
+                        "\"commit\":\"aaa\"\n" +
+                        "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(202));
+    }
+
+    @Test
+    void ineffectiveToken_path_when_addDefect_BearerError()throws Exception{
+        String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1))+"1";
+        mockMvc.perform(MockMvcRequestBuilders.post("/defect/1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "\"authority_desc\":\"noneAuthority\",\n" +
+                        "\"desc\":\"aaa\",\n" +
+                        "\"git_repo\":\"aaa\",\n" +
+                        "\"commit\":\"aaa\"\n" +
+                        "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(204));
+    }
+
+    @Test
+    void expiredToken_path_when_addDefect_BearerError()throws Exception{
+        Date nowDate = new Date(0);
+        Date expireDate = new Date(nowDate.getTime() + jwtToken.expire * 1000);
+        String token= Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setSubject(1 + "")
+                .setIssuedAt(nowDate)
+                .setExpiration(expireDate)
+                .signWith(SignatureAlgorithm.HS512, jwtToken.secret)
+                .compact();
+        String authHeader="Bearer"+token;
+        mockMvc.perform(MockMvcRequestBuilders.post("/defect/1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "\"authority_desc\":\"noneAuthority\",\n" +
+                        "\"desc\":\"aaa\",\n" +
+                        "\"git_repo\":\"aaa\",\n" +
+                        "\"commit\":\"aaa\"\n" +
+                        "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(206));
+    }
+
+
+    @Test
+    void happy_path_when_updateDefect()throws Exception{
+        String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
+        ResponseMsg responseMsg=new ResponseMsg();
+        responseMsg.setStatusAndMessage(200, "获得Defect");
+        when(defectService.updateDefect(anyInt(), anyInt(), any())).thenReturn(responseMsg);
+        mockMvc.perform(MockMvcRequestBuilders.put("/defect/1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "\"authority_desc\":\"noneAuthority\",\n" +
+                        "\"desc\":\"aaa\",\n" +
+                        "\"git_repo\":\"aaa\",\n" +
+                        "\"commit\":\"aaa\"\n" +
+                        "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(200));
+    }
+
+    @Test
+    void wrong_parameter_path_when_updateDefect()throws Exception{
+        String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
+        ResponseMsg responseMsg=new ResponseMsg();
+        responseMsg.setStatusAndMessage(200, "获得Defect");
+        when(defectService.updateDefect(anyInt(), anyInt(), any())).thenReturn(responseMsg);
+        mockMvc.perform(MockMvcRequestBuilders.put("/defect/-1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "\"authority_desc\":\"noneAuthority\",\n" +
+                        "\"desc\":\"aaa\",\n" +
+                        "\"git_repo\":\"aaa\",\n" +
+                        "\"commit\":\"aaa\"\n" +
+                        "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(208));
+    }
+
+    @Test
+    void errorToken_path_when_updateDefect_BearerError()throws Exception{
+        String authHeader="Bearer";
+        mockMvc.perform(MockMvcRequestBuilders.put("/defect/1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "\"authority_desc\":\"noneAuthority\",\n" +
+                        "\"desc\":\"aaa\",\n" +
+                        "\"git_repo\":\"aaa\",\n" +
+                        "\"commit\":\"aaa\"\n" +
+                        "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(202));
+    }
+
+    @Test
+    void ineffectiveToken_path_when_updateDefect_BearerError()throws Exception{
+        String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1))+"1";
+        mockMvc.perform(MockMvcRequestBuilders.put("/defect/1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "\"authority_desc\":\"noneAuthority\",\n" +
+                        "\"desc\":\"aaa\",\n" +
+                        "\"git_repo\":\"aaa\",\n" +
+                        "\"commit\":\"aaa\"\n" +
+                        "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(204));
+    }
+
+    @Test
+    void expiredToken_path_when_updateDefect_BearerError()throws Exception{
+        Date nowDate = new Date(0);
+        Date expireDate = new Date(nowDate.getTime() + jwtToken.expire * 1000);
+        String token= Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setSubject(1 + "")
+                .setIssuedAt(nowDate)
+                .setExpiration(expireDate)
+                .signWith(SignatureAlgorithm.HS512, jwtToken.secret)
+                .compact();
+        String authHeader="Bearer"+token;
+        mockMvc.perform(MockMvcRequestBuilders.put("/defect/1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "\"authority_desc\":\"noneAuthority\",\n" +
+                        "\"desc\":\"aaa\",\n" +
+                        "\"git_repo\":\"aaa\",\n" +
+                        "\"commit\":\"aaa\"\n" +
+                        "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(206));
+    }
+
+
+    @Test
+    void happy_path_when_deleteDefect()throws Exception{
+        String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
+        ResponseMsg responseMsg=new ResponseMsg();
+        responseMsg.setStatusAndMessage(200, "获得Defect");
+        when(defectService.deleteDefect(anyInt(), anyInt())).thenReturn(responseMsg);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/defect/1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(200));
+    }
+
+    @Test
+    void wrong_parameter_path_when_deleteDefect()throws Exception{
+        String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
+        ResponseMsg responseMsg=new ResponseMsg();
+        responseMsg.setStatusAndMessage(200, "获得Defect");
+        when(defectService.updateDefect(anyInt(), anyInt(), any())).thenReturn(responseMsg);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/defect/-1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(208));
+    }
+
+    @Test
+    void errorToken_path_when_deleteDefect_BearerError()throws Exception{
+        String authHeader="Bearer";
+        mockMvc.perform(MockMvcRequestBuilders.delete("/defect/1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(202));
+    }
+
+    @Test
+    void ineffectiveToken_path_when_deleteDefect_BearerError()throws Exception{
+        String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1))+"1";
+        mockMvc.perform(MockMvcRequestBuilders.delete("/defect/1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(204));
+    }
+
+    @Test
+    void expiredToken_path_when_deleteDefect_BearerError()throws Exception{
+        Date nowDate = new Date(0);
+        Date expireDate = new Date(nowDate.getTime() + jwtToken.expire * 1000);
+        String token= Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setSubject(1 + "")
+                .setIssuedAt(nowDate)
+                .setExpiration(expireDate)
+                .signWith(SignatureAlgorithm.HS512, jwtToken.secret)
+                .compact();
+        String authHeader="Bearer"+token;
+        mockMvc.perform(MockMvcRequestBuilders.delete("/defect/1")
+                .header("accept", "*/*")
+                .header("Authorization",authHeader)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "\"authority_desc\":\"noneAuthority\",\n" +
+                        "\"desc\":\"aaa\",\n" +
+                        "\"git_repo\":\"aaa\",\n" +
+                        "\"commit\":\"aaa\"\n" +
+                        "}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(206));
     }
 }

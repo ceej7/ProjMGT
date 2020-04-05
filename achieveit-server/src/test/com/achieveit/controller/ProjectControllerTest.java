@@ -14,18 +14,34 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ProjectControllerTest {
-    MailService mailService;
+    ClientService clientService;
+    DefectService defectService;
+    EmployeeService employeeService;
     FileService fileService;
+    MailService mailService;
+    ManhourService manhourService;
+    MilestoneService milestoneService;
     ProjectService projectService;
-    MockMvc mockMvc;
+    PropertyService propertyService;
+    RiskService riskService;
+    WorkflowService workflowService;
     JwtToken jwtToken;
+    MockMvc mockMvc;
 
     @BeforeEach
     void setUp(){
-        jwtToken = new JwtToken();
-        mailService = mock(MailService.class);
+        clientService=mock(ClientService.class);
+        defectService = mock(DefectService.class);
+        employeeService=mock(EmployeeService.class);
         fileService = mock(FileService.class);
-        projectService = mock(ProjectService.class);
+        mailService = mock(MailService.class);
+        manhourService=mock(ManhourService.class);
+        milestoneService=mock(MilestoneService.class);
+        projectService=mock(ProjectService.class);
+        propertyService=mock(PropertyService.class);
+        riskService=mock(RiskService.class);
+        workflowService=mock(WorkflowService.class);
+        jwtToken = new JwtToken();
         mockMvc = MockMvcBuilders.standaloneSetup(new ProjectController(mailService,fileService,projectService,jwtToken)).build();
     }
 
@@ -44,14 +60,14 @@ class ProjectControllerTest {
     }
 
     @Test
-    void happy_path_when_get_to_check_of_sup() throws Exception{
+    void happy_path_when_get_toManage() throws Exception{
         ResponseMsg responseMsg=new ResponseMsg();
         responseMsg.setStatusAndMessage(200, "请求正常");
         responseMsg.getResponseMap().put("Project",1);
         when(projectService.getProjectToManage(1)).thenReturn(responseMsg);
 
         String authHeader="Bearer"+jwtToken.generateToken(Long.valueOf(1));
-        mockMvc.perform(MockMvcRequestBuilders.get("/project/toCheck")
+        mockMvc.perform(MockMvcRequestBuilders.get("/project/toManage")
                 .header("accept", "*/*")
                 .header("Authorization",authHeader))
                 .andExpect(status().isOk())
