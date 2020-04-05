@@ -88,15 +88,15 @@ public class DefectServiceTest {
         List<Defect> defects = new ArrayList<>();
         defects.add(defect);
 
-        when(defectMapper.getDescedByEidCascade(1,"filter")).thenReturn(defects);
+        when(defectMapper.getByEidCascade(anyInt())).thenReturn(defects);
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = defectService.getFilteredPagedDefectByEid(1, 0, 1,"filter","bug");
+        msg = defectService.getFilteredPagedDefectByEid(1, 0, 1,null,null);
         assertEquals(200, msg.getStatus());
         assertNotNull(msg.getResponseMap());
         assertNotNull(msg.getResponseMap().get("Defect"));
         assertNotNull(msg.getResponseMap().get("page_length"));
-        verify(defectMapper).getDescedByEidCascade(1,"filter");
+        verify(defectMapper).getByEidCascade(anyInt());
     }
 
     @Test

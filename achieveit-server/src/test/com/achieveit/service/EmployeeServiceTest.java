@@ -28,6 +28,7 @@ import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofMinutes;
 
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -235,7 +236,7 @@ public class EmployeeServiceTest {
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
         msg = employeeService.getByIdNonConfidential(1);
-        assertEquals(204, msg.getStatus());
+        assertEquals(210, msg.getStatus());
         assertNotNull(msg.getResponseMap());
         Employee e = (Employee) msg.getResponseMap().get("employee");
         assertNull(e);
@@ -247,7 +248,7 @@ public class EmployeeServiceTest {
     public void happy_path_with_get_dash_board_by_id_confidential() throws Exception {
         Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, null, null);
 
-        PropertyOccupy propertyOccupy = new PropertyOccupy(1,null, true, null, null, null);
+        PropertyOccupy propertyOccupy = new PropertyOccupy(1, new Timestamp((long)1), true, null, null, null);
         List<PropertyOccupy> propertyOccupys = new ArrayList<>();
         propertyOccupys.add(propertyOccupy);
 
