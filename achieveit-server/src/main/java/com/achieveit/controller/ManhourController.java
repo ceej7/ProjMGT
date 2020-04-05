@@ -52,6 +52,7 @@ public class ManhourController {
         msg.setStatusAndMessage(404, "请求异常");
         if(eid<0){
             msg.setStatusAndMessage(208, "参数错误");
+            return msg;
         }
         msg = manhourService.getSubManhour(eid);
         return msg;
