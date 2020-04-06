@@ -7,13 +7,14 @@
       border
       style="width: 100%; padding-top: 15px; margin-bottom: 5px"
       :default-sort="{prop: 'date', order: 'descending'}"
+      @row-click="projectColClicked"
     >
       <el-table-column prop="id" sortable min-width="10" align="center">
         <template slot-scope="scope">
           {{ scope.row.poid }}
         </template>
       </el-table-column>
-      <el-table-column prop="desc" label="描述" min-width="60" align="center">
+      <el-table-column prop="desc" label="描述" min-width="50" align="center">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
             <p>设备ID: {{ scope.row.property.pid }}</p>
@@ -29,18 +30,7 @@
           {{ scope.row.expire_time }}
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="来自于" min-width="30" align="center">
-        <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>项目ID: {{ scope.row.project.pid }}</p>
-            <p>领域: {{ scope.row.project.domain }}</p>
-            <div slot="reference" class="name-wrapper">
-              <el-tag>{{ scope.row.project.name | projectNameFilter }}</el-tag>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column>
-      <el-table-column min-width="30" align="center">
+      <el-table-column prop="name" label="来自于" min-width="40" align="center">
         <template slot="header" slot-scope="scope">
           <el-input
             v-model="search"
@@ -49,13 +39,13 @@
           />
         </template>
         <template slot-scope="scope">
-          <el-button
-            type="primary"
-            size="mini"
-            @click.native.prevent="clickRow(scope.row.project_id)"
-          >
-            跳转项目页面
-          </el-button>
+          <el-popover trigger="hover" placement="top">
+            <p>项目ID: {{ scope.row.project.pid }}</p>
+            <p>领域: {{ scope.row.project.domain }}</p>
+            <div slot="reference" class="name-wrapper">
+              <el-tag>{{ scope.row.project.name | projectNameFilter }}</el-tag>
+            </div>
+          </el-popover>
         </template>
       </el-table-column>
     </el-table>
@@ -90,7 +80,7 @@ export default {
   data() {
     return {
       search: '',
-      pageSize: 3,
+      pageSize: 5,
       currentPage: 1
     }
   },
@@ -112,8 +102,14 @@ export default {
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage
     },
-    clickRow(pid) {
-      this.$router.push('/project/' + pid)
+    projectColClicked(row) {
+      this.$router.push({
+        name: 'project-manage',
+        title: '测试？',
+        params: {
+          pid: row.project.pid
+        }
+      })
     }
   }
 }

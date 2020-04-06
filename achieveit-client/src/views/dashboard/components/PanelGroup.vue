@@ -16,7 +16,7 @@
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleClick('defect')">
         <div class="card-panel-icon-wrapper icon-defect">
-          <svg-icon icon-class="risk" class-name="card-panel-icon" />
+          <svg-icon icon-class="defect" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">

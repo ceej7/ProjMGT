@@ -48,7 +48,7 @@ service.interceptors.response.use(
     // if the custom code is not 200, it is judged as an error.
     if (res.status !== 200) {
       Message({
-        message: res.message || 'Error',
+        message: res.message || '意外发生',
         type: 'error',
         duration: 5 * 1000
       })

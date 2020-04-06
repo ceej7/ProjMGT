@@ -13,29 +13,36 @@
           {{ scope.row.mid }}
         </template>
       </el-table-column>
-      <el-table-column prop="date" sortable label="开始日期" min-width="30" align="center">
+      <el-table-column prop="date" sortable label="开始时间" min-width="35" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time" />
           {{ scope.row.starttime }}
         </template>
       </el-table-column>
-      <el-table-column prop="date" sortable label="截止日期" min-width="30" align="center">
+      <el-table-column prop="date" sortable label="结束时间" min-width="35" align="center">
         <template slot-scope="scope">
           <i class="el-icon-time" />
           {{ scope.row.endtime }}
         </template>
       </el-table-column>
-      <!--      <el-table-column prop="name" label="来自于" min-width="30" align="center">-->
-      <!--        <template slot-scope="scope">-->
-      <!--          <el-popover trigger="hover" placement="top">-->
-      <!--            <p>项目ID: {{ scope.row.project.pid }}</p>-->
-      <!--            <p>领域: {{ scope.row.project.domain }}</p>-->
-      <!--            <div slot="reference" class="name-wrapper">-->
-      <!--              <el-tag size="medium">{{ scope.row.project.name | projectNameFilter }}</el-tag>-->
-      <!--            </div>-->
-      <!--          </el-popover>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
+      <el-table-column prop="name" label="来自于" min-width="30" align="center">
+        <template slot="header" slot-scope="scope">
+          <el-input
+            v-model="search"
+            size="mini"
+            placeholder="搜索项目名称"
+          />
+        </template>
+        <template slot-scope="scope">
+          <el-popover trigger="hover" placement="top">
+            <p>项目ID: {{ scope.row.employeeProject.project.pid }}</p>
+            <p>领域: {{ scope.row.employeeProject.project.domain }}</p>
+            <div slot="reference" class="name-wrapper">
+              <el-tag size="medium">{{ scope.row.employeeProject.project.name | projectNameFilter }}</el-tag>
+            </div>
+          </el-popover>
+        </template>
+      </el-table-column>
       <el-table-column prop="grade" sortable label="状态" min-width="30" align="center">
         <template slot-scope="scope">
           <el-tag type="warning">
@@ -93,19 +100,19 @@ export default {
   data() {
     return {
       search: '',
-      pageSize: 3,
+      pageSize: 4,
       currentPage: 1
     }
   },
   computed: {
     tableData: function() {
       return this.manhourList
-        .filter(data => !this.search || data.project.name.toLowerCase().includes(this.search.toLowerCase()))
+        .filter(data => !this.search || data.employeeProject.project.name.toLowerCase().includes(this.search.toLowerCase()))
         .slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     },
     total: function() {
       return this.manhourList
-        .filter(data => !this.search || data.project.name.toLowerCase().includes(this.search.toLowerCase())).length
+        .filter(data => !this.search || data.employeeProject.project.name.toLowerCase().includes(this.search.toLowerCase())).length
     }
   },
   created() {

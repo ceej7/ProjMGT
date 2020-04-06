@@ -1,23 +1,30 @@
 <template>
   <div>
-  <el-row class="search" type="flex">
-    <el-input
-      v-model="input"
-      placeholder="搜索项目名称"
-      clearable
-    />
-    <el-button class="search-item" type="primary" icon="el-icon-search">搜索</el-button>
-  </el-row>
+    <el-row class="search" type="flex">
+      <el-input
+        v-model="input"
+        size="small"
+        placeholder="搜索项目名称"
+        clearable
+      />
+      <el-button
+        size="small"
+        class="search-item"
+        type="primary"
+        icon="el-icon-search"
+        @click="search"
+      >搜索</el-button>
+    </el-row>
 
-  <div class="tab-container">
-    <el-tabs v-model="activeName" tab-position="left">
-      <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
-        <keep-alive>
-          <tab-pane v-if="activeName==item.key" :type="item.key" />
-        </keep-alive>
-      </el-tab-pane>
-    </el-tabs>
-  </div>
+    <div class="tab-container">
+      <el-tabs v-model="activeName" tab-position="left">
+        <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
+          <keep-alive>
+            <tab-pane v-if="activeName==item.key" :type="item.key" :ref="item.key" />
+          </keep-alive>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
   </div>
 </template>
 
@@ -57,7 +64,11 @@ export default {
   },
   activated() {
   },
-  methods: {}
+  methods: {
+    search() {
+      this.$refs[this.activeName][0].getList(this.input)
+    }
+  }
 }
 </script>
 

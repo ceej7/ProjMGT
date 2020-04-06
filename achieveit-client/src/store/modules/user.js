@@ -7,6 +7,7 @@ const getDefaultState = () => {
     token: getToken(),
     name: '',
     avatar: '',
+    eid: '',
     roles: []
   }
 }
@@ -28,6 +29,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_EID: (state, eid) => {
+    state.eid = eid
   }
 }
 
@@ -53,7 +57,7 @@ const actions = {
       getMyInfo().then(response => {
         const { responseMap } = response
         const { employee } = responseMap
-        const { title, name, portrait } = employee
+        const { title, name, portrait, eid } = employee
         if (!title) {
           reject('getInfo: title must be exist')
         }
@@ -61,6 +65,7 @@ const actions = {
         commit('SET_ROLES', [title])
         commit('SET_NAME', name)
         commit('SET_AVATAR', portrait)
+        commit('SET_EID', eid)
         resolve(employee)
       }).catch(error => {
         reject(error)
