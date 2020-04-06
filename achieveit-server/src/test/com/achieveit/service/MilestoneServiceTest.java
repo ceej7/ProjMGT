@@ -210,5 +210,45 @@ public class MilestoneServiceTest {
         verify(milestoneMapper).update(any());
     }
 
+    @Test
+    public void alternate_path_with_update() throws Exception {
+        Timestamp timestamp = DateUtil.String2Timestamp("2020-04-09 16:00:00", "yyyy-MM-dd HH:mm:ss");
+        Timestamp timestamp_new = DateUtil.String2Timestamp("2020-05-09 16:00:00", "yyyy-MM-dd HH:mm:ss");
+        String desc = "haha" ,desc_new="xixi";
+        String pid = "1";
+        Milestone milestone = new Milestone(1, timestamp, desc, pid);
+
+        Map<String,String> param=new HashMap<String, String>();
+        param.put("desc",desc_new);
+        param.put("time","2020-05-09T16:00:00.000Z");
+
+        when(milestoneMapper.getByMid(1)).thenReturn(milestone);
+        when(milestoneMapper.update(milestone)).thenReturn(0);
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = milestoneService.update(1,param);
+        assertEquals(212, msg.getStatus());
+    }
+
+    @Test
+    public void error_path_with_update() throws Exception {
+        Timestamp timestamp = DateUtil.String2Timestamp("2020-04-09 16:00:00", "yyyy-MM-dd HH:mm:ss");
+        Timestamp timestamp_new = DateUtil.String2Timestamp("2020-05-09 16:00:00", "yyyy-MM-dd HH:mm:ss");
+        String desc = "haha" ,desc_new="xixi";
+        String pid = "1";
+        Milestone milestone = new Milestone(1, timestamp, desc, pid);
+
+        Map<String,String> param=new HashMap<String, String>();
+        param.put("desc",desc_new);
+        param.put("time","2020-05-09T16:00:00.000Z");
+
+        when(milestoneMapper.getByMid(1)).thenThrow(new RuntimeException());
+        when(milestoneMapper.update(milestone)).thenReturn(1);
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = milestoneService.update(1,param);
+        assertEquals(404, msg.getStatus());
+    }
+
 }
 
