@@ -2,7 +2,7 @@
 
 # Client [Vue]
 ## Client Url
-http://119.29.87.183:8081/#/login?redirect=%2Fdashboard
+http://119.29.87.183:8081/#/login
 ## Accounts
 | name | pwd | role |
 | :----:| :----: |:----:|
@@ -25,4 +25,4 @@ http://119.29.87.183:8081/#/login?redirect=%2Fdashboard
 - http://47.100.57.110:8079/swagger-ui.html#/
 ## Test
 - [unit test](achieveit-server/src/test/com/achieveit/)
-
+- [coverage report](achieveit-docs/week6/UnitTestingCoverageReport)
