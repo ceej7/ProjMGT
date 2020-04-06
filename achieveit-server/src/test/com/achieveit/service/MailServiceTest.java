@@ -25,6 +25,7 @@ class MailServiceTest {
         mailService = new MailService(mailSender);
         when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
     }
+
     @Test
     void happy_path_sendSimpleMailMessage() {
         assertDoesNotThrow(()->{

@@ -13,8 +13,8 @@ public class WorkflowEngineService {
 
     WorkflowEngineService(){
         bitSets=new BitSet(WorkflowEngineService.v_num);
-
     }
+
     public static void setDependency(int from, int to, int v_num){
         if(!is_initiated){
             WorkflowEngineService.v_num=v_num;

@@ -51,6 +51,7 @@ public class DefectServiceTest {
         defectService = new DefectService(defectMapper,employeeProjectMapper);
     }
 
+    //////////////getPagedDefectByEid()//////////////
     @Test
     public void happy_path_with_get_paged_defect_by_eid() throws Exception {
         Defect defect = new Defect(1, null, null, null, null, null, null, null);
@@ -69,20 +70,78 @@ public class DefectServiceTest {
     }
 
     @Test
+    public void exception_when_get_paged_defect_by_eid() throws Exception {
+        when(defectMapper.getByEidCascade(1)).thenThrow(new RuntimeException());
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = defectService.getPagedDefectByEid(1, 0, 1);
+        assertEquals(404, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
+        verify(defectMapper).getByEidCascade(1);
+    }
+
+
+    //////////////getFilteredPagedDefectByEid()//////////////
+    @Test
     public void happy_path_with_get_filtered_paged_defect_by_eid() throws Exception {
         Defect defect = new Defect(1, null, null, null, null, null, null, null);
         List<Defect> defects = new ArrayList<>();
         defects.add(defect);
 
-        when(defectMapper.getDescedByEidCascade(1,"filter")).thenReturn(defects);
+        when(defectMapper.getByEidCascade(anyInt())).thenReturn(defects);
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = defectService.getFilteredPagedDefectByEid(1, 0, 1,"filter",null);
+        msg = defectService.getFilteredPagedDefectByEid(1, 0, 1,null,null);
         assertEquals(200, msg.getStatus());
         assertNotNull(msg.getResponseMap());
         assertNotNull(msg.getResponseMap().get("Defect"));
         assertNotNull(msg.getResponseMap().get("page_length"));
+        verify(defectMapper).getByEidCascade(anyInt());
+    }
+
+    @Test
+    public void exception_when_get_filtered_paged_defect_by_eid() throws Exception {
+        when(defectMapper.getDescedByEidCascade(1,"filter")).thenThrow(new RuntimeException());
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = defectService.getFilteredPagedDefectByEid(1, 0, 1,"filter","bug");
+        assertEquals(404, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
         verify(defectMapper).getDescedByEidCascade(1,"filter");
+    }
+
+    //////////////getByPid()//////////////
+    @Test
+    public void happy_path_with_get_by_pid() throws Exception {
+        Defect defect = new Defect(1, null, null, null, null, null, null, null);
+        List<Defect> defects = new ArrayList<>();
+        defects.add(defect);
+        when(defectMapper.getByPidCascade(anyString())).thenReturn(defects);
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = defectService.getByPid("1");
+        assertEquals(200, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
+        assertNotNull(msg.getResponseMap().get("Defect"));
+        verify(defectMapper).getByPidCascade(anyString());
+    }
+
+    @Test
+    void exception_when_get_by_pid() throws Exception {
+        when(defectMapper.getByPidCascade(anyString())).thenThrow(new RuntimeException());
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = defectService.getByPid("1");
+        assertEquals(404, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
+        verify(defectMapper).getByPidCascade(anyString());
+    }
+
+    //////////////deleteDefect()//////////////
+    @Test
+    void happypath_with_deleteDefect()throws Exception{
+
+
     }
 
 }

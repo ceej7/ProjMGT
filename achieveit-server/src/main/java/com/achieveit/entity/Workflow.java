@@ -7,6 +7,73 @@ import java.util.BitSet;
 
 @ApiModel("Workflow Entity: 工作流信息")
 public class Workflow {
+    public Workflow(Integer wid, Integer flowbits, Integer pm_eid, Integer sup_eid, Integer configurer_eid, Integer epgleader_eid, Integer qamanager_eid, String git_repo, String server_root, String mail_list, String archive00, String archive01, String archive02, String archive03, String archive04, String archive05, String archive06, String archive07, String archive08, String archive09, String archive10, String archive11, String archive12, String archive13, String archive14, String archive15, String archive16) {
+        this.wid = wid;
+        this.flowbits = flowbits;
+        this.pm_eid = pm_eid;
+        this.sup_eid = sup_eid;
+        this.configurer_eid = configurer_eid;
+        this.epgleader_eid = epgleader_eid;
+        this.qamanager_eid = qamanager_eid;
+        this.git_repo = git_repo;
+        this.server_root = server_root;
+        this.mail_list = mail_list;
+        this.archive00 = archive00;
+        this.archive01 = archive01;
+        this.archive02 = archive02;
+        this.archive03 = archive03;
+        this.archive04 = archive04;
+        this.archive05 = archive05;
+        this.archive06 = archive06;
+        this.archive07 = archive07;
+        this.archive08 = archive08;
+        this.archive09 = archive09;
+        this.archive10 = archive10;
+        this.archive11 = archive11;
+        this.archive12 = archive12;
+        this.archive13 = archive13;
+        this.archive14 = archive14;
+        this.archive15 = archive15;
+        this.archive16 = archive16;
+        flowBits2Status();
+    }
+
+    public Workflow(){
+        this.wid = 0;
+        this.flowbits = 0;
+        this.pm_eid = 0;
+        this.sup_eid = 0;
+        this.configurer_eid = 0;
+        this.epgleader_eid = 0;
+        this.qamanager_eid = 0;
+        this.git_repo = "";
+        this.server_root = "";
+        this.mail_list = "";
+        this.archive00 = "";
+        this.archive01 = "";
+        this.archive02 = "";
+        this.archive03 = "";
+        this.archive04 = "";
+        this.archive05 = "";
+        this.archive06 = "";
+        this.archive07 = "";
+        this.archive08 = "";
+        this.archive09 = "";
+        this.archive10 = "";
+        this.archive11 = "";
+        this.archive12 = "";
+        this.archive13 = "";
+        this.archive14 = "";
+        this.archive15 = "";
+        this.archive16 = "";
+        pm=new Employee();
+        sup=new Employee();
+        configurer=new Employee();
+        epgleader=new Employee();
+        qamanager=new Employee();
+        flowBits2Status();
+    }
+
     void flowBits2Status(){
         BitSet bitSets=new BitSet(32);
         bitSets.clear();
@@ -262,37 +329,6 @@ public class Workflow {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Workflow(Integer wid, Integer flowbits, Integer pm_eid, Integer sup_eid, Integer configurer_eid, Integer epgleader_eid, Integer qamanager_eid, String git_repo, String server_root, String mail_list, String archive00, String archive01, String archive02, String archive03, String archive04, String archive05, String archive06, String archive07, String archive08, String archive09, String archive10, String archive11, String archive12, String archive13, String archive14, String archive15, String archive16) {
-        this.wid = wid;
-        this.flowbits = flowbits;
-        this.pm_eid = pm_eid;
-        this.sup_eid = sup_eid;
-        this.configurer_eid = configurer_eid;
-        this.epgleader_eid = epgleader_eid;
-        this.qamanager_eid = qamanager_eid;
-        this.git_repo = git_repo;
-        this.server_root = server_root;
-        this.mail_list = mail_list;
-        this.archive00 = archive00;
-        this.archive01 = archive01;
-        this.archive02 = archive02;
-        this.archive03 = archive03;
-        this.archive04 = archive04;
-        this.archive05 = archive05;
-        this.archive06 = archive06;
-        this.archive07 = archive07;
-        this.archive08 = archive08;
-        this.archive09 = archive09;
-        this.archive10 = archive10;
-        this.archive11 = archive11;
-        this.archive12 = archive12;
-        this.archive13 = archive13;
-        this.archive14 = archive14;
-        this.archive15 = archive15;
-        this.archive16 = archive16;
-        flowBits2Status();
     }
 
     public Employee getPm() {

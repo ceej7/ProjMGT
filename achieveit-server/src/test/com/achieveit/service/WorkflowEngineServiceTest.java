@@ -31,6 +31,23 @@ class WorkflowEngineServiceTest {
     }
 
     @Test
+    void error_path_isTodo_oob() {
+        assertEquals(true,
+                workflowEngineService.isTodo(4,15));
+        assertEquals(true,
+                workflowEngineService.isTodo(5,31));
+        assertEquals(false,
+                workflowEngineService.isTodo(33,63));
+    }
+
+    @Test
+    void error_path_isTodo_have_finished() {
+        assertEquals(false,
+                workflowEngineService.isTodo(3,15));
+    }
+
+
+    @Test
     void alternate_path_isTodo() {
         assertEquals(false,
                 workflowEngineService.isTodo(4,11));
@@ -62,5 +79,11 @@ class WorkflowEngineServiceTest {
     @Test
     void happy_path_uncheckTodo() {
         assertEquals(0, workflowEngineService.uncheckTodo(0, 1));
+    }
+
+    @Test
+    void error_path_uncheckTodo() {
+        assertEquals(1
+                , workflowEngineService.uncheckTodo(34, 1));
     }
 }

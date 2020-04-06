@@ -35,6 +35,12 @@ public class Activity {
         this.def2 = def2;
     }
 
+    public Activity(){
+        this.aid = 0;
+        this.def1 = "";
+        this.def2 = "";
+    }
+
     Integer aid;
     @ApiModelProperty("第一层定义")
     String def1;

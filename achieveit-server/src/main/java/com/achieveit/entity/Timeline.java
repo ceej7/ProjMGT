@@ -16,6 +16,13 @@ public class Timeline {
         this.workflow_id = workflow_id;
         this.employee_id = employee_id;
     }
+    public Timeline(){
+        this.operation_type = "";
+        this.add_time = new Timestamp(0);
+        this.workflow_id = 0;
+        this.employee_id = 0;
+        employee=new Employee();
+    }
 
     public String getOperation() {
         return operation_type;

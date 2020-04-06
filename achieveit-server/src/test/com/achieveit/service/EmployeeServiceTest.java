@@ -2,6 +2,16 @@ package com.achieveit.service;
 
 import com.achieveit.entity.*;
 import com.achieveit.mapper.*;
+import com.achieveit.service.EmployeeService;
+import com.achieveit.service.FileService;
+import com.achieveit.service.MailService;
+import com.achieveit.service.WorkflowService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.lang.Assert;
+import net.minidev.json.JSONObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,10 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.time.Duration.ofMillis;
+import static java.time.Duration.ofMinutes;
 
 
+import java.sql.Timestamp;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class EmployeeServiceTest {
@@ -43,6 +57,7 @@ public class EmployeeServiceTest {
         employeeService = new EmployeeService(employeeMapper, defectMapper, manhourMapper, projectMapper, propertyMapper, riskMapper, employeeProjectMapper);
     }
 
+    //////////////getByTitle()//////////////
     @Test
     public void happy_path_with_get_by_title() throws Exception {
         String[] titles = {"pm_manager", "configurer", "pm", "epg_leader", "qa_manager", "member"};
@@ -63,6 +78,23 @@ public class EmployeeServiceTest {
     }
 
     @Test
+    public void exception_when_get_by_title()
+    {
+        String[] titles = {"pm_manager", "configurer", "pm", "epg_leader", "qa_manager", "member"};
+        int i = 0;
+        while (i < 6) {
+            String title = titles[i++];
+            when(employeeMapper.getByTitle(title)).thenThrow(new RuntimeException());
+            ResponseMsg msg = new ResponseMsg();
+            msg.setStatusAndMessage(404, "请求出现异常");
+            msg = employeeService.getByTitle(title);
+            assertEquals(404, msg.getStatus());
+            verify(employeeMapper).getByTitle(title);
+        }
+    }
+
+    //////////////login()//////////////
+    @Test
     public void happy_path_with_login() throws Exception {
         Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, null, null);
         List<Employee> employees = new ArrayList<>();
@@ -80,6 +112,63 @@ public class EmployeeServiceTest {
     }
 
     @Test
+    public void exception_when_login() throws Exception {
+        when(employeeMapper.getByName("Alias")).thenThrow(new RuntimeException());
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = employeeService.login("Alias", "123456");
+        assertEquals(404, msg.getStatus());
+        verify(employeeMapper).getByName("Alias");
+    }
+
+    @Test
+    public void no_such_employee_when_login() throws Exception {
+        List<Employee> employees = new ArrayList<>();
+        when(employeeMapper.getByName("Alias")).thenReturn(employees);
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = employeeService.login("Alias", "123456");
+        assertEquals(204, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
+        verify(employeeMapper).getByName("Alias");
+    }
+
+    @Test
+    public void wrong_password_when_login() throws Exception {
+        Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, null, null);
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee);
+        when(employeeMapper.getByName("Alias")).thenReturn(employees);
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = employeeService.login("Alias", "654321");
+        assertEquals(206, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
+        Employee e = (Employee) msg.getResponseMap().get("employee");
+        assertNull(e);
+        verify(employeeMapper).getByName("Alias");
+    }
+
+    @Test
+    public void multiple_employees_when_login() throws Exception {
+        Employee employee1 = new Employee(1, "Alias", null, null, null, null, "123456", null, null, null);
+        Employee employee2 = new Employee(2, "Alias", null, null, null, null, "654321", null, null, null);
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee1);
+        employees.add(employee2);
+        when(employeeMapper.getByName("Alias")).thenReturn(employees);
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = employeeService.login("Alias", "123456");
+        assertEquals(208, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
+        Employee e = (Employee) msg.getResponseMap().get("employee");
+        assertNull(e);
+        verify(employeeMapper).getByName("Alias");
+    }
+
+    //////////////getByIdConfidential()//////////////
+    @Test
     public void happy_path_with_get_by_id_confidential() throws Exception {
         Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, null, null);
         when(employeeMapper.getByEidCascade(1)).thenReturn(employee);
@@ -94,12 +183,36 @@ public class EmployeeServiceTest {
     }
 
     @Test
+    public void exception_when_get_by_id_confidential() throws Exception {
+        when(employeeMapper.getByEidCascade(1)).thenThrow(new RuntimeException());
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = employeeService.getByIdConfidential(1);
+        assertEquals(404, msg.getStatus());
+        verify(employeeMapper).getByEidCascade(1);
+    }
+
+    @Test
+    public void no_such_employee_when_get_by_id_confidential() throws Exception {
+        when(employeeMapper.getByEidCascade(1)).thenReturn(null);
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = employeeService.getByIdConfidential(1);
+        assertEquals(208, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
+        Employee e = (Employee) msg.getResponseMap().get("employee");
+        assertNull(e);
+        verify(employeeMapper).getByEidCascade(1);
+    }
+
+    //////////////getByIdNonConfidential()//////////////
+    @Test
     public void happy_path_with_get_by_id_non_confidential() throws Exception {
         Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, null, null);
         when(employeeMapper.getByEidCascade(1)).thenReturn(employee);
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求出现异常");
-        msg = employeeService.getByIdConfidential(1);
+        msg = employeeService.getByIdNonConfidential(1);
         assertEquals(200, msg.getStatus());
         assertNotNull(msg.getResponseMap());
         Employee e = (Employee) msg.getResponseMap().get("employee");
@@ -108,10 +221,34 @@ public class EmployeeServiceTest {
     }
 
     @Test
+    public void exception_when_get_by_id_non_confidential() throws Exception {
+        when(employeeMapper.getByEidCascade(1)).thenThrow(new RuntimeException());
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = employeeService.getByIdNonConfidential(1);
+        assertEquals(404, msg.getStatus());
+        verify(employeeMapper).getByEidCascade(1);
+    }
+
+    @Test
+    public void no_such_employee_when_get_by_id_non_confidential() throws Exception {
+        when(employeeMapper.getByEidCascade(1)).thenReturn(null);
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = employeeService.getByIdNonConfidential(1);
+        assertEquals(210, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
+        Employee e = (Employee) msg.getResponseMap().get("employee");
+        assertNull(e);
+        verify(employeeMapper).getByEidCascade(1);
+    }
+
+    //////////////getDashBoardByIdConfidential()//////////////
+    @Test
     public void happy_path_with_get_dash_board_by_id_confidential() throws Exception {
         Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, null, null);
 
-        PropertyOccupy propertyOccupy = new PropertyOccupy(1,null, true, null, null, null);
+        PropertyOccupy propertyOccupy = new PropertyOccupy(1, new Timestamp((long)1), true, null, null, null);
         List<PropertyOccupy> propertyOccupys = new ArrayList<>();
         propertyOccupys.add(propertyOccupy);
 
@@ -157,4 +294,29 @@ public class EmployeeServiceTest {
         verify(defectMapper).getByEidCascade(1);
         verify(riskMapper).getByEidCascade(1);
     }
+
+    @Test
+    public void exception_when_get_dash_board_by_id_confidential() throws Exception {
+        when(employeeMapper.getByEidCascade(1)).thenThrow(new RuntimeException());
+                ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = employeeService.getDashBoardByIdConfidential(1);
+        assertEquals(404, msg.getStatus());
+        verify(employeeMapper).getByEidCascade(1);
+    }
+
+    @Test
+    public void no_such_employee_when_get_dash_board_by_id_confidential() throws Exception {
+        when(employeeMapper.getByEidCascade(1)).thenReturn(null);
+        ResponseMsg msg = new ResponseMsg();
+        msg.setStatusAndMessage(404, "请求出现异常");
+        msg = employeeService.getDashBoardByIdConfidential(1);
+
+        assertEquals(208, msg.getStatus());
+        assertNotNull(msg.getResponseMap());
+        verify(employeeMapper).getByEidCascade(1);
+    }
+
 }
+
+

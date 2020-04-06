@@ -1,0 +1,218 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: EmployeeController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.achieveit.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: EmployeeController (com.achieveit.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EmployeeController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (56/ 56)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.achieveit.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.achieveit.config.JwtToken;
+<i>4</i>&nbsp;import com.achieveit.entity.ResponseMsg;
+<i>5</i>&nbsp;import com.achieveit.service.EmployeeService;
+<i>6</i>&nbsp;import com.achieveit.service.FileService;
+<i>7</i>&nbsp;import com.achieveit.service.MailService;
+<i>8</i>&nbsp;import io.jsonwebtoken.Claims;
+<i>9</i>&nbsp;import io.swagger.annotations.Api;
+<i>10</i>&nbsp;import io.swagger.annotations.ApiOperation;
+<i>11</i>&nbsp;import org.slf4j.Logger;
+<i>12</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>13</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>14</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;import java.util.Map;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;@RestController
+<i>19</i>&nbsp;@Api(tags = &quot;员工接口&quot;, value=&quot;员工相关API&quot;)
+<i>20</i>&nbsp;public class EmployeeController {
+<b class="fc"><i>21</i>&nbsp;    Logger logger = LoggerFactory.getLogger(getClass());</b>
+<i>22</i>&nbsp;    private JwtToken jwtToken;
+<i>23</i>&nbsp;    private final EmployeeService employeeService;
+<i>24</i>&nbsp;    private final MailService mailService;
+<i>25</i>&nbsp;    private final FileService fileService;
+<i>26</i>&nbsp;
+<b class="fc"><i>27</i>&nbsp;    public EmployeeController(MailService mailService, FileService fileService,EmployeeService employeeService, JwtToken jwtToken) {</b>
+<b class="fc"><i>28</i>&nbsp;        this.mailService = mailService;</b>
+<b class="fc"><i>29</i>&nbsp;        this.fileService = fileService;</b>
+<b class="fc"><i>30</i>&nbsp;        this.employeeService = employeeService;</b>
+<b class="fc"><i>31</i>&nbsp;        this.jwtToken=jwtToken;</b>
+<b class="fc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    @ResponseBody
+<i>35</i>&nbsp;    @ApiOperation(value = &quot;用户登陆，提供name,password, 返回Employee和token&quot;, notes=&quot;{\&quot;name\&quot;:\&quot;Alias\&quot;,\&quot;password\&quot;:\&quot;123456\&quot;}&quot;)
+<i>36</i>&nbsp;    @PostMapping(&quot;/employee/login&quot;)
+<i>37</i>&nbsp;    ResponseMsg login(@RequestBody Map params){
+<b class="fc"><i>38</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>39</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求出现异常&quot;);</b>
+<b class="fc"><i>40</i>&nbsp;        if(!params.containsKey(&quot;name&quot;) ||!params.containsKey(&quot;password&quot;)){</b>
+<b class="fc"><i>41</i>&nbsp;            msg.setStatusAndMessage(202, &quot;登陆信息不完全&quot;);</b>
+<i>42</i>&nbsp;        }
+<i>43</i>&nbsp;        else{
+<b class="fc"><i>44</i>&nbsp;            msg = employeeService.login(params.get(&quot;name&quot;).toString(),params.get(&quot;password&quot;).toString());</b>
+<i>45</i>&nbsp;        }
+<b class="fc"><i>46</i>&nbsp;        return msg;</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    @ResponseBody
+<i>50</i>&nbsp;    @ApiOperation(&quot;根据title获取所有相关员工的信息, 仅支持&#39;pm_manager&#39;,&#39;configurer&#39;,&#39;pm&#39;,&#39;epg_leader&#39;,&#39;qa_manager&#39;,&#39;member&#39;&quot;)
+<i>51</i>&nbsp;    @GetMapping(&quot;/employee/getByTitle/{title}&quot;)
+<i>52</i>&nbsp;    ResponseMsg getByTitle(@PathVariable String title){
+<b class="fc"><i>53</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>54</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求出现异常&quot;);</b>
+<b class="fc"><i>55</i>&nbsp;        if(!title.equals(&quot;pm_manager&quot;)</b>
+<b class="fc"><i>56</i>&nbsp;                &amp;&amp; !title.equals(&quot;configurer&quot;)</b>
+<b class="fc"><i>57</i>&nbsp;                &amp;&amp; !title.equals(&quot;pm&quot;)</b>
+<b class="fc"><i>58</i>&nbsp;                &amp;&amp; !title.equals(&quot;epg_leader&quot;)</b>
+<b class="fc"><i>59</i>&nbsp;                &amp;&amp; !title.equals(&quot;qa_manager&quot;)</b>
+<b class="fc"><i>60</i>&nbsp;                &amp;&amp; !title.equals(&quot;member&quot;)){</b>
+<b class="fc"><i>61</i>&nbsp;            msg.setStatusAndMessage(208, &quot;未收录的职位&quot;);</b>
+<i>62</i>&nbsp;        }
+<i>63</i>&nbsp;        else{
+<b class="fc"><i>64</i>&nbsp;            msg=employeeService.getByTitle(title);</b>
+<i>65</i>&nbsp;        }
+<b class="fc"><i>66</i>&nbsp;        return msg;</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    @ResponseBody
+<i>70</i>&nbsp;    @ApiOperation(&quot;根据访问头中的 [Authorization , Bearer [token]] 键值对验证用户的token&quot;)
+<i>71</i>&nbsp;    @GetMapping(&quot;/employee/get&quot;)
+<i>72</i>&nbsp;    ResponseMsg getByToken(@RequestHeader(&quot;Authorization&quot;) String authHeader){
+<b class="fc"><i>73</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>74</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求出现异常&quot;);</b>
+<b class="fc"><i>75</i>&nbsp;        String s[]=authHeader.split(&quot;Bearer&quot;);</b>
+<b class="fc"><i>76</i>&nbsp;        if(authHeader.split(&quot;Bearer&quot;).length!=2||!authHeader.split(&quot;Bearer&quot;)[0].equals(&quot;&quot;)){</b>
+<b class="fc"><i>77</i>&nbsp;            msg.setStatusAndMessage(JwtToken.Illegal, &quot;非法的token&quot;);</b>
+<i>78</i>&nbsp;        }
+<i>79</i>&nbsp;        else{
+<b class="fc"><i>80</i>&nbsp;            Claims claims = jwtToken.getClaimByToken(authHeader);</b>
+<b class="fc"><i>81</i>&nbsp;            if (claims == null ) {</b>
+<b class="fc"><i>82</i>&nbsp;                msg.setStatusAndMessage(JwtToken.Invalid, &quot;Token无效&quot;);</b>
+<i>83</i>&nbsp;            }
+<b class="fc"><i>84</i>&nbsp;            else if (JwtToken.isTokenExpired(claims.getExpiration())){</b>
+<b class="fc"><i>85</i>&nbsp;                msg.setStatusAndMessage(JwtToken.Expired, &quot;Token过期&quot;);</b>
+<i>86</i>&nbsp;            }
+<i>87</i>&nbsp;            else{
+<b class="fc"><i>88</i>&nbsp;                int userId = Integer.valueOf(claims.getSubject());</b>
+<b class="fc"><i>89</i>&nbsp;                msg=employeeService.getByIdConfidential(userId);</b>
+<i>90</i>&nbsp;            }
+<i>91</i>&nbsp;        }
+<b class="fc"><i>92</i>&nbsp;        return msg;</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    @ResponseBody
+<i>96</i>&nbsp;    @ApiOperation(&quot;根据用户id获得非隐私信息&quot;)
+<i>97</i>&nbsp;    @GetMapping(&quot;/employee/get/{eid}&quot;)
+<i>98</i>&nbsp;    ResponseMsg getById(@PathVariable int eid){
+<b class="fc"><i>99</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>100</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求出现异常&quot;);</b>
+<b class="fc"><i>101</i>&nbsp;        if(eid&lt;0){</b>
+<b class="fc"><i>102</i>&nbsp;            msg.setStatusAndMessage(208, &quot;非法的id&quot;);</b>
+<i>103</i>&nbsp;        }
+<i>104</i>&nbsp;        else{
+<b class="fc"><i>105</i>&nbsp;            msg=employeeService.getByIdNonConfidential(eid);</b>
+<i>106</i>&nbsp;        }
+<b class="fc"><i>107</i>&nbsp;        return msg;</b>
+<i>108</i>&nbsp;    }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    @ResponseBody
+<i>111</i>&nbsp;    @ApiOperation(&quot;获得用户通用DashBoard信息（我的Project、Defect、Manhour、PropertyOccupy、Risk）\n根据访问头中的 [Authorization , Bearer [token]] 键值对验证用户的token&quot;)
+<i>112</i>&nbsp;    @GetMapping(&quot;/employee/myDashBoard&quot;)
+<i>113</i>&nbsp;    ResponseMsg getDashBoardByToken(@RequestHeader(&quot;Authorization&quot;) String authHeader){
+<b class="fc"><i>114</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>115</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求出现异常&quot;);</b>
+<b class="fc"><i>116</i>&nbsp;        String s[]=authHeader.split(&quot;Bearer&quot;);</b>
+<b class="fc"><i>117</i>&nbsp;        if(authHeader.split(&quot;Bearer&quot;).length!=2||!authHeader.split(&quot;Bearer&quot;)[0].equals(&quot;&quot;)){</b>
+<b class="fc"><i>118</i>&nbsp;            msg.setStatusAndMessage(JwtToken.Illegal, &quot;非法的token&quot;);</b>
+<i>119</i>&nbsp;        }
+<i>120</i>&nbsp;        else{
+<b class="fc"><i>121</i>&nbsp;            Claims claims = jwtToken.getClaimByToken(authHeader);</b>
+<b class="fc"><i>122</i>&nbsp;            if (claims == null ) {</b>
+<b class="fc"><i>123</i>&nbsp;                msg.setStatusAndMessage(JwtToken.Invalid, &quot;Token无效&quot;);</b>
+<i>124</i>&nbsp;            }
+<b class="fc"><i>125</i>&nbsp;            else if (JwtToken.isTokenExpired(claims.getExpiration())){</b>
+<b class="fc"><i>126</i>&nbsp;                msg.setStatusAndMessage(JwtToken.Expired, &quot;Token过期&quot;);</b>
+<i>127</i>&nbsp;            }
+<i>128</i>&nbsp;            else{
+<b class="fc"><i>129</i>&nbsp;                int userId = Integer.valueOf(claims.getSubject());</b>
+<b class="fc"><i>130</i>&nbsp;                msg=employeeService.getDashBoardByIdConfidential(userId);</b>
+<i>131</i>&nbsp;            }
+<i>132</i>&nbsp;        }
+<b class="fc"><i>133</i>&nbsp;        return msg;</b>
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-05 21:05</div>
+</div>
+</body>
+</html>

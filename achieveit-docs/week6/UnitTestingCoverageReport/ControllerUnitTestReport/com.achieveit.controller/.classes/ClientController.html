@@ -1,0 +1,120 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClientController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.achieveit.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClientController (com.achieveit.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.achieveit.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.achieveit.config.JwtToken;
+<i>4</i>&nbsp;import com.achieveit.entity.ResponseMsg;
+<i>5</i>&nbsp;import com.achieveit.service.ClientService;
+<i>6</i>&nbsp;import io.swagger.annotations.Api;
+<i>7</i>&nbsp;import io.swagger.annotations.ApiOperation;
+<i>8</i>&nbsp;import org.slf4j.Logger;
+<i>9</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>10</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>11</i>&nbsp;import org.springframework.web.bind.annotation.GetMapping;
+<i>12</i>&nbsp;import org.springframework.web.bind.annotation.ResponseBody;
+<i>13</i>&nbsp;import org.springframework.web.bind.annotation.RestController;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;@RestController
+<i>16</i>&nbsp;@Api(tags = &quot;客户接口&quot;, value=&quot;Client相关API&quot;)
+<i>17</i>&nbsp;public class ClientController {
+<b class="fc"><i>18</i>&nbsp;    Logger logger = LoggerFactory.getLogger(getClass());</b>
+<i>19</i>&nbsp;    JwtToken jwtToken;
+<i>20</i>&nbsp;    private final ClientService clientService;
+<i>21</i>&nbsp;
+<b class="fc"><i>22</i>&nbsp;    public ClientController(ClientService clientService, JwtToken jwtToken) {</b>
+<b class="fc"><i>23</i>&nbsp;        this.clientService = clientService;</b>
+<b class="fc"><i>24</i>&nbsp;        this.jwtToken = jwtToken;</b>
+<b class="fc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @ResponseBody
+<i>29</i>&nbsp;    @ApiOperation(&quot;获取Client的列表&quot;)
+<i>30</i>&nbsp;    @GetMapping(&quot;/client/getAll&quot;)
+<i>31</i>&nbsp;    ResponseMsg getAll(){
+<b class="fc"><i>32</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>33</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<b class="fc"><i>34</i>&nbsp;        responseMsg = clientService.getAll();</b>
+<b class="fc"><i>35</i>&nbsp;        return responseMsg;</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-05 21:05</div>
+</div>
+</body>
+</html>
