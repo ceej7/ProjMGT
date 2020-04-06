@@ -1,0 +1,219 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MailService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.achieveit.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MailService (com.achieveit.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MailService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81%
+  </span>
+  <span class="absValue">
+    (47/ 58)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.achieveit.service;
+<i>2</i>&nbsp;import org.slf4j.Logger;
+<i>3</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>4</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>5</i>&nbsp;import org.springframework.core.io.FileSystemResource;
+<i>6</i>&nbsp;import org.springframework.mail.SimpleMailMessage;
+<i>7</i>&nbsp;import org.springframework.mail.javamail.JavaMailSender;
+<i>8</i>&nbsp;import org.springframework.mail.javamail.MimeMessageHelper;
+<i>9</i>&nbsp;import org.springframework.stereotype.Service;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import javax.mail.MessagingException;
+<i>12</i>&nbsp;import javax.mail.internet.MimeMessage;
+<i>13</i>&nbsp;import java.io.File;
+<i>14</i>&nbsp;import java.util.Map;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;@Service
+<i>17</i>&nbsp;public class MailService {
+<i>18</i>&nbsp;    //TODO:邮件队列
+<b class="fc"><i>19</i>&nbsp;    Logger logger = LoggerFactory.getLogger(getClass());</b>
+<i>20</i>&nbsp;
+<b class="fc"><i>21</i>&nbsp;    public MailService(JavaMailSender mailSender) {</b>
+<b class="fc"><i>22</i>&nbsp;        this.mailSender = mailSender;</b>
+<b class="fc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    @Autowired
+<i>26</i>&nbsp;    private JavaMailSender mailSender;
+<i>27</i>&nbsp;    private static final String SENDER = &quot;caoweijie@rjcs.onexmail.com&quot;;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * 发送普通邮件
+<i>33</i>&nbsp;     *
+<i>34</i>&nbsp;     * @param to      收件人
+<i>35</i>&nbsp;     * @param subject 主题
+<i>36</i>&nbsp;     * @param content 内容
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;    public void sendSimpleMailMessage(String to, String subject, String content) {
+<b class="fc"><i>39</i>&nbsp;        SimpleMailMessage message = new SimpleMailMessage();</b>
+<b class="fc"><i>40</i>&nbsp;        message.setFrom(SENDER);</b>
+<b class="fc"><i>41</i>&nbsp;        message.setTo(to);</b>
+<b class="fc"><i>42</i>&nbsp;        message.setSubject(subject);</b>
+<b class="fc"><i>43</i>&nbsp;        message.setText(content);</b>
+<i>44</i>&nbsp;        try {
+<b class="fc"><i>45</i>&nbsp;            mailSender.send(message);</b>
+<b class="nc"><i>46</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i>47</i>&nbsp;            logger.error(&quot;发送简单邮件时发生异常!&quot;, e);</b>
+<b class="fc"><i>48</i>&nbsp;        }</b>
+<b class="fc"><i>49</i>&nbsp;    }</b>
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * 发送 HTML 邮件
+<i>53</i>&nbsp;     *
+<i>54</i>&nbsp;     * @param to      收件人
+<i>55</i>&nbsp;     * @param subject 主题
+<i>56</i>&nbsp;     * @param content 内容
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    public void sendMimeMessage(String to, String subject, String content) {
+<b class="fc"><i>59</i>&nbsp;        MimeMessage message = mailSender.createMimeMessage();</b>
+<i>60</i>&nbsp;        try {
+<i>61</i>&nbsp;            //true表示需要创建一个multipart message
+<b class="fc"><i>62</i>&nbsp;            MimeMessageHelper helper = new MimeMessageHelper(message, true);</b>
+<b class="fc"><i>63</i>&nbsp;            helper.setFrom(SENDER);</b>
+<b class="fc"><i>64</i>&nbsp;            helper.setTo(to);</b>
+<b class="fc"><i>65</i>&nbsp;            helper.setSubject(subject);</b>
+<b class="fc"><i>66</i>&nbsp;            helper.setText(content, true);</b>
+<b class="fc"><i>67</i>&nbsp;            mailSender.send(message);</b>
+<b class="nc"><i>68</i>&nbsp;        } catch (MessagingException e) {</b>
+<b class="nc"><i>69</i>&nbsp;            logger.error(&quot;发送MimeMessage时发生异常！&quot;, e);</b>
+<b class="fc"><i>70</i>&nbsp;        }</b>
+<b class="fc"><i>71</i>&nbsp;    }</b>
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     * 发送带附件的邮件
+<i>75</i>&nbsp;     *
+<i>76</i>&nbsp;     * @param to       收件人
+<i>77</i>&nbsp;     * @param subject  主题
+<i>78</i>&nbsp;     * @param content  内容
+<i>79</i>&nbsp;     * @param filePath 附件路径
+<i>80</i>&nbsp;     */
+<i>81</i>&nbsp;    public void sendMimeMessage(String to, String subject, String content, String filePath) {
+<b class="fc"><i>82</i>&nbsp;        MimeMessage message = mailSender.createMimeMessage();</b>
+<i>83</i>&nbsp;        try {
+<i>84</i>&nbsp;            //true表示需要创建一个multipart message
+<b class="fc"><i>85</i>&nbsp;            MimeMessageHelper helper = new MimeMessageHelper(message, true);</b>
+<b class="fc"><i>86</i>&nbsp;            helper.setFrom(SENDER);</b>
+<b class="fc"><i>87</i>&nbsp;            helper.setTo(to);</b>
+<b class="fc"><i>88</i>&nbsp;            helper.setSubject(subject);</b>
+<b class="fc"><i>89</i>&nbsp;            helper.setText(content, true);</b>
+<i>90</i>&nbsp;
+<b class="fc"><i>91</i>&nbsp;            FileSystemResource file = new FileSystemResource(new File(filePath));</b>
+<b class="fc"><i>92</i>&nbsp;            String fileName = file.getFilename();</b>
+<b class="fc"><i>93</i>&nbsp;            helper.addAttachment(fileName, file);</b>
+<i>94</i>&nbsp;
+<b class="fc"><i>95</i>&nbsp;            mailSender.send(message);</b>
+<b class="nc"><i>96</i>&nbsp;        } catch (MessagingException e) {</b>
+<b class="nc"><i>97</i>&nbsp;            logger.error(&quot;发送带附件的MimeMessage时发生异常！&quot;, e);</b>
+<b class="fc"><i>98</i>&nbsp;        }</b>
+<b class="fc"><i>99</i>&nbsp;    }</b>
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    /**
+<i>102</i>&nbsp;     * 发送带静态文件的邮件
+<i>103</i>&nbsp;     *
+<i>104</i>&nbsp;     * @param to       收件人
+<i>105</i>&nbsp;     * @param subject  主题
+<i>106</i>&nbsp;     * @param content  内容
+<i>107</i>&nbsp;     * @param rscIdMap 需要替换的静态文件
+<i>108</i>&nbsp;     */
+<i>109</i>&nbsp;    public void sendMimeMessage(String to, String subject, String content, Map&lt;String, String&gt; rscIdMap) {
+<b class="fc"><i>110</i>&nbsp;        MimeMessage message = mailSender.createMimeMessage();</b>
+<i>111</i>&nbsp;        try {
+<i>112</i>&nbsp;            //true表示需要创建一个multipart message
+<b class="fc"><i>113</i>&nbsp;            MimeMessageHelper helper = new MimeMessageHelper(message, true);</b>
+<b class="fc"><i>114</i>&nbsp;            helper.setFrom(SENDER);</b>
+<b class="fc"><i>115</i>&nbsp;            helper.setTo(to);</b>
+<b class="fc"><i>116</i>&nbsp;            helper.setSubject(subject);</b>
+<b class="fc"><i>117</i>&nbsp;            helper.setText(content, true);</b>
+<i>118</i>&nbsp;
+<b class="fc"><i>119</i>&nbsp;            for (Map.Entry&lt;String, String&gt; entry : rscIdMap.entrySet()) {</b>
+<b class="nc"><i>120</i>&nbsp;                FileSystemResource file = new FileSystemResource(new File(entry.getValue()));</b>
+<b class="nc"><i>121</i>&nbsp;                helper.addInline(entry.getKey(), file);</b>
+<b class="nc"><i>122</i>&nbsp;            }</b>
+<b class="fc"><i>123</i>&nbsp;            mailSender.send(message);</b>
+<b class="nc"><i>124</i>&nbsp;        } catch (MessagingException e) {</b>
+<b class="nc"><i>125</i>&nbsp;            logger.error(&quot;发送带静态文件的MimeMessage时发生异常！&quot;, e);</b>
+<b class="fc"><i>126</i>&nbsp;        }</b>
+<b class="fc"><i>127</i>&nbsp;    }</b>
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    public boolean sendmail(String mailto, String username)
+<i>130</i>&nbsp;    {
+<b class="fc"><i>131</i>&nbsp;        String mailSubject=&quot;AchieveIt&quot;;</b>
+<b class="fc"><i>132</i>&nbsp;        String mailBody=&quot;&lt;h1&gt;Welcome to AchieveIt. Dear &quot;+username+&quot;,&lt;br /&gt;&quot;;</b>
+<b class="fc"><i>133</i>&nbsp;        sendMimeMessage(mailto,mailSubject,mailBody);</b>
+<b class="fc"><i>134</i>&nbsp;        return true;</b>
+<i>135</i>&nbsp;    }
+<i>136</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-06 18:43</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,210 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PropertyController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.achieveit.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PropertyController (com.achieveit.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PropertyController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (52/ 52)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.achieveit.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.achieveit.config.DateUtil;
+<i>4</i>&nbsp;import com.achieveit.config.JwtToken;
+<i>5</i>&nbsp;import com.achieveit.entity.ResponseMsg;
+<i>6</i>&nbsp;import com.achieveit.service.DefectService;
+<i>7</i>&nbsp;import com.achieveit.service.FileService;
+<i>8</i>&nbsp;import com.achieveit.service.MailService;
+<i>9</i>&nbsp;import com.achieveit.service.PropertyService;
+<i>10</i>&nbsp;import io.swagger.annotations.Api;
+<i>11</i>&nbsp;import io.swagger.annotations.ApiOperation;
+<i>12</i>&nbsp;import org.slf4j.Logger;
+<i>13</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>14</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>15</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import java.sql.Timestamp;
+<i>18</i>&nbsp;import java.util.Map;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;@RestController
+<i>21</i>&nbsp;@Api(tags = &quot;资产和设备接口&quot;, value=&quot;以资产和设备为主体的请求&quot;)
+<i>22</i>&nbsp;public class PropertyController {
+<b class="fc"><i>23</i>&nbsp;    Logger logger = LoggerFactory.getLogger(getClass());</b>
+<i>24</i>&nbsp;    JwtToken jwtToken;
+<i>25</i>&nbsp;    PropertyService propertyService;
+<i>26</i>&nbsp;
+<b class="fc"><i>27</i>&nbsp;    public PropertyController(PropertyService propertyService, JwtToken jwtToken) {</b>
+<b class="fc"><i>28</i>&nbsp;        this.propertyService = propertyService;</b>
+<b class="fc"><i>29</i>&nbsp;        this.jwtToken=jwtToken;</b>
+<b class="fc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @ResponseBody
+<i>33</i>&nbsp;    @GetMapping(&quot;/property/{pid}&quot;)
+<i>34</i>&nbsp;    @ApiOperation(&quot;获取一个具体的资产&quot;)
+<i>35</i>&nbsp;    public ResponseMsg getByPid(@PathVariable int pid){
+<b class="fc"><i>36</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>37</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<b class="fc"><i>38</i>&nbsp;        if(pid&lt;0){</b>
+<b class="fc"><i>39</i>&nbsp;            msg.setStatusAndMessage(208, &quot;参数错误&quot;);</b>
+<b class="fc"><i>40</i>&nbsp;            return msg;</b>
+<i>41</i>&nbsp;        }
+<b class="fc"><i>42</i>&nbsp;        msg=propertyService.getByPropertyId(pid);</b>
+<b class="fc"><i>43</i>&nbsp;        return msg;</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    @ResponseBody
+<i>47</i>&nbsp;    @GetMapping(&quot;/property&quot;)
+<i>48</i>&nbsp;    @ApiOperation(&quot;获取所有资产&quot;)
+<i>49</i>&nbsp;    public ResponseMsg getAll(){
+<b class="fc"><i>50</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>51</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<b class="fc"><i>52</i>&nbsp;        msg=propertyService.getAllProperty();</b>
+<b class="fc"><i>53</i>&nbsp;        return msg;</b>
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    @ResponseBody
+<i>57</i>&nbsp;    @GetMapping(&quot;/property/occupy/employee/{eid}&quot;)
+<i>58</i>&nbsp;    @ApiOperation(&quot;获取员工借的所有资产&quot;)
+<i>59</i>&nbsp;    public ResponseMsg getByEid(@PathVariable int eid){
+<b class="fc"><i>60</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>61</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<b class="fc"><i>62</i>&nbsp;        if(eid&lt;0){</b>
+<b class="fc"><i>63</i>&nbsp;            msg.setStatusAndMessage(208, &quot;参数错误&quot;);</b>
+<b class="fc"><i>64</i>&nbsp;            return msg;</b>
+<i>65</i>&nbsp;        }
+<b class="fc"><i>66</i>&nbsp;        msg=propertyService.getByEmployeeId(eid);</b>
+<b class="fc"><i>67</i>&nbsp;        return msg;</b>
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    @ResponseBody
+<i>71</i>&nbsp;    @GetMapping(&quot;/property/occupy/project/{pid}&quot;)
+<i>72</i>&nbsp;    @ApiOperation(&quot;获取资产下所有员工租借的资产&quot;)
+<i>73</i>&nbsp;    public ResponseMsg getByProjectId(@PathVariable String pid){
+<b class="fc"><i>74</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>75</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<b class="fc"><i>76</i>&nbsp;        if(pid.length()!=11){</b>
+<b class="fc"><i>77</i>&nbsp;            msg.setStatusAndMessage(208, &quot;参数错误&quot;);</b>
+<b class="fc"><i>78</i>&nbsp;            return msg;</b>
+<i>79</i>&nbsp;        }
+<b class="fc"><i>80</i>&nbsp;        msg = propertyService.getByProjectId(pid);</b>
+<b class="fc"><i>81</i>&nbsp;        return msg;</b>
+<i>82</i>&nbsp;    }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    @ResponseBody
+<i>85</i>&nbsp;    @PostMapping(&quot;/property/occupy/{employee_id}/{project_id}/{property_id}&quot;)
+<i>86</i>&nbsp;    @ApiOperation(value = &quot;根据property_id租借设备&quot;,notes = &quot;{\n&quot; +
+<i>87</i>&nbsp;            &quot;    \&quot;expire_time\&quot;:\&quot;2020-04-08T16:00:00.000Z\&quot;,\n&quot; +
+<i>88</i>&nbsp;            &quot;    \&quot;is_intact\&quot;:true\n&quot; +
+<i>89</i>&nbsp;            &quot;}&quot;)
+<i>90</i>&nbsp;    public ResponseMsg rent(@PathVariable int employee_id, @PathVariable String project_id, @PathVariable int property_id, @RequestBody Map param){
+<b class="fc"><i>91</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>92</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<b class="fc"><i>93</i>&nbsp;        if(employee_id&lt;0||project_id.length()!=11||property_id&lt;0||!param.containsKey(&quot;expire_time&quot;)||!param.containsKey(&quot;is_intact&quot;)){</b>
+<b class="fc"><i>94</i>&nbsp;            msg.setStatusAndMessage(208, &quot;参数错误&quot;);</b>
+<b class="fc"><i>95</i>&nbsp;            return msg;</b>
+<i>96</i>&nbsp;        }
+<i>97</i>&nbsp;        Timestamp time;
+<i>98</i>&nbsp;        try{
+<b class="fc"><i>99</i>&nbsp;            String[] timeStr = param.get(&quot;expire_time&quot;).toString().split(&quot;T&quot;);</b>
+<b class="fc"><i>100</i>&nbsp;            time = DateUtil.String2Timestamp(timeStr[0]+&quot; &quot;+timeStr[1].split(&quot;\\.&quot;)[0], &quot;yyyy-MM-dd HH:mm:ss&quot;);</b>
+<b class="fc"><i>101</i>&nbsp;        }catch (Exception e){</b>
+<b class="fc"><i>102</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>103</i>&nbsp;            msg.setStatusAndMessage(210, &quot;时间参数无法解析&quot;);</b>
+<b class="fc"><i>104</i>&nbsp;            return msg;</b>
+<b class="fc"><i>105</i>&nbsp;        }</b>
+<b class="fc"><i>106</i>&nbsp;        boolean is_intact=(boolean)param.get(&quot;is_intact&quot;);</b>
+<b class="fc"><i>107</i>&nbsp;        msg = propertyService.rentIn(employee_id,project_id,property_id,time,is_intact);</b>
+<b class="fc"><i>108</i>&nbsp;        return msg;</b>
+<i>109</i>&nbsp;    }
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    @ResponseBody
+<i>112</i>&nbsp;    @PutMapping(&quot;/property/occupy/{poid}&quot;)
+<i>113</i>&nbsp;    @ApiOperation(value = &quot;更新租借的到期时间expire_time和is_intact&quot;,notes = &quot;{\n&quot; +
+<i>114</i>&nbsp;            &quot;    \&quot;expire_time\&quot;:\&quot;2020-04-08T16:00:00.000Z\&quot;,\n&quot; +
+<i>115</i>&nbsp;            &quot;    \&quot;is_intact\&quot;:true\n&quot; +
+<i>116</i>&nbsp;            &quot;}&quot;)
+<i>117</i>&nbsp;    public ResponseMsg updatePropertyOccupyStatus(@PathVariable int poid, @RequestBody Map param){
+<b class="fc"><i>118</i>&nbsp;        ResponseMsg msg = new ResponseMsg();</b>
+<b class="fc"><i>119</i>&nbsp;        msg.setStatusAndMessage(404, &quot;请求异常&quot;);</b>
+<b class="fc"><i>120</i>&nbsp;        if(poid&lt;0){</b>
+<b class="fc"><i>121</i>&nbsp;            msg.setStatusAndMessage(208, &quot;参数错误&quot;);</b>
+<b class="fc"><i>122</i>&nbsp;            return msg;</b>
+<i>123</i>&nbsp;        }
+<b class="fc"><i>124</i>&nbsp;        msg = propertyService.updatePropertyOccupy(poid, param);</b>
+<b class="fc"><i>125</i>&nbsp;        return msg;</b>
+<i>126</i>&nbsp;    }
+<i>127</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-06 18:43</div>
+</div>
+</body>
+</html>

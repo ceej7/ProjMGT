@@ -47,10 +47,10 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    89.9%
+    100%
   </span>
   <span class="absValue">
-    (205/ 228)
+    (228/ 228)
   </span>
 </td>
 </tr>
@@ -58,18 +58,18 @@
     <td class="name">ProjectService$1</td>
 <td class="coverageStat">
   <span class="percent">
-    50%
+    100%
   </span>
   <span class="absValue">
-    (1/ 2)
+    (2/ 2)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    33.3%
+    100%
   </span>
   <span class="absValue">
-    (1/ 3)
+    (3/ 3)
   </span>
 </td>
   </tr>
@@ -77,18 +77,18 @@
   <td class="name"><strong>total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    90.9%
+    100%
   </span>
   <span class="absValue">
-    (10/ 11)
+    (11/ 11)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    89.2%
+    100%
   </span>
   <span class="absValue">
-    (206/ 231)
+    (231/ 231)
   </span>
 </td>
 </tr>
@@ -274,21 +274,21 @@
 <b class="fc"><i>174</i>&nbsp;            List&lt;Project&gt; projects = projectMapper.getAllProjectIds();//判断顺序号</b>
 <b class="fc"><i>175</i>&nbsp;            ArrayList&lt;Integer&gt; existSeqNums = new ArrayList&lt;Integer&gt;();</b>
 <b class="fc"><i>176</i>&nbsp;            for (int i = 0; i &lt; projects.size(); i++) {</b>
-<b class="nc"><i>177</i>&nbsp;                if(projects.get(i).getPid().contains(header)){</b>
-<b class="nc"><i>178</i>&nbsp;                    existSeqNums.add(Integer.valueOf(projects.get(i).getPid().split(header)[1]));</b>
+<b class="fc"><i>177</i>&nbsp;                if(projects.get(i).getPid().contains(header)){</b>
+<b class="fc"><i>178</i>&nbsp;                    existSeqNums.add(Integer.valueOf(projects.get(i).getPid().split(header)[1]));</b>
 <i>179</i>&nbsp;                }
 <i>180</i>&nbsp;            }
 <b class="fc"><i>181</i>&nbsp;            existSeqNums.sort(new Comparator&lt;Integer&gt;() {//顺序号排序</b>
 <i>182</i>&nbsp;                @Override
 <i>183</i>&nbsp;                public int compare(Integer o1, Integer o2) {
-<b class="nc"><i>184</i>&nbsp;                    int i = o1 &gt; o2 ? 1 : -1;</b>
-<b class="nc"><i>185</i>&nbsp;                    return i;</b>
+<b class="fc"><i>184</i>&nbsp;                    int i = o1 &gt; o2 ? 1 : -1;</b>
+<b class="fc"><i>185</i>&nbsp;                    return i;</b>
 <i>186</i>&nbsp;                }
 <i>187</i>&nbsp;            });
 <b class="fc"><i>188</i>&nbsp;            for(int i=0;i&lt;100;i++){//确定顺序号</b>
 <b class="fc"><i>189</i>&nbsp;                if(i&lt;existSeqNums.size()&amp;&amp;i!=existSeqNums.get(i)){</b>
-<b class="nc"><i>190</i>&nbsp;                    seq_num=i;</b>
-<b class="nc"><i>191</i>&nbsp;                    break;</b>
+<b class="fc"><i>190</i>&nbsp;                    seq_num=i;</b>
+<b class="fc"><i>191</i>&nbsp;                    break;</b>
 <i>192</i>&nbsp;                }
 <b class="fc"><i>193</i>&nbsp;                else if(i&gt;=existSeqNums.size()){</b>
 <b class="fc"><i>194</i>&nbsp;                    seq_num=i;</b>
@@ -297,8 +297,8 @@
 <i>197</i>&nbsp;            }
 <b class="fc"><i>198</i>&nbsp;            if(seq_num&lt;0||seq_num&gt;100)//处理非两位的顺序号</b>
 <i>199</i>&nbsp;            {
-<b class="nc"><i>200</i>&nbsp;               msg.setStatusAndMessage(212, &quot;异常的顺序号，大概是不能对这个客户新建项目了吧0 0？不然你再试试？&quot;);</b>
-<b class="nc"><i>201</i>&nbsp;               return msg;</b>
+<b class="fc"><i>200</i>&nbsp;               msg.setStatusAndMessage(212, &quot;异常的顺序号，大概是不能对这个客户新建项目了吧0 0？不然你再试试？&quot;);</b>
+<b class="fc"><i>201</i>&nbsp;               return msg;</b>
 <i>202</i>&nbsp;            }
 <b class="fc"><i>203</i>&nbsp;            String pid = header + String.format(&quot;%02d&quot;,seq_num);// 生成PID</b>
 <b class="fc"><i>204</i>&nbsp;            Project project = new Project(pid,name , startdate, enddate, technique, domain, null, client_id, 0);</b>
@@ -332,11 +332,11 @@
 <i>232</i>&nbsp;        try{
 <b class="fc"><i>233</i>&nbsp;            EmployeeProject employeeProject = employeeProjectMapper.getByEpid(epid);</b>
 <b class="fc"><i>234</i>&nbsp;            if(employeeProject.getRoles()!=null){//检查这个人的角色是不是pm/rd_leader/qa_leader</b>
-<b class="nc"><i>235</i>&nbsp;                for (int i = 0; i &lt; employeeProject.getRoles().size(); i++) {</b>
-<b class="nc"><i>236</i>&nbsp;                    String role = employeeProject.getRoles().get(i).getRole();</b>
-<b class="nc"><i>237</i>&nbsp;                    if(role.equals(&quot;pm&quot;)||role.equals(&quot;rd_leader&quot;)||role.equals(&quot;qa_leader&quot;)){</b>
-<b class="nc"><i>238</i>&nbsp;                        msg.setStatusAndMessage(210, &quot;不能删除pm/rd_leader/qa_leader&quot;);</b>
-<b class="nc"><i>239</i>&nbsp;                        return msg;</b>
+<b class="fc"><i>235</i>&nbsp;                for (int i = 0; i &lt; employeeProject.getRoles().size(); i++) {</b>
+<b class="fc"><i>236</i>&nbsp;                    String role = employeeProject.getRoles().get(i).getRole();</b>
+<b class="fc"><i>237</i>&nbsp;                    if(role.equals(&quot;pm&quot;)||role.equals(&quot;rd_leader&quot;)||role.equals(&quot;qa_leader&quot;)){</b>
+<b class="fc"><i>238</i>&nbsp;                        msg.setStatusAndMessage(210, &quot;不能删除pm/rd_leader/qa_leader&quot;);</b>
+<b class="fc"><i>239</i>&nbsp;                        return msg;</b>
 <i>240</i>&nbsp;                    }
 <i>241</i>&nbsp;                }
 <i>242</i>&nbsp;            }
@@ -370,20 +370,20 @@
 <b class="fc"><i>270</i>&nbsp;                sup_epid=qaEp.getEpid();</b>
 <i>271</i>&nbsp;            }
 <b class="fc"><i>272</i>&nbsp;            if(sup_epid==-1){</b>
-<b class="nc"><i>273</i>&nbsp;                msg.setStatusAndMessage(212, &quot;无法配置上级&quot;);</b>
-<b class="nc"><i>274</i>&nbsp;                return msg;</b>
+<b class="fc"><i>273</i>&nbsp;                msg.setStatusAndMessage(212, &quot;无法配置上级&quot;);</b>
+<b class="fc"><i>274</i>&nbsp;                return msg;</b>
 <i>275</i>&nbsp;            }
 <b class="fc"><i>276</i>&nbsp;            if(employeeProjects==null||employeeProjects.size()==0){//需要新增这个member</b>
 <i>277</i>&nbsp;                //先新增ep
-<b class="nc"><i>278</i>&nbsp;                byte authority[]={0};</b>
-<b class="nc"><i>279</i>&nbsp;                EmployeeProject employeeProject=new EmployeeProject(0, authority, sup_epid,pid,eid);</b>
-<b class="nc"><i>280</i>&nbsp;                employeeProjectMapper.addEmployeeProject(employeeProject);</b>
+<b class="fc"><i>278</i>&nbsp;                byte authority[]={0};</b>
+<b class="fc"><i>279</i>&nbsp;                EmployeeProject employeeProject=new EmployeeProject(0, authority, sup_epid,pid,eid);</b>
+<b class="fc"><i>280</i>&nbsp;                employeeProjectMapper.addEmployeeProject(employeeProject);</b>
 <i>281</i>&nbsp;                //再插入role
-<b class="nc"><i>282</i>&nbsp;                for (int i = 0; i &lt; roles.size(); i++) {</b>
-<b class="nc"><i>283</i>&nbsp;                    EmployeeRoleProject employeeRoleProject = new EmployeeRoleProject(roles.get(i), employeeProject.getEpid());</b>
-<b class="nc"><i>284</i>&nbsp;                    employeeProjectMapper.addEmployeeRoleProject(employeeRoleProject);</b>
+<b class="fc"><i>282</i>&nbsp;                for (int i = 0; i &lt; roles.size(); i++) {</b>
+<b class="fc"><i>283</i>&nbsp;                    EmployeeRoleProject employeeRoleProject = new EmployeeRoleProject(roles.get(i), employeeProject.getEpid());</b>
+<b class="fc"><i>284</i>&nbsp;                    employeeProjectMapper.addEmployeeRoleProject(employeeRoleProject);</b>
 <i>285</i>&nbsp;                }
-<b class="nc"><i>286</i>&nbsp;            }else{</b>
+<b class="fc"><i>286</i>&nbsp;            }else{</b>
 <b class="fc"><i>287</i>&nbsp;                EmployeeProject employeeProject=employeeProjects.get(0);</b>
 <b class="fc"><i>288</i>&nbsp;                int epid=employeeProject.getEpid();</b>
 <i>289</i>&nbsp;                //先删除所有的role
@@ -397,8 +397,8 @@
 <b class="fc"><i>297</i>&nbsp;            employeeProjects= employeeProjectMapper.getEmployeeProject(pid, eid);</b>
 <b class="fc"><i>298</i>&nbsp;            msg.getResponseMap().put(&quot;employeeProject&quot;,employeeProjects.get(0));</b>
 <b class="fc"><i>299</i>&nbsp;            msg.setStatusAndMessage(200, &quot;正常设定了角色&quot;);</b>
-<b class="nc"><i>300</i>&nbsp;        }catch(Exception e){</b>
-<b class="nc"><i>301</i>&nbsp;            logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>300</i>&nbsp;        }catch(Exception e){</b>
+<b class="fc"><i>301</i>&nbsp;            logger.error(e.getMessage(), e);</b>
 <b class="fc"><i>302</i>&nbsp;        }</b>
 <b class="fc"><i>303</i>&nbsp;        return msg;</b>
 <i>304</i>&nbsp;    }
@@ -429,7 +429,7 @@
 <b class="fc"><i>329</i>&nbsp;                project.setDomain(param.get(&quot;domain&quot;).toString());</b>
 <i>330</i>&nbsp;            }
 <b class="fc"><i>331</i>&nbsp;            if(param.containsKey(&quot;function&quot;)){</b>
-<b class="nc"><i>332</i>&nbsp;                project.setFunction((Map)param.get(&quot;function&quot;));</b>
+<b class="fc"><i>332</i>&nbsp;                project.setFunction((Map)param.get(&quot;function&quot;));</b>
 <i>333</i>&nbsp;            }
 <b class="fc"><i>334</i>&nbsp;            projectMapper.updateProject(project);</b>
 <b class="fc"><i>335</i>&nbsp;            msg.setStatusAndMessage(200, &quot;正常更新&quot;);</b>
@@ -444,7 +444,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-04-06 14:04</div>
+    <div style="float:right;">generated on 2020-04-06 18:29</div>
 </div>
 </body>
 </html>

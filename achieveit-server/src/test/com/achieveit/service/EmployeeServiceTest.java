@@ -1,5 +1,6 @@
 package com.achieveit.service;
 
+import com.achieveit.config.JwtToken;
 import com.achieveit.entity.*;
 import com.achieveit.mapper.*;
 import com.achieveit.service.EmployeeService;
@@ -43,6 +44,7 @@ public class EmployeeServiceTest {
     private ProjectMapper projectMapper;
     private PropertyMapper propertyMapper;
     private RiskMapper riskMapper;
+    JwtToken jwtToken;
     private EmployeeProjectMapper employeeProjectMapper;
 
     @BeforeEach
@@ -54,7 +56,8 @@ public class EmployeeServiceTest {
         propertyMapper = mock(PropertyMapper.class);
         riskMapper = mock(RiskMapper.class);
         employeeProjectMapper = mock(EmployeeProjectMapper.class);
-        employeeService = new EmployeeService(employeeMapper, defectMapper, manhourMapper, projectMapper, propertyMapper, riskMapper, employeeProjectMapper);
+        jwtToken = new JwtToken();
+        employeeService = new EmployeeService(employeeMapper, defectMapper, manhourMapper, projectMapper, propertyMapper, riskMapper, employeeProjectMapper,jwtToken);
     }
 
     //////////////getByTitle()//////////////
@@ -96,7 +99,7 @@ public class EmployeeServiceTest {
     //////////////login()//////////////
     @Test
     public void happy_path_with_login() throws Exception {
-        Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, null, null);
+        Employee employee = new Employee(1, "Alias", "", "", "", "", "123456", "", "", 0);
         List<Employee> employees = new ArrayList<>();
         employees.add(employee);
         when(employeeMapper.getByName("Alias")).thenReturn(employees);
