@@ -1,14 +1,14 @@
 <template>
   <div class="dashboard-container">
     <panel-group :panel-data="panelData" />
-    <split-pane :min-percent="40" :default-percent="50" split="vertical">
+    <split-pane :min-percent="45" :default-percent="50" split="vertical">
       <template slot="paneL">
         <ProjectTableDashboard :project-list="projectData" />
-        <ManhourTableDashboard :manhour-list="manhourData"/>
-        <PropertyTableDashboard :property-list="propertyData"/>
+        <ManhourTableDashboard :manhour-list="manhourData" />
+        <PropertyTableDashboard :property-list="propertyData" />
       </template>
       <template slot="paneR">
-        <DefectTableDashboard :defect-list="defectData"/>
+        <DefectTableDashboard :defect-list="defectData" />
         <RiskTableDashboard :risk-list="riskData" />
       </template>
     </split-pane>

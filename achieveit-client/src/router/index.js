@@ -68,61 +68,31 @@ export const constantRoutes = [
   },
 
   {
-    path: '/project',
-    component: Layout,
-    redirect: '/project/list',
-    name: 'project-manage',
-    meta: { title: '我的项目', icon: 'example' },
-    children: [
-      {
-        path: 'list',
-        name: 'project-list',
-        component: () => import('@/views/project/index'),
-        meta: { title: '我的项目', icon: 'table' }
-      },
-      {
-        path: 'new',
-        name: 'project-new',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '新建项目', icon: 'tree' }
-      },
-      {
-        path: 'manage',
-        name: 'project-detail',
-        component: () => import('@/views/project/manage/index2'),
-        meta: { title: '项目信息' },
-        hidden: true,
-        children: [
-          {
-            path: 'overview',
-            name: 'project-manage-overview',
-            component: () => import('@/views/project/manage/Overview'),
-            meta: { title: '项目基本信息', icon: 'table' }
-          }
-        ]
-      },
-      {
-        path: 'manager',
-        name: 'project-detail2',
-        component: () => import('@/views/project/manage/index'),
-        meta: { title: '项目信息' },
-        hidden: true
-      }
-    ]
-  },
-
-  {
     path: '/defect',
     component: Layout,
     redirect: '/defect/list',
-    name: 'defect-manage',
-    meta: { title: '我的缺陷', icon: 'example' },
+    alwaysShow: 'true',
+    name: 'defect',
+    meta: { title: '我的缺陷', icon: 'bug' },
     children: [
       {
         path: 'list',
-        name: 'bug-list',
+        name: 'defect-list',
         component: () => import('@/views/defect/index'),
-        meta: { title: '我的缺陷列表', icon: 'form' }
+        meta: { title: '我的缺陷', icon: 'table' }
+      },
+      {
+        path: 'new',
+        name: 'defect-new',
+        component: () => import('@/views/defect/new/index'),
+        meta: { title: '新建缺陷', icon: 'edit' }
+      },
+      {
+        path: 'edit/:did(\\d+)',
+        component: () => import('@/views/defect/new/index'),
+        name: 'edit-defect',
+        meta: { title: '编辑缺陷' },
+        hidden: true
       }
     ]
   },
@@ -131,20 +101,33 @@ export const constantRoutes = [
     path: '/manhour',
     component: Layout,
     redirect: '/manhour/list',
-    name: 'manhour-manage',
+    name: 'manhour',
     meta: { title: '我的工时', icon: 'example' },
     children: [
       {
-        path: 'new',
-        name: 'manhour-new',
-        component: () => import('@/views/form/index'),
-        meta: { title: '上报工时', icon: 'form'}
-      },
-      {
         path: 'list',
         name: 'manhour-list',
-        component: () => import('@/views/form/index'),
-        meta: { title: '我的工时列表', icon: 'form' }
+        component: () => import('@/views/manhour/index'),
+        meta: { title: '我的工时列表', icon: 'table' }
+      },
+      {
+        path: 'new',
+        name: 'manhour-new',
+        component: () => import('@/views/manhour/new/index'),
+        meta: { title: '上报工时', icon: 'edit' }
+      },
+      {
+        path: 'edit/:mid(\\d+)',
+        component: () => import('@/views/manhour/new/index'),
+        name: 'edit-manhour',
+        meta: { title: '编辑工时' },
+        hidden: true
+      },
+      {
+        path: 'approval',
+        component: () => import('@/views/manhour/approval/index'),
+        name: 'approval-manhour',
+        meta: { title: '审批工时', icon: 'eye-open' }
       }
     ]
   }
@@ -162,7 +145,7 @@ export const asyncRoutes = [
     name: 'approval-manage',
     meta: {
       title: '我的审批',
-      icon: 'example',
+      icon: 'message',
       role: ['pm_manager', 'configurer', 'pm', 'epg_leader', 'qa_manager']
     },
     children: [
@@ -170,11 +153,57 @@ export const asyncRoutes = [
         path: 'list',
         component: () => import('@/views/approval/index'),
         name: 'approval-list',
-        meta: { title: '我的审批' }
+        meta: { title: '我的审批', icon: 'message' }
       }
     ]
   },
 
+  {
+    path: '/project',
+    component: Layout,
+    redirect: '/project/list',
+    name: 'project',
+    meta: { title: '我的项目', icon: 'component' },
+    children: [
+      {
+        path: 'list',
+        name: 'project-list',
+        component: () => import('@/views/project/index'),
+        meta: { title: '我的项目', icon: 'table' }
+      },
+      {
+        path: 'new',
+        name: 'project-new',
+        component: () => import('@/views/project/new/index'),
+        meta: {
+          title: '新建项目',
+          icon: 'edit',
+          role: ['pm']
+        }
+      },
+      {
+        path: 'manage/:pid',
+        name: 'project-manage',
+        component: () => import('@/views/project/manage/index'),
+        meta: { title: '项目管理' },
+        hidden: true,
+        children: [
+          {
+            path: 'overview',
+            name: 'project-manage-overview',
+            component: () => import('@/views/project/manage/overview/index'),
+            meta: { title: '项目基本信息', icon: 'tree-table' }
+          },
+          {
+            path: 'status',
+            name: 'project-manage-status',
+            component: () => import('@/views/project/manage/status/index'),
+            meta: { title: '项目状态', icon: 'tree-table' }
+          }
+        ]
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

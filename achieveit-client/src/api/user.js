@@ -14,3 +14,17 @@ export function getMyInfo() {
     method: 'get'
   })
 }
+
+export function getByTitle(title) {
+  return request({
+    url: '/employee/getByTitle/' + title,
+    method: 'get'
+  })
+}
+
+export function getAllClient() {
+  return request({
+    url: '/client/getAll',
+    method: 'get'
+  })
+}

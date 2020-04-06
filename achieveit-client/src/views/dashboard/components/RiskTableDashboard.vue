@@ -7,6 +7,7 @@
       border
       style="width: 100%; padding-top: 15px; margin-bottom: 5px"
       :default-sort="{prop: 'grade', order: 'descending'}"
+      @row-click="openProjectDetails"
     >
       <el-table-column prop="id" sortable min-width="10" align="center">
         <template slot-scope="scope">
@@ -29,7 +30,14 @@
           {{ scope.row.desc }}
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="来自于" min-width="30" align="center">
+      <el-table-column prop="name" label="来自于" min-width="40" align="center">
+        <template slot="header" slot-scope="scope">
+          <el-input
+            v-model="search"
+            size="mini"
+            placeholder="搜索项目名称"
+          />
+        </template>
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
             <p>项目ID: {{ scope.row.project.pid }}</p>
@@ -45,24 +53,6 @@
           <el-tag type="warning">
             {{ scope.row.grade }}
           </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column min-width="30" align="center">
-        <template slot="header" slot-scope="scope">
-          <el-input
-            v-model="search"
-            size="mini"
-            placeholder="搜索项目名称"
-          />
-        </template>
-        <template slot-scope="scope">
-          <el-button
-            type="primary"
-            size="mini"
-            @click.native.prevent="clickRow(scope.row.project_id)"
-          >
-            跳转项目页面
-          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -97,7 +87,7 @@ export default {
   data() {
     return {
       search: '',
-      pageSize: 4,
+      pageSize: 7,
       currentPage: 1
     }
   },
@@ -119,8 +109,13 @@ export default {
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage
     },
-    clickRow(pid) {
-      this.$router.push('/project/' + pid)
+    openProjectDetails(row) {
+      this.$router.push({
+        name: 'project-manage',
+        params: {
+          pid: row.project.pid
+        }
+      })
     }
   }
 }

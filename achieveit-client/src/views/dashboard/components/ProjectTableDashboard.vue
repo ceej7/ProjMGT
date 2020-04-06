@@ -7,16 +7,24 @@
       border
       style="width: 100%; padding-top: 15px; margin-bottom: 5px"
       :default-sort="{prop: 'date', order: 'descending'}"
+      @row-click="openProjectDetails"
     >
-      <el-table-column prop="id" sortable min-width="10" align="center">
+      <el-table-column prop="id" sortable min-width="15" align="center">
         <template slot-scope="scope">
           {{ scope.row.project_id }}
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="项目名称" min-width="30" align="center">
+      <el-table-column prop="name" label="项目名称" min-width="50" align="center">
+        <template slot="header" slot-scope="scope">
+          <el-input
+            v-model="search"
+            size="mini"
+            placeholder="搜索项目名称"
+          />
+        </template>
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
-            <p>客户: {{ scope.row.project.client.name }}</p>
+            <!--            <p>客户: {{ scope.row.project.client.name }}</p>-->
             <p>技术: {{ scope.row.project.technique }}</p>
             <div slot="reference" class="name-wrapper">
               <el-tag>{{ scope.row.project.name | projectNameFilter }}</el-tag>
@@ -30,34 +38,26 @@
           {{ scope.row.project.endtime }}
         </template>
       </el-table-column>
-      <el-table-column prop="domain" label="领域" min-width="40" align="center">
+      <el-table-column prop="name" label="客户" min-width="30" align="center">
+        <template slot-scope="scope">
+          <el-popover trigger="hover" placement="top">
+            <p>公司: {{ scope.row.project.client.company }}</p>
+            <div slot="reference" class="name-wrapper">
+              <el-tag>{{ scope.row.project.client.name | projectNameFilter }}</el-tag>
+            </div>
+          </el-popover>
+        </template>
+      </el-table-column>
+      <el-table-column prop="domain" label="领域" min-width="20" align="center">
         <template slot-scope="scope">
           {{ scope.row.project.domain }}
         </template>
       </el-table-column>
-      <el-table-column prop="status" label="状态" width="100" align="center">
-        <template slot-scope="scope">
-          <el-tag type="warning">
-            {{ scope.row.project.workflow.status }}
+      <el-table-column class-name="status-col" align="center" min-width="30" label="状态">
+        <template slot-scope="{row}">
+          <el-tag :type="row.project.workflow.status | statusTypeFilter">
+            {{ row.project.workflow.status | statusFilter }}
           </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" min-width="30" align="center">
-        <template slot="header" slot-scope="scope">
-          <el-input
-            v-model="search"
-            size="mini"
-            placeholder="搜索项目名称"
-          />
-        </template>
-        <template slot-scope="scope">
-          <el-button
-            type="primary"
-            size="mini"
-            @click.native.prevent="clickRow(scope.row.project_id)"
-          >
-            查看详情
-          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -77,10 +77,27 @@
 
 export default {
   filters: {
+    statusTypeFilter(status) {
+      const statusMap = {
+        rejected: 'danger',
+        applying: 'info',
+        approved: 'info',
+        started: 'success',
+        delivering: 'success',
+        submitted: 'success',
+        achieved: 'success'
+      }
+      return statusMap[status]
+    },
     statusFilter(status) {
       const statusMap = {
-        success: 'success',
-        pending: 'danger'
+        rejected: '立项拒绝',
+        applying: '申请中',
+        approved: '等待配置',
+        started: '项目启动',
+        delivering: '项目正在交付',
+        submitted: '项目已交付',
+        achieved: '项目已归档'
       }
       return statusMap[status]
     },
@@ -93,7 +110,7 @@ export default {
   data() {
     return {
       search: '',
-      pageSize: 3,
+      pageSize: 5,
       currentPage: 1
     }
   },
@@ -112,11 +129,16 @@ export default {
 
   },
   methods: {
+    openProjectDetails(row) {
+      this.$router.push({
+        name: 'project-manage',
+        params: {
+          pid: row.project.pid
+        }
+      })
+    },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage
-    },
-    clickRow(pid) {
-      this.$router.push('/project/' + pid)
     }
   }
 }

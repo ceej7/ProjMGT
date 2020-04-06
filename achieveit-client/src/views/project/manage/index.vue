@@ -1,111 +1,66 @@
 <template>
-  <div class="project-container">
-    <div class="project-sidebar">
-      <el-menu
-        default-active="1-4-1"
-        class="el-menu-project"
-        :collapse="isCollapse"
-        background-color="#3f4c60"
-        text-color="#fff"
-        active-text-color="#ffd04b"
-        collapse-transition=true
-      >
-        <i class="el-icon-s-unfold" @click="changeSidebar" style="color: white;text-align:center"/>
-
-        <!--<el-submenu index="1">-->
-        <!--<template slot="title">-->
-        <!--<i class="el-icon-location" />-->
-        <!--<span slot="title">基本信息</span>-->
-        <!--</template>-->
-        <!--<el-menu-item-group>-->
-        <!--<span slot="title">分组一</span>-->
-        <!--<el-menu-item index="1-1">选项1</el-menu-item>-->
-        <!--<el-menu-item index="1-2">选项2</el-menu-item>-->
-        <!--</el-menu-item-group>-->
-        <!--<el-menu-item-group title="分组2">-->
-        <!--<el-menu-item index="1-3">选项3</el-menu-item>-->
-        <!--</el-menu-item-group>-->
-        <!--<el-submenu index="1-4">-->
-        <!--<span slot="title">选项4</span>-->
-        <!--<el-menu-item index="1-4-1">选项1</el-menu-item>-->
-        <!--</el-submenu>-->
-        <!--</el-submenu>-->
-        <el-menu-item index="1">
-          <i class="el-icon-s-order" />
-          <span slot="title">基本信息</span>
-        </el-menu-item>
-        <el-menu-item index="2">
-          <i class="el-icon-s-help" />
-          <span slot="title">项目状态</span>
-        </el-menu-item>
-        <el-menu-item index="3">
-          <i class="el-icon-s-check" />
-          <span slot="title">人员管理</span>
-        </el-menu-item>
-        <el-menu-item index="3">
-          <i class="el-icon-setting" />
-          <span slot="title">功能管理</span>
-        </el-menu-item>
-        <el-menu-item index="3">
-          <i class="el-icon-document-delete" />
-          <span slot="title">缺陷管理</span>
-        </el-menu-item>
-        <el-menu-item index="3">
-          <i class="el-icon-finished" />
-          <span slot="title">归档管理</span>
-        </el-menu-item>
-      </el-menu>
+  <div>
+    <div class="tab-container">
+      <el-tabs v-model="activeName" tab-position="left">
+        <el-tab-pane key="overview" label="基本信息" name="overview">
+          <Overview :pid="pid" />
+        </el-tab-pane>
+        <el-tab-pane key="status" label="项目状态" name="status">
+          <Status :pid="pid" />
+        </el-tab-pane>
+        <el-tab-pane key="member" label="人员管理" name="member" />
+        <el-tab-pane key="function" label="功能管理" name="function">
+          <Function :pid="pid" />
+        </el-tab-pane>
+        <el-tab-pane key="bug" label="缺陷管理" name="bug">
+          <Defect :pid="pid" />
+        </el-tab-pane>
+        <el-tab-pane key="device" label="设备管理" name="device" />
+        <el-tab-pane key="archive" label="归档管理" name="archive" />
+      </el-tabs>
     </div>
-    <div class="project-content">fdf</div>
   </div>
 </template>
+
 <script>
+import Overview from './overview/index'
+import Status from './status/index'
+import Function from './function/index'
+import Defect from './defect/index'
+
 export default {
-  name: 'Index',
+  name: 'Manage',
+  components: { Overview, Status, Function, Defect },
   data() {
     return {
-      isCollapse: false
+      pid: null,
+      tabMapOptions: [
+        { label: '基本信息', key: 'overview' },
+        { label: '项目状态', key: 'status' },
+        { label: '人员管理', key: 'member' },
+        { label: '功能管理', key: 'function' },
+        { label: '缺陷管理', key: 'bug' },
+        { label: '设备管理', key: 'device' },
+        { label: '归档管理', key: 'archive' }
+      ],
+      activeName: 'overview',
+      createdTimes: 0
     }
   },
   created() {
-    // TODO 修改tagview里的项目名
-    this.$route.meta.title = 'sss'
+    this.pid = this.$route.params.pid === undefined ? null : this.$route.params.pid
   },
   methods: {
-    changeSidebar() {
-      this.isCollapse = !this.isCollapse
+    key() {
+      return this.$route.path + new Date().toString()
     }
   }
+
 }
 </script>
 
 <style scoped>
-  .el-menu-project {
-    /*width: 200px;*/
-    margin: 10px 20px 10px 10px;
-    border-right:0;
+  .tab-container {
+    margin: 20px 10px;
   }
-
-  .project-container {
-    height: calc(100vh - 84px);
-    position: relative;
-  }
-
-  .project-sidebar {
-    background: #3f4c60;
-    max-width: 200px;
-    height: 100%;
-    float: left;
-    overflow: scroll;
-  }
-
-  .project-content{
-    /*background: #001528;*/
-  }
-
-  /*::-webkit-scrollbar*/
-  /*{*/
-    /*display: none;*/
-    /*width: 0;*/
-  /*}*/
 </style>
