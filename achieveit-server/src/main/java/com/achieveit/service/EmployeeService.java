@@ -26,7 +26,7 @@ public class EmployeeService {
 
 
 
-    public EmployeeService(EmployeeMapper employeeMapper, DefectMapper defectMapper, ManhourMapper manhourMapper, ProjectMapper projectMapper, PropertyMapper propertyMapper, RiskMapper riskMapper, EmployeeProjectMapper employeeProjectMapper) {
+    public EmployeeService(EmployeeMapper employeeMapper, DefectMapper defectMapper, ManhourMapper manhourMapper, ProjectMapper projectMapper, PropertyMapper propertyMapper, RiskMapper riskMapper, EmployeeProjectMapper employeeProjectMapper,JwtToken jwtToken) {
         this.employeeMapper = employeeMapper;
         this.defectMapper = defectMapper;
         this.manhourMapper = manhourMapper;
@@ -34,6 +34,7 @@ public class EmployeeService {
         this.propertyMapper = propertyMapper;
         this.riskMapper = riskMapper;
         this.employeeProjectMapper = employeeProjectMapper;
+        this.jwtToken = jwtToken;
     }
 
 

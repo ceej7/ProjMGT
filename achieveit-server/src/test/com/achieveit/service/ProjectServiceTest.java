@@ -219,6 +219,90 @@ class                                                                           
     }
 
     @Test
+    void error_path_with_newProject()throws Exception{
+        when(projectMapper.add(any())).thenReturn(1);
+        when(workflowMapper.addWorkflow(any())).thenReturn(1);
+        when(projectMapper.updateWorkflow(anyString(),anyInt())).thenReturn(1);
+        when(workflowMapper.addTimeline(anyInt(),anyString(),anyInt())).thenReturn(1);
+        when(employeeProjectMapper.addEmployeeProject(any())).thenReturn(1);
+        when(employeeProjectMapper.addEmployeeRoleProject(any())).thenReturn(1);
+        Project project=new Project("20200001S01",null,null,null,null,null,null,null,null);
+        ArrayList<Project>projects=new ArrayList<Project>();
+        for (int i = 0; i < 100; i++) {
+            Project project1 = new Project();
+            project1.setPid("20200001S"+String.format("%02d",i));
+            projects.add(project1);
+        }
+        for (int i = 0; i < 100; i++) {
+            Project project1 = new Project();
+            project1.setPid("20200001D"+String.format("%02d",i));
+            projects.add(project1);
+        }
+        for (int i = 0; i < 100; i++) {
+            Project project1 = new Project();
+            project1.setPid("20200001O"+String.format("%02d",i));
+            projects.add(project1);
+        }
+        for (int i = 0; i < 100; i++) {
+            Project project1 = new Project();
+            project1.setPid("20200001M"+String.format("%02d",i));
+            projects.add(project1);
+        }
+        when(projectMapper.getAllProjectIds()).thenReturn(projects);
+        when(projectMapper.getByPidCascade(anyString())).thenReturn(project);
+        Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, "pm", null);
+        when(employeeMapper.getByEid(anyInt())).thenReturn(employee);
+        ResponseMsg msg = projectService.newProject("20200001S01",null,null,null,null,1,1,1,1,1);
+        assertEquals(212, msg.getStatus());
+//        assertNotNull(msg.getResponseMap().get("project"));
+    }
+
+    @Test
+    void alternate_path_with_newProject()throws Exception{
+        when(projectMapper.add(any())).thenReturn(1);
+        when(workflowMapper.addWorkflow(any())).thenReturn(1);
+        when(projectMapper.updateWorkflow(anyString(),anyInt())).thenReturn(1);
+        when(workflowMapper.addTimeline(anyInt(),anyString(),anyInt())).thenReturn(1);
+        when(employeeProjectMapper.addEmployeeProject(any())).thenReturn(1);
+        when(employeeProjectMapper.addEmployeeRoleProject(any())).thenReturn(1);
+        Project project=new Project("20200001S01",null,null,null,null,null,null,null,null);
+        ArrayList<Project>projects=new ArrayList<Project>();
+        for (int i = 0; i < 100; i++) {
+            if(i!=50){
+                Project project1 = new Project();
+                project1.setPid("20200001S"+String.format("%02d",i));
+                projects.add(project1);
+            }
+
+        }
+        for (int i = 0; i < 100; i++) {
+            if(i!=50){
+            Project project1 = new Project();
+            project1.setPid("20200001D"+String.format("%02d",i));
+            projects.add(project1);}
+        }
+        for (int i = 0; i < 100; i++) {
+            if(i!=50){
+            Project project1 = new Project();
+            project1.setPid("20200001O"+String.format("%02d",i));
+            projects.add(project1);}
+        }
+        for (int i = 0; i < 100; i++) {
+            if(i!=50){
+            Project project1 = new Project();
+            project1.setPid("20200001M"+String.format("%02d",i));
+            projects.add(project1);}
+        }
+        when(projectMapper.getAllProjectIds()).thenReturn(projects);
+        when(projectMapper.getByPidCascade(anyString())).thenReturn(project);
+        Employee employee = new Employee(1, "Alias", null, null, null, null, "123456", null, "pm", null);
+        when(employeeMapper.getByEid(anyInt())).thenReturn(employee);
+        ResponseMsg msg = projectService.newProject("20200001S01",null,null,null,null,1,1,1,1,1);
+        assertEquals(200, msg.getStatus());
+//        assertNotNull(msg.getResponseMap().get("project"));
+    }
+
+    @Test
     void contain_header_when_newProject()throws Exception{
 
         when(projectMapper.add(any())).thenReturn(1);
@@ -427,12 +511,13 @@ class                                                                           
     void happy_path_updateProjectInfo()throws Exception{
         Project project = new Project("20200001O01", "", new Timestamp((long)1),new Timestamp((long)1) ,"" , "", "", 1, 1);
         when(projectMapper.getByPid("20200001O01")).thenReturn(project);
-        Map<String,String> param=new HashMap<String, String>();
+        Map<String,Object> param=new HashMap<String, Object>();
         param.put("name","Proj1");
         param.put("starttime","2020-04-09T16:00:00.000Z");
         param.put("endtime","2020-05-09T16:00:00.000Z");
         param.put("technique","no");
         param.put("domain","no");
+        param.put("function", new HashMap<String, String>());
 
         when(projectMapper.updateProject(any())).thenReturn(1);
         ResponseMsg msg=projectService.updateProjectInfo("20200001O01",param);

@@ -1,0 +1,202 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MilestoneController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.achieveit.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MilestoneController (com.achieveit.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MilestoneController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (45/ 45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.achieveit.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.achieveit.config.DateUtil;
+<i>4</i>&nbsp;import com.achieveit.config.JwtToken;
+<i>5</i>&nbsp;import com.achieveit.entity.ResponseMsg;
+<i>6</i>&nbsp;import com.achieveit.service.MilestoneService;
+<i>7</i>&nbsp;import io.swagger.annotations.Api;
+<i>8</i>&nbsp;import io.swagger.annotations.ApiOperation;
+<i>9</i>&nbsp;import org.slf4j.Logger;
+<i>10</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>11</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import java.sql.Timestamp;
+<i>14</i>&nbsp;import java.util.Map;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;@RestController
+<i>17</i>&nbsp;@Api(tags = &quot;里程碑接口&quot;, value=&quot;里程碑相关API&quot;)
+<i>18</i>&nbsp;public class MilestoneController {
+<b class="fc"><i>19</i>&nbsp;    Logger logger = LoggerFactory.getLogger(getClass());</b>
+<i>20</i>&nbsp;    JwtToken jwtToken;
+<i>21</i>&nbsp;    MilestoneService milestoneService;
+<i>22</i>&nbsp;
+<b class="fc"><i>23</i>&nbsp;    public MilestoneController(JwtToken jwtToken, MilestoneService milestoneService) {</b>
+<b class="fc"><i>24</i>&nbsp;        this.jwtToken = jwtToken;</b>
+<b class="fc"><i>25</i>&nbsp;        this.milestoneService = milestoneService;</b>
+<b class="fc"><i>26</i>&nbsp;    }</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @ResponseBody
+<i>29</i>&nbsp;    @ApiOperation(&quot;获取某个Milestone&quot;)
+<i>30</i>&nbsp;    @GetMapping(&quot;/milestone/getByMid/{mid}&quot;)
+<i>31</i>&nbsp;    ResponseMsg getByMid(@PathVariable int mid){
+<b class="fc"><i>32</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>33</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<b class="fc"><i>34</i>&nbsp;        if(mid&lt;0){</b>
+<b class="fc"><i>35</i>&nbsp;            responseMsg.setStatusAndMessage(208, &quot;mid参数错误&quot;);</b>
+<i>36</i>&nbsp;        }else{
+<b class="fc"><i>37</i>&nbsp;            responseMsg=milestoneService.getByMid(mid);</b>
+<i>38</i>&nbsp;        }
+<i>39</i>&nbsp;
+<b class="fc"><i>40</i>&nbsp;        return responseMsg;</b>
+<i>41</i>&nbsp;    }
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @ResponseBody
+<i>44</i>&nbsp;    @ApiOperation(&quot;获取某个项目Milestone的列表&quot;)
+<i>45</i>&nbsp;    @GetMapping(&quot;/milestone/getByPid/{pid}&quot;)
+<i>46</i>&nbsp;    ResponseMsg getByPid(@PathVariable String pid){
+<b class="fc"><i>47</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>48</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<b class="fc"><i>49</i>&nbsp;        if(pid.length()!=11){</b>
+<b class="fc"><i>50</i>&nbsp;            responseMsg.setStatusAndMessage(208, &quot;pid参数错误&quot;);</b>
+<i>51</i>&nbsp;        }else{
+<b class="fc"><i>52</i>&nbsp;            responseMsg=milestoneService.getByPid(pid);</b>
+<i>53</i>&nbsp;        }
+<i>54</i>&nbsp;
+<b class="fc"><i>55</i>&nbsp;        return responseMsg;</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    @ResponseBody
+<i>59</i>&nbsp;    @ApiOperation(value = &quot;添加某个Milestone&quot;,notes = &quot;{\n&quot; +
+<i>60</i>&nbsp;            &quot;    \&quot;time\&quot;:\&quot;2020-04-09T16:00:00.000Z\&quot;,\n&quot; +
+<i>61</i>&nbsp;            &quot;    \&quot;desc\&quot;:\&quot;哈哈\&quot;\n&quot; +
+<i>62</i>&nbsp;            &quot;}&quot;)
+<i>63</i>&nbsp;    @PostMapping(&quot;/milestone/add/{pid}&quot;)
+<i>64</i>&nbsp;    ResponseMsg addMilestone(@RequestBody Map param,@PathVariable String pid){
+<b class="fc"><i>65</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>66</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<b class="fc"><i>67</i>&nbsp;        if(!param.containsKey(&quot;time&quot;)||!param.containsKey(&quot;desc&quot;)||pid.length()!=11){</b>
+<b class="fc"><i>68</i>&nbsp;            responseMsg.setStatusAndMessage(208, &quot;参数错误&quot;);</b>
+<i>69</i>&nbsp;        }else{
+<b class="fc"><i>70</i>&nbsp;            Timestamp time=null;</b>
+<i>71</i>&nbsp;            try{
+<b class="fc"><i>72</i>&nbsp;                String[] startString = param.get(&quot;time&quot;).toString().split(&quot;T&quot;);</b>
+<b class="fc"><i>73</i>&nbsp;                time = DateUtil.String2Timestamp(startString[0]+&quot; &quot;+startString[1].split(&quot;\\.&quot;)[0], &quot;yyyy-MM-dd HH:mm:ss&quot;);</b>
+<b class="fc"><i>74</i>&nbsp;            }catch (Exception e){</b>
+<b class="fc"><i>75</i>&nbsp;                logger.error(e.getMessage(), e);</b>
+<b class="fc"><i>76</i>&nbsp;                responseMsg.setStatusAndMessage(210, &quot;time无法解析&quot;);</b>
+<b class="fc"><i>77</i>&nbsp;                return responseMsg;</b>
+<b class="fc"><i>78</i>&nbsp;            }</b>
+<b class="fc"><i>79</i>&nbsp;            String desc = param.get(&quot;desc&quot;).toString();</b>
+<b class="fc"><i>80</i>&nbsp;            responseMsg=milestoneService.add(pid,time,desc);</b>
+<i>81</i>&nbsp;        }
+<i>82</i>&nbsp;
+<b class="fc"><i>83</i>&nbsp;        return responseMsg;</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    @ResponseBody
+<i>87</i>&nbsp;    @ApiOperation(&quot;删除某个Milestone&quot;)
+<i>88</i>&nbsp;    @DeleteMapping(&quot;/milestone/deleteByMid/{mid}&quot;)
+<i>89</i>&nbsp;    ResponseMsg deleteByMid(@PathVariable int mid){
+<b class="fc"><i>90</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>91</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<b class="fc"><i>92</i>&nbsp;        if(mid&lt;0){</b>
+<b class="fc"><i>93</i>&nbsp;            responseMsg.setStatusAndMessage(208, &quot;mid参数错误&quot;);</b>
+<i>94</i>&nbsp;        }else{
+<b class="fc"><i>95</i>&nbsp;            responseMsg=milestoneService.deleteByMid(mid);</b>
+<i>96</i>&nbsp;        }
+<i>97</i>&nbsp;
+<b class="fc"><i>98</i>&nbsp;        return responseMsg;</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    @ResponseBody
+<i>102</i>&nbsp;    @PutMapping(&quot;/milestone/{mid}&quot;)
+<i>103</i>&nbsp;    @ApiOperation(value=&quot;更新milestone信息，time，desc，以json键值对形式提供，可以同时提供&quot;,
+<i>104</i>&nbsp;            notes = &quot;时间的输入格式2020-04-08T16:00:00.000Z\n&quot;+&quot;{\n&quot; +
+<i>105</i>&nbsp;                    &quot;    \&quot;time\&quot;:\&quot;2020-04-09T16:00:00.000Z\&quot;,\n&quot; +
+<i>106</i>&nbsp;                    &quot;    \&quot;desc\&quot;:\&quot;哈哈\&quot;\n&quot; +
+<i>107</i>&nbsp;                    &quot;}&quot;
+<i>108</i>&nbsp;            )
+<i>109</i>&nbsp;    ResponseMsg updateProject(@RequestBody Map param, @PathVariable int mid){
+<b class="fc"><i>110</i>&nbsp;        ResponseMsg responseMsg = new ResponseMsg();</b>
+<b class="fc"><i>111</i>&nbsp;        responseMsg.setStatusAndMessage(404,&quot;查询发生异常&quot;);</b>
+<b class="fc"><i>112</i>&nbsp;        if(mid&lt;0){</b>
+<b class="fc"><i>113</i>&nbsp;            responseMsg.setStatusAndMessage(208, &quot;mid参数异常&quot;);</b>
+<b class="fc"><i>114</i>&nbsp;            return responseMsg;</b>
+<i>115</i>&nbsp;        }
+<b class="fc"><i>116</i>&nbsp;        responseMsg = milestoneService.update(mid, param);</b>
+<b class="fc"><i>117</i>&nbsp;        return responseMsg;</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-06 18:43</div>
+</div>
+</body>
+</html>
