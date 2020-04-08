@@ -17,19 +17,19 @@ public class EmployeeProject {
         authority2Desc();
     }
 
-    public EmployeeProject() {
-        this.epid = 0;
-        byte[] b={0};
-        this.defect_authority = b;
-        this.superior_epid = 0;
-        this.project_id = "";
-        this.employee_id = 0;
-        authority2Desc();
-        project=new Project();
-        employee=new Employee();
-        List<EmployeeRoleProject> roles=new ArrayList<>();
-        roles.add(new EmployeeRoleProject());
-    }
+//    public EmployeeProject() {
+//        this.epid = 0;
+//        byte[] b={0};
+//        this.defect_authority = b;
+//        this.superior_epid = 0;
+//        this.project_id = "";
+//        this.employee_id = 0;
+//        authority2Desc();
+//        project=new Project();
+//        employee=new Employee();
+//        List<EmployeeRoleProject> roles=new ArrayList<>();
+//        roles.add(new EmployeeRoleProject());
+//    }
 
     public Integer getEpid() {
         return epid;

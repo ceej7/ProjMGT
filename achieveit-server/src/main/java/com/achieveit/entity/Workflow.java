@@ -38,41 +38,41 @@ public class Workflow {
         flowBits2Status();
     }
 
-    public Workflow(){
-        this.wid = 0;
-        this.flowbits = 0;
-        this.pm_eid = 0;
-        this.sup_eid = 0;
-        this.configurer_eid = 0;
-        this.epgleader_eid = 0;
-        this.qamanager_eid = 0;
-        this.git_repo = "";
-        this.server_root = "";
-        this.mail_list = "";
-        this.archive00 = "";
-        this.archive01 = "";
-        this.archive02 = "";
-        this.archive03 = "";
-        this.archive04 = "";
-        this.archive05 = "";
-        this.archive06 = "";
-        this.archive07 = "";
-        this.archive08 = "";
-        this.archive09 = "";
-        this.archive10 = "";
-        this.archive11 = "";
-        this.archive12 = "";
-        this.archive13 = "";
-        this.archive14 = "";
-        this.archive15 = "";
-        this.archive16 = "";
-        pm=new Employee();
-        sup=new Employee();
-        configurer=new Employee();
-        epgleader=new Employee();
-        qamanager=new Employee();
-        flowBits2Status();
-    }
+//    public Workflow(){
+//        this.wid = 0;
+//        this.flowbits = 0;
+//        this.pm_eid = 0;
+//        this.sup_eid = 0;
+//        this.configurer_eid = 0;
+//        this.epgleader_eid = 0;
+//        this.qamanager_eid = 0;
+//        this.git_repo = "";
+//        this.server_root = "";
+//        this.mail_list = "";
+//        this.archive00 = "";
+//        this.archive01 = "";
+//        this.archive02 = "";
+//        this.archive03 = "";
+//        this.archive04 = "";
+//        this.archive05 = "";
+//        this.archive06 = "";
+//        this.archive07 = "";
+//        this.archive08 = "";
+//        this.archive09 = "";
+//        this.archive10 = "";
+//        this.archive11 = "";
+//        this.archive12 = "";
+//        this.archive13 = "";
+//        this.archive14 = "";
+//        this.archive15 = "";
+//        this.archive16 = "";
+//        pm=new Employee();
+//        sup=new Employee();
+//        configurer=new Employee();
+//        epgleader=new Employee();
+//        qamanager=new Employee();
+//        flowBits2Status();
+//    }
 
     void flowBits2Status(){
         BitSet bitSets=new BitSet(32);

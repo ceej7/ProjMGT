@@ -21,22 +21,22 @@ public class Risk {
         this.project_id = project_id;
     }
 
-    public Risk() {
-        this.rid = 0;
-        this.type = "";
-        this.desc = "";
-        this.grade = "";
-        this.strategy = "";
-        this.influence = "";
-        this.frequency = 0;
-        this.template = false;
-        this.employee_id = 0;
-        this.project_id = "";
-        employee=new Employee();
-        project=new Project();
-        relations = new ArrayList<RiskRelation>();
-        relations.add(new RiskRelation());
-    }
+//    public Risk() {
+//        this.rid = 0;
+//        this.type = "";
+//        this.desc = "";
+//        this.grade = "";
+//        this.strategy = "";
+//        this.influence = "";
+//        this.frequency = 0;
+//        this.template = false;
+//        this.employee_id = 0;
+//        this.project_id = "";
+//        employee=new Employee();
+//        project=new Project();
+//        relations = new ArrayList<RiskRelation>();
+//        relations.add(new RiskRelation());
+//    }
 
     public Integer getRid() {
         return rid;

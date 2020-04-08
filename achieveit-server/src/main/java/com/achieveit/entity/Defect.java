@@ -16,20 +16,20 @@ public class Defect {
         authority2Desc();
     }
 
-    public Defect() {
-        this.did = 0;
-        byte[] b={0};
-        this.authority = b;
-        this.desc = "";
-        this.git_repo = "";
-        this.commit = "";
-        this.status = "";
-        this.project_id = "";
-        this.employee_project_id = 0;
-        authority2Desc();
-        project=new Project();
-        employeeProject = new EmployeeProject();
-    }
+//    public Defect() {
+//        this.did = 0;
+//        byte[] b={0};
+//        this.authority = b;
+//        this.desc = "";
+//        this.git_repo = "";
+//        this.commit = "";
+//        this.status = "";
+//        this.project_id = "";
+//        this.employee_project_id = 0;
+//        authority2Desc();
+//        project=new Project();
+//        employeeProject = new EmployeeProject();
+//    }
 
     public Integer getDid() {
         return did;

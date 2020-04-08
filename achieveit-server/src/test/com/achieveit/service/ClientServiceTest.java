@@ -46,32 +46,32 @@ public class ClientServiceTest {
         clientService = new ClientService(clientMapper);
     }
 
-    //////////////getAll()//////////////
-    @Test
-    public void happy_path_with_get_all() throws Exception {
-        Client client = new Client(1, null, null, null, null, null, null);
-        List<Client> clients = new ArrayList<>();
-        clients.add(client);
-
-        when(clientMapper.getAll()).thenReturn(clients);
-        ResponseMsg msg = new ResponseMsg();
-        msg.setStatusAndMessage(404, "请求出现异常");
-        msg = clientService.getAll();
-        assertEquals(200, msg.getStatus());
-        assertNotNull(msg.getResponseMap());
-        assertNotNull(msg.getResponseMap().get("clients"));
-        verify(clientMapper).getAll();
-    }
-
-    @Test
-    public void exception_when_get_all() throws Exception {
-        when(clientMapper.getAll()).thenThrow(new RuntimeException());
-        ResponseMsg msg = new ResponseMsg();
-        msg.setStatusAndMessage(404, "请求出现异常");
-        msg = clientService.getAll();
-        assertEquals(404, msg.getStatus());
-        verify(clientMapper).getAll();
-    }
+//    //////////////getAll()//////////////
+//    @Test
+//    public void happy_path_with_get_all() throws Exception {
+//        Client client = new Client(1, null, null, null, null, null, null);
+//        List<Client> clients = new ArrayList<>();
+//        clients.add(client);
+//
+//        when(clientMapper.getAll()).thenReturn(clients);
+//        ResponseMsg msg = new ResponseMsg();
+//        msg.setStatusAndMessage(404, "请求出现异常");
+//        msg = clientService.getAll();
+//        assertEquals(200, msg.getStatus());
+//        assertNotNull(msg.getResponseMap());
+//        assertNotNull(msg.getResponseMap().get("clients"));
+//        verify(clientMapper).getAll();
+//    }
+//
+//    @Test
+//    public void exception_when_get_all() throws Exception {
+//        when(clientMapper.getAll()).thenThrow(new RuntimeException());
+//        ResponseMsg msg = new ResponseMsg();
+//        msg.setStatusAndMessage(404, "请求出现异常");
+//        msg = clientService.getAll();
+//        assertEquals(404, msg.getStatus());
+//        verify(clientMapper).getAll();
+//    }
 
 
 }
