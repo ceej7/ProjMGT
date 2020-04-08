@@ -96,8 +96,7 @@ public class PropertyController {
         }
         Timestamp time;
         try{
-            String[] timeStr = param.get("expire_time").toString().split("T");
-            time = DateUtil.String2Timestamp(timeStr[0]+" "+timeStr[1].split("\\.")[0], "yyyy-MM-dd HH:mm:ss");
+            time = DateUtil.fromInputUTC2Timestamp(param.get("expire_time").toString());
         }catch (Exception e){
             logger.error(e.getMessage(), e);
             msg.setStatusAndMessage(210, "时间参数无法解析");

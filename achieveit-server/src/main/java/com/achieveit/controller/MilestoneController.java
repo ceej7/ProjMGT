@@ -69,8 +69,7 @@ public class MilestoneController {
         }else{
             Timestamp time=null;
             try{
-                String[] startString = param.get("time").toString().split("T");
-                time = DateUtil.String2Timestamp(startString[0]+" "+startString[1].split("\\.")[0], "yyyy-MM-dd HH:mm:ss");
+                time = DateUtil.fromInputUTC2Timestamp(param.get("time").toString());
             }catch (Exception e){
                 logger.error(e.getMessage(), e);
                 responseMsg.setStatusAndMessage(210, "time无法解析");
