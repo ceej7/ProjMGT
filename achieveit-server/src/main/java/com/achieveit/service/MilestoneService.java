@@ -94,8 +94,7 @@ public class MilestoneService {
                 milestone.setDesc(param.get("desc").toString());
             }
             if(param.containsKey("time")){
-                String[] startString = param.get("time").toString().split("T");
-                Timestamp time = DateUtil.String2Timestamp(startString[0]+" "+startString[1].split("\\.")[0], "yyyy-MM-dd HH:mm:ss");
+                Timestamp time = DateUtil.fromInputUTC2Timestamp(param.get("time").toString());
                 milestone.setTime(time);
             }
             if(milestoneMapper.update(milestone)>0){

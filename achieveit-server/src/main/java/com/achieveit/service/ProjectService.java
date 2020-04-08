@@ -313,13 +313,11 @@ public class ProjectService {
                 project.setName(param.get("name").toString());
             }
             if(param.containsKey("starttime")){
-                String[] startString= param.get("starttime").toString().split("T");
-                Timestamp startdate = DateUtil.String2Timestamp(startString[0]+" "+startString[1].split("\\.")[0], "yyyy-MM-dd HH:mm:ss");
+                Timestamp startdate = DateUtil.fromInputUTC2Timestamp(param.get("starttime").toString());
                 project.setStarttime(startdate);
             }
             if(param.containsKey("endtime")){
-                String[] endString= param.get("endtime").toString().split("T");
-                Timestamp enddate = DateUtil.String2Timestamp(endString[0]+" "+endString[1].split("\\.")[0], "yyyy-MM-dd HH:mm:ss");
+                Timestamp enddate = DateUtil.fromInputUTC2Timestamp(param.get("endtime").toString());
                 project.setEndtime(enddate);
             }
             if(param.containsKey("technique")){
