@@ -26,4 +26,7 @@ public interface EmployeeMapper {
 
     @Select("select * from employee where name=#{name}")
     List<Employee> getByName(String name);
+
+    @Select("select * from employee")
+    List<Employee> getAll();
 }
