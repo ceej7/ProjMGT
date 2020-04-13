@@ -201,7 +201,7 @@ public class ProjectController {
         responseMsg.setStatusAndMessage(404,"查询发生异常");
         if(eid<0||pid.length()!=11){
             responseMsg.setStatusAndMessage(208, "参数无效");
-        }else if(!param.containsKey("roles")||((ArrayList<String>)param.get("roles")).size()==0){
+        }else if(!param.containsKey("roles")){
             responseMsg.setStatusAndMessage(210, "没有给足够的roles");
         }
         else

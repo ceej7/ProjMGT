@@ -270,6 +270,10 @@ public class ProjectService {
 
             if(employeeProjects==null||employeeProjects.size()==0){//需要新增这个member
                 //先新增ep
+                if(roles.size()==0){
+                    msg.setStatusAndMessage(210, "没有给足够的roles");
+                    return msg;
+                }
                 Integer sup_epid=null;
                 if(roles.contains("epg")){
                     sup_epid=pmEp.getEpid();
@@ -303,6 +307,10 @@ public class ProjectService {
                 }
                 if(epid == rdEp.getEpid()){
                     roles.add("rd_leader");
+                }
+                if(roles.size()==0){
+                    msg.setStatusAndMessage(210, "没有给足够的roles");
+                    return msg;
                 }
                 //先删除所有的role
                 employeeProjectMapper.deleteEmployeeRoleProject(epid);
