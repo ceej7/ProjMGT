@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.spring.web.json.Json;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 @RestController
@@ -167,6 +168,52 @@ public class WorkflowController {
         }else if(param.get("todo").equals("configurer_archive_done")){
             msg=workflowService.configurer_after_archive(eid, wid);
         }
+
+        Workflow workflow = (Workflow) msg.getResponseMap().get("workflow");
+        if((workflow!=null)&&
+                (param.get("todo").equals("agree")
+                ||param.get("todo").equals("disagree")
+                ||param.get("todo").equals("config"))
+        ){
+            String head = "项目启动邮件";
+            String content = "  \n项目工作流("+wid+")+"+param.get("todo")+"，请完成对应操作  "+"\n发送时间为: "+new Date().toString();
+            Employee pm = workflow.getPm();
+            Employee sup = workflow.getSup();
+            Employee configurer = workflow.getConfigurer();
+            Employee epgLeader = workflow.getEpgleader();
+            Employee qaLeader = workflow.getEpgleader();
+            if(pm!=null){
+                String title = pm.getTitle();
+                String name = pm.getName();
+                String content1 = "Dear "+ title+","+name + content;
+                mailService.sendSimpleMailMessage(pm.getEmail(), head, content1);
+            }
+            if(sup!=null){
+                String title = sup.getTitle();
+                String name = sup.getName();
+                String content1 = "Dear "+ title+","+name + content;
+                mailService.sendSimpleMailMessage(sup.getEmail(), head, content1);
+            }
+            if(configurer!=null){
+                String title = configurer.getTitle();
+                String name = configurer.getName();
+                String content1 = "Dear "+ title+","+name + content;
+                mailService.sendSimpleMailMessage(configurer.getEmail(), head, content1);
+            }
+            if(epgLeader!=null){
+                String title = epgLeader.getTitle();
+                String name = epgLeader.getName();
+                String content1 = "Dear "+ title+","+name + content;
+                mailService.sendSimpleMailMessage(epgLeader.getEmail(), head, content1);
+            }
+            if(qaLeader!=null){
+                String title = qaLeader.getTitle();
+                String name = qaLeader.getName();
+                String content1 = "Dear "+ title+","+name + content;
+                mailService.sendSimpleMailMessage(qaLeader.getEmail(), head, content1);
+            }
+        }
+        //开始发送通知邮件
         return msg;
     }
 }

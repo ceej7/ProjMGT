@@ -2,10 +2,12 @@ package com.achieveit.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -14,6 +16,7 @@ import java.io.File;
 import java.util.Map;
 
 @Service
+@EnableAspectJAutoProxy(exposeProxy = true)
 public class MailService {
     //TODO:邮件队列
     Logger logger = LoggerFactory.getLogger(getClass());
@@ -35,6 +38,7 @@ public class MailService {
      * @param subject 主题
      * @param content 内容
      */
+    @Async
     public void sendSimpleMailMessage(String to, String subject, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(SENDER);
@@ -55,6 +59,7 @@ public class MailService {
      * @param subject 主题
      * @param content 内容
      */
+    @Async
     public void sendMimeMessage(String to, String subject, String content) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
@@ -78,6 +83,7 @@ public class MailService {
      * @param content  内容
      * @param filePath 附件路径
      */
+    @Async
     public void sendMimeMessage(String to, String subject, String content, String filePath) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
@@ -106,6 +112,7 @@ public class MailService {
      * @param content  内容
      * @param rscIdMap 需要替换的静态文件
      */
+    @Async
     public void sendMimeMessage(String to, String subject, String content, Map<String, String> rscIdMap) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
@@ -126,11 +133,33 @@ public class MailService {
         }
     }
 
+    @Async
     public boolean sendmail(String mailto, String username)
     {
         String mailSubject="AchieveIt";
         String mailBody="<h1>Welcome to AchieveIt. Dear "+username+",<br />";
         sendMimeMessage(mailto,mailSubject,mailBody);
+        return true;
+    }
+
+    @Async
+    public boolean sendmailWithHead(String mailto,String head ,String username)
+    {
+        String mailSubject=head;
+        String mailBody="<h1>Welcome to AchieveIt. Dear "+username+",<br />";
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            //true表示需要创建一个multipart message
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(SENDER);
+            helper.setTo(mailto);
+            helper.setSubject(head);
+            helper.setText(username, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            logger.error("发送MimeMessage时发生异常！", e);
+            return true;
+        }
         return true;
     }
 }
