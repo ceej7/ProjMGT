@@ -123,8 +123,7 @@ public class PropertyService {
             PropertyOccupy propertyOccupy = propertyMapper.getByPoid(poid);
             if(param.containsKey("expire_time")){
                 Timestamp time;
-                String[] timeStr = param.get("expire_time").toString().split("T");
-                time = DateUtil.String2Timestamp(timeStr[0]+" "+timeStr[1].split("\\.")[0], "yyyy-MM-dd HH:mm:ss");
+                time = DateUtil.fromInputUTC2Timestamp(param.get("expire_time").toString());
                 propertyOccupy.setExpire_time(time);
             }
             if(param.containsKey("is_intact")){
