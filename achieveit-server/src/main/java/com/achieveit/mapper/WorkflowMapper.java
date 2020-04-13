@@ -66,7 +66,7 @@ public interface WorkflowMapper {
             "where wid=#{wid}")
     int update(Workflow workflow);
 
-    @Select("select operation_type, add_time, workflow_id, employee_id from timeline where workflow_id=#{workflow_id}")
+    @Select("select operation_type, add_time, workflow_id, employee_id from timeline where workflow_id=#{workflow_id} order by add_time desc")
     @Results({
             @Result(property = "employee",column = "employee_id", one=@One(select = "com.achieveit.mapper.EmployeeMapper.getByEid"))
     })

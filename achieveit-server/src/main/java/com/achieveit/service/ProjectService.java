@@ -117,7 +117,7 @@ public class ProjectService {
                     bit_l=0;
                     bit_u=0x3fffffff;
                 }else if(status.equals("doing")){
-                    bit_l=256;
+                    bit_l=4;
                     bit_u=2047;
                 }
                 else{ //if(status.equals("applying"))
@@ -129,8 +129,8 @@ public class ProjectService {
             else{//if(status.equals("done"))
                 bit_l=0;
                 bit_u=0x1fffffff;
-                List<Project> pws1 = projectMapper.getNamedStatusByEidCascade(eid,name,bit_l,bit_l);
-                List<Project> pws2 = projectMapper.getNamedStatusByEidCascade(eid,name,bit_u,bit_u);
+                List<Project> pws1 = projectMapper.getNamedStatusByEidCascade(eid,name,0,0);
+                List<Project> pws2 = projectMapper.getNamedStatusByEidCascade(eid,name,2048,0x1fffffff);
                 pws.addAll(pws1);
                 pws.addAll(pws2);
             }
