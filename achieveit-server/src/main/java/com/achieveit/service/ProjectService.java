@@ -117,12 +117,12 @@ public class ProjectService {
                     bit_l=0;
                     bit_u=0x3fffffff;
                 }else if(status.equals("doing")){
-                    bit_l=4;
+                    bit_l=3;
                     bit_u=2047;
                 }
                 else{ //if(status.equals("applying"))
                     bit_l=1;
-                    bit_u=3;
+                    bit_u=2;
                 }
                 pws = projectMapper.getNamedStatusByEidCascade(eid,name,bit_l,bit_u);
             }
