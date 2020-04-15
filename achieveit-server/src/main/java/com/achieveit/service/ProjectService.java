@@ -101,6 +101,7 @@ public class ProjectService {
         }
         return msg;
     }
+
     public ResponseMsg getFilteredPagedProjectByEid(int eid, int page, int length,String name,String status){
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求异常");
@@ -231,6 +232,11 @@ public class ProjectService {
         msg.setStatusAndMessage(404, "请求异常");
         try{
             EmployeeProject employeeProject = employeeProjectMapper.getByEpid(epid);
+            Project project = projectMapper.getByPidCascade(employeeProject.getProject_id());
+            if(!project.getWorkflow().getStatus().equals("started")){
+                msg.setStatusAndMessage(214, "非项目进行时段不允许移除成员");
+                return msg;
+            }
             if(employeeProject.getRoles()!=null){//检查这个人的角色是不是pm/rd_leader/qa_leader
                 for (int i = 0; i < employeeProject.getRoles().size(); i++) {
                     String role = employeeProject.getRoles().get(i).getRole();
@@ -257,6 +263,11 @@ public class ProjectService {
         ResponseMsg msg = new ResponseMsg();
         msg.setStatusAndMessage(404, "请求异常");
         try{
+            Project project = projectMapper.getByPidCascade(pid);
+            if(!project.getWorkflow().getStatus().equals("started")){
+                msg.setStatusAndMessage(214, "非项目进行时段不允许新增/更新成员");
+                return msg;
+            }
             //移除多余的leader级角色
             roles.removeIf(role -> role.equals("pm"));
             roles.removeIf(role -> role.equals("rd_leader"));
