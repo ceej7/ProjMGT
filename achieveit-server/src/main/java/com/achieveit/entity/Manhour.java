@@ -127,7 +127,7 @@ public class Manhour {
             function_desc="unresolved function";
         }
         int fid1=fid/1000;
-        int fid2=fid-fid*1000;
+        int fid2=fid-fid1*1000;
         String fid_str=String.format("%03d%03d", fid1,fid2);
         if(functionObject.containsKey(fid_str)){
             function_desc=functionObject.get(fid_str).toString();
